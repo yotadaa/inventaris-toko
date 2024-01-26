@@ -12,5 +12,5 @@ Jika baru pertama kali buka project/project belum ada
 
 Jika sudah clone dari github sebelumnya
 1. Masuk ke folder project
-2. untuk project versi terbaru, di cmd ketik git: pull origin main
+2. untuk project versi terbaru, di cmd ketik git pull origin main
 3. php artisan serve
