@@ -1,0 +1,16 @@
+Jika baru pertama kali buka project/project belum ada
+1. Install Composer
+2. masuk ke folder project
+3. buka cmd
+	- git clone https://github.com/yotadaa/plin-plan.git
+	- cd plin-plan
+	- composer install
+	- [jika belum ada .env] cp .env.example .env
+	- php artisan key:generate
+	- php artisan migrate
+	- php artisan serve
+
+Jika sudah clone dari github sebelumnya
+1. Masuk ke folder project
+2. untuk project versi terbaru, di cmd ketik git: pull origin main
+3. php artisan serve

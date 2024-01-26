@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('content.main');
 });
 Route::get('/NiceAdmin/{para}', function ($para) {
     return view('NiceAdmin.'.$para);
