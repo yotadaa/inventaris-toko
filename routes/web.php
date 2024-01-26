@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ApiController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +17,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/NiceAdmin/{para}', function ($para) {
+    return view('NiceAdmin.'.$para);
+});
+
+Route::post('/submitForm', [ApiController::class, 'submitForm']);
