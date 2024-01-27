@@ -22,10 +22,24 @@ Batch 3
 
 ## Guide
 
-```cd project-folder```
-```git clone https://github.com/yotadaa/plin-plan.git```
-```composer install```
+```
+cd project-folder
+```
+
+```
+git clone https://github.com/yotadaa/plin-plan.git
+```
+
+```
+composer install
+```
+
 
 ## Login github to your system
-```git config --global user.name "YourGitHubUsername"```
-```git config --global user.email "your.email@example.com"```
+```
+git config --global user.name "YourGitHubUsername"
+```
+
+```
+git config --global user.email "your.email@example.com"
+```
