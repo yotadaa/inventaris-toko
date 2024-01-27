@@ -16,24 +16,6 @@
 
     <section class="section profile">
         <div class="row">
-            <div class="col-xl-4">
-
-                <div class="card">
-                    <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
-
-                        <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-                        <h2>Kevin Anderson</h2>
-                        <h3>Web Designer</h3>
-                        <div class="social-links mt-2">
-                            <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
-                            <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
-                            <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
-                            <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
 
             <div class="col-xl-8">
 
@@ -76,7 +58,7 @@
                                         <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Full Name</label>
                                         <div class="col-md-8 col-lg-9">
                                             <input name="fullName" type="text" class="form-control" id="fullName"
-                                                value="Kevin Anderson">
+                                                value="{{ $user->name }}">
                                         </div>
                                     </div>
 
@@ -131,7 +113,7 @@
                                         <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
                                         <div class="col-md-8 col-lg-9">
                                             <input name="email" type="email" class="form-control" id="Email"
-                                                value="k.anderson@example.com">
+                                                value="{{ $user->email }}">
                                         </div>
                                     </div>
 
@@ -224,4 +206,8 @@
             </div>
         </div>
     </section>
+    <script>
+        var current = document.querySelector("#user");
+        current.classList.remove('collapsed');
+    </script>
 @endsection

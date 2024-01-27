@@ -3,7 +3,7 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
         <li class="nav-item">
-            <a class="nav-link" id='dashboard' href="{{ route('index') }}">
+            <a class="nav-link collapsed" id='dashboard' href="{{ route('index') }}">
                 <i class="bi bi-grid"></i>
                 <span>Dashboard</span>
             </a>
@@ -46,7 +46,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link collapsed" id='logout' href="{{ route('user') }}">
+            <a class="nav-link collapsed" id='logout' href="{{ route('logout') }}">
                 <i class="bi bi-box-arrow-left
                 "></i>
                 <span>Logout</span>

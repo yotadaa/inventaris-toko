@@ -153,4 +153,8 @@
 
         </div>
     </section>
+    <script>
+        var current = document.querySelector("#user");
+        current.classList.remove('collapsed');
+    </script>
 @endsection

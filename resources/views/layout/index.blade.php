@@ -42,6 +42,12 @@
 
 <body>
 
+    @if (!Auth::check())
+        <script>
+            window.location.href = '/session'
+        </script>
+    @endif
+
     <!-- ======= Header ======= -->
     @include('layout.header')
     <!-- End Header -->

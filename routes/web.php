@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ApiController;
+use App\Http\Controllers\SessionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,24 +16,39 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('content.main');
+    $user = auth()->user();
+    return view('content.main', ['user' => $user]);
 })->name('index');
 
+Route::get('/dashboard', function () {
+    $user = auth()->user();
+    return view('content.main', ['user' => $user]);
+})->name('dashboard');
+
 Route::get('/user', function () {
-    return view('NiceAdmin.users-profile');
+    $user = auth()->user();
+    return view('content.users-profile', ['user' => $user]);
 })->name('user');
 
-Route::get('/{para}', function ($para) {
-    $notLogin = True;
-    if ($notLogin) {
-        return redirect()->route('index');
-    } else {
-        return redirect()->to("/$para");
-    }
-});
+// Route::get('/{para}', function ($para) {
+//     $notLogin = True;
+//     if ($notLogin) {
+//         return redirect()->route('index');
+//     } else {
+//         return redirect()->to("/$para");
+//     }
+// });
 
 Route::get('/NiceAdmin/{para}', function ($para) {
     return view('NiceAdmin.'.$para);
 });
+
+
+
+Route::get('/session',[SessionController::class,'index'])->name('login');
+Route::post('/session/login',[SessionController::class,'login']);
+Route::get('/session/logout',[SessionController::class,'logout'])->name('logout');
+Route::get('/register',[SessionController::class,'register'])->name('register');
+Route::post('/session/create',[SessionController::class,'create']);
 
 Route::post('/submitForm', [ApiController::class, 'submitForm']);

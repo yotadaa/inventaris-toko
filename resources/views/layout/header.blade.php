@@ -1,7 +1,7 @@
 <header id="header" class="header fixed-top d-flex align-items-center">
 
     <div class="d-flex align-items-center justify-content-between">
-        <a href="index.html" class="logo d-flex align-items-center">
+        <a href="{{ route('index') }}" class="logo d-flex align-items-center">
             {{-- <img src="/assets/img/logo.png" alt=""> --}}
             <div class="card-icon rounded-circle d-flex align-items-center justify-content-center"
                 style='margin-right: 5px;'>
@@ -43,7 +43,7 @@
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                         <i class="bi bi-person-circle" style="scale: 1.7; margin-right: 5px"></i>
                     </div>
-                    <span class="d-none d-md-block dropdown-toggle ps-2">Mukhtada</span>
+                    <span class="d-none d-md-block dropdown-toggle ps-2">{{ $user->name }}</span>
                 </a><!-- End Profile Iamge Icon -->
 
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
@@ -59,8 +59,10 @@
                     </li>
 
                     <li>
-                        <a class="dropdown-item d-flex align-items-center" href="#">
-                            <i class="bi bi-box-arrow-right"></i>
+                        <a class="dropdown-item d-flex align-items-center"
+                            href="{{ route('logout') }}">
+                            <i class="bi
+                            bi-box-arrow-right"></i>
                             <span>Sign Out</span>
                         </a>
                     </li>
