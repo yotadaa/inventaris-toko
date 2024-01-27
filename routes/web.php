@@ -16,7 +16,21 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('content.main');
+})->name('index');
+
+Route::get('/user', function () {
+    return view('NiceAdmin.users-profile');
+})->name('user');
+
+Route::get('/{para}', function ($para) {
+    $notLogin = True;
+    if ($notLogin) {
+        return redirect()->route('index');
+    } else {
+        return redirect()->to("/$para");
+    }
 });
+
 Route::get('/NiceAdmin/{para}', function ($para) {
     return view('NiceAdmin.'.$para);
 });
