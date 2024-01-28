@@ -34,6 +34,13 @@ git clone https://github.com/yotadaa/plin-plan.git
 composer install
 ```
 
+```
+php artisan migrate
+```
+
+```
+php artisan serve
+```
 
 ## Login github to your system
 ```
