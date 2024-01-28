@@ -4,7 +4,7 @@ Repository ini berisi file project Study Club Sistem Informasi Unja
 Batch 3
 
 ## Anggota Kelompok
--- **[M. Hazron Redian (Mentor)](https://github.com/Hazron).**
+- **[M. Hazron Redian (Mentor)](https://github.com/Hazron).**
 - **[Mukhtada Billah Nasution](https://github.com/yotadaa).**
 - **[Devi Listiani Safitri](https://github.com/devilistiani).**
 - **[Shakila Rama Wulandari](https://github.com/Shakila10).**
@@ -24,7 +24,14 @@ Batch 3
 - [x] Membuat tabel
 - [x] Register, Login, dan Logout
 - [x] Mengubah dan menghapus foto profil
-- [ ] Menambah Member (Nanti ada role Superuser dan Normaluser)
+<ul>
+    <li><h3>Member dan Role</h3></li>
+    <ul>
+        <li>
+            
+        </li>
+    </ul>
+</ul>
 
 - **Items**
 - [x] Belum ada progress
