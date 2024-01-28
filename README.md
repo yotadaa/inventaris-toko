@@ -28,8 +28,8 @@ Batch 3
     <dt><h3>Member dan Role</h3></dt>
     <dd>
         <ul>
-            <li>Super</li>
-            <li>Normal</li>
+            <li>[ ]Super</li>
+            <li>[ ]Normal</li>
         </ul>
     </dd>
 </dl>
