@@ -79,8 +79,28 @@ class SessionController extends Controller
         // return response()->json(['status' => false, 'value' => 'email dan password tidak valid', 'get' => $existingUser]);
     }
 
-    public function update($Request) {
-        
+    public function update(Request $request) {
+
+    }
+
+    public function changePassword(Request $request) {
+        if (!(auth()->check())) {
+            return redirect()->route('login');
+        }
+
+        if ($request->newpassword != $request->renewpassword) {
+            return response()->json(['status' => false, 'message' => 'Periksa kembali password!']);
+        }
+
+        $user = auth()->user();
+        if (Hash::check($request->newpassword,$user->password)) {
+            return response()->json(['status' => false, 'message' => 'Password masih sama!']);
+        }
+        if (!Hash::check($request->password,$user->password)) {
+            return response()->json(['status' => false, 'message' => 'Password invalid!']);
+        }
+        $user->password = Hash::make($request->renewpassword);
+        User::where('email', '=', $user->email)->update(['password' => $user->password]);
     }
 
 

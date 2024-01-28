@@ -103,8 +103,7 @@
 
                             <div class="tab-pane fade pt-3" id="profile-change-password">
                                 <!-- Change Password Form -->
-                                <form>
-
+                                <form id='change-password-form'>
                                     <div class="row mb-3">
                                         <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current
                                             Password</label>
@@ -131,8 +130,17 @@
                                         </div>
                                     </div>
 
+                                    <div class="col-12" id='loading-notification' style='display: none;'>
+                                        <h3 class="btn w-100 badge bg-primary">Sedang memproses</h3>
+                                    </div>
+
+                                    <div class="col-12" id='error-notification' style='display: none;'>
+                                        <h3 id='error-text' class="btn w-100 badge bg-danger"></h3>
+                                    </div>
+
                                     <div class="text-center">
-                                        <button type="submit" class="btn btn-primary">Change Password</button>
+                                        <button onclick="changePassword()" type="button" class="btn btn-primary">Change
+                                            Password</button>
                                     </div>
                                 </form><!-- End Change Password Form -->
 
@@ -190,6 +198,26 @@
                     // Handle errors here
                 }
             });
+        }
+
+        function changePassword() {
+            document.querySelector('#loading-notification').style.display = 'block'
+            document.querySelector('#error-notification').style.display = 'none'
+            $.ajax({
+                url: '/change-password',
+                type: 'POST',
+                data: $('#change-password-form').serialize(),
+                success: function(res) {
+                    if (!status) {
+                        document.querySelector('#loading-notification').style.display = 'none'
+                        document.querySelector('#error-notification').style.display = 'block'
+                        document.querySelector('#error-text').textContent = res.message
+                    }
+                },
+                error: function(err) {
+                    console.error(err)
+                }
+            })
         }
     </script>
     <script>

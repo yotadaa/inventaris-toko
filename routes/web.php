@@ -51,6 +51,7 @@ Route::post('/session/login',[SessionController::class,'login']);
 Route::get('/session/logout',[SessionController::class,'logout'])->name('logout');
 Route::get('/register',[SessionController::class,'register'])->name('register');
 Route::post('/session/create',[SessionController::class,'create']);
+Route::post('/change-password',[SessionController::class,'changePassword']);
 
 Route::post('/submitForm', [ApiController::class, 'submitForm']);
 
