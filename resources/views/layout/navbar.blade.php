@@ -29,6 +29,11 @@
                         <i class="bi bi-circle"></i><span>Catat Perbelanjaan</span>
                     </a>
                 </li>
+                <li>
+                    <a href="components-alerts.html">
+                        <i class="bi bi-circle"></i><span>Riwayat Transaksi</span>
+                    </a>
+                </li>
             </ul>
         </li><!-- End Components Nav -->
 
@@ -45,6 +50,14 @@
                 <span>User</span>
             </a>
         </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" id='user' href="{{ route('user') }}">
+                <i class="bi bi-people" style="scale: 1.1"></i>
+                <span>Member</span>
+            </a>
+        </li>
+
         <li class="nav-item">
             <button style="width: 100%" data-bs-toggle="modal" data-bs-target="#logoutConfirmation"
                 class="nav-link collapsed" id='logout'">

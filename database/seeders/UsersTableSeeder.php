@@ -20,7 +20,9 @@ class UsersTableSeeder extends Seeder
             'name' => 'Mukhtada',
             'email' => 'tes@gmail.com',
             'password' => Hash::make('123'),
-            'foto_profile' => '123'
+            'foto_profile' => 'assets/img/users/user_default.png',
+            'role' => 'super',
+            'root' => 'tes@gmail.com'
         ]);
     }
 }
