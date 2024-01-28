@@ -23,7 +23,7 @@ Batch 3
 - **Users**
 - [x] Membuat tabel
 - [x] Register, Login, dan Logout
-- [x] Mengubah dan menghapus oto profil
+- [x] Mengubah dan menghapus foto profil
 - [ ] Menambah Member (Nanti ada role Superuser dan Normaluser)
 
 - **Items**
