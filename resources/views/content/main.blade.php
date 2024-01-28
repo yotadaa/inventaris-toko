@@ -154,7 +154,7 @@
         </div>
     </section>
     <script>
-        var current = document.querySelector("#user");
+        var current = document.querySelector("#dashboard");
         current.classList.remove('collapsed');
     </script>
 @endsection

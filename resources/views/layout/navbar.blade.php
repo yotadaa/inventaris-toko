@@ -46,12 +46,35 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link collapsed" id='logout' href="{{ route('logout') }}">
+            <button style="width: 100%" data-bs-toggle="modal" data-bs-target="#logoutConfirmation"
+                class="nav-link collapsed" id='logout'">
                 <i class="bi bi-box-arrow-left
                 "></i>
                 <span>Logout</span>
-            </a>
+            </button>
         </li>
     </ul>
 
 </aside><!-- End Sidebar-->
+<div class="modal fade" id="logoutConfirmation" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content p-3">
+            <div class="modal-body text-center">
+                Konfirmasi log out dari aplikasi?
+            </div>
+            <div class="text-center" style="gap: 10px;">
+                <button type="button" style="margin-right: 10px;" class="btn btn-secondary"
+                    data-bs-dismiss="modal">Batal
+                </button>
+                <button type='button' onclick="logoutConfirmed()" style="margin-left: 10px;"
+                    class="btn btn-primary">Konfir
+                </button>`
+            </div>
+        </div>
+    </div>
+    <script>
+        function logoutConfirmed() {
+            window.location.href = "{{ route('logout') }}";
+        }
+    </script>
+</div>

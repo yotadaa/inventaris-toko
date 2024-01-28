@@ -39,10 +39,10 @@
             <li class="nav-item dropdown pe-3">
 
                 <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-                    {{-- <img src="/assets/img/profile-img.jpg" alt="Profile" class="rounded-circle"> --}}
-                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                    <img id='header_profile' src="{{ $user->foto_profile }}" alt="Profile" class="rounded-circle">
+                    {{-- <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                         <i class="bi bi-person-circle" style="scale: 1.7; margin-right: 5px"></i>
-                    </div>
+                    </div> --}}
                     <span class="d-none d-md-block dropdown-toggle ps-2">{{ $user->name }}</span>
                 </a><!-- End Profile Iamge Icon -->
 
@@ -59,8 +59,7 @@
                     </li>
 
                     <li>
-                        <a class="dropdown-item d-flex align-items-center"
-                            href="{{ route('logout') }}">
+                        <a class="dropdown-item d-flex align-items-center" href="{{ route('logout') }}">
                             <i class="bi
                             bi-box-arrow-right"></i>
                             <span>Sign Out</span>

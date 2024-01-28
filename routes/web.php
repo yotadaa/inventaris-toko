@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ApiController;
+use App\Http\Controllers\FilesController;
 use App\Http\Controllers\SessionController;
 use Illuminate\Support\Facades\Route;
 
@@ -52,3 +53,5 @@ Route::get('/register',[SessionController::class,'register'])->name('register');
 Route::post('/session/create',[SessionController::class,'create']);
 
 Route::post('/submitForm', [ApiController::class, 'submitForm']);
+
+Route::post('/upload-files', [FilesController::class,'store']);

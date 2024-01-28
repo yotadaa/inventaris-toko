@@ -118,7 +118,7 @@
                                             </div>
                                         </div>
                                         <div class="col-12">
-                                            <button class="btn btn-primary w-100" onclick="submitForm()"
+                                            <button type='button' class="btn btn-primary w-100" onclick="submitForm()"
                                                 type="button">Login</button>
                                         </div>
                                         <div class="col-12">
@@ -157,6 +157,7 @@
     <script>
         function submitForm() {
             document.querySelector('#loading-notification').style.display = 'block'
+            document.querySelector('#error-notification').style.display = 'none'
             $.ajax({
                 url: '/session/login',
                 type: 'POST',
