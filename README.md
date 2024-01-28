@@ -28,16 +28,16 @@ Batch 3
     <dt><h3>Member dan Role</h3></dt>
     <dd>
         <dl>
-            <dt>Super [x]</dt>
+            <dt><li>Super [x]</li></dt>
             <dd>Super user adalah user yang bisa mengedit item di database, termasuk hal hal yang bisa dilakukan normal user</dd>
-            <dt>Normal [x]</dt>
+            <dt><li>Normal [x]</li></dt>
             <dd>Normal user adalah user yang hanya dapat mencatat transaksi, seperti membuat kluster transaksi dan menambahkan detail pada transaksi tersebut</dd>
         </dl>
     </dd>
     <dt><h3>Item</h3></dt>
     <dd>
         <dl>
-            <dt>Attribut</dt>
+            <dt><li>Attribut</li></dt>
             <dd>
                 <ul>
                     <li>Gambar</li>
