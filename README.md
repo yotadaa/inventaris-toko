@@ -24,11 +24,34 @@ Batch 3
 - [x] Membuat tabel
 - [x] Register, Login, dan Logout
 - [x] Mengubah dan menghapus foto profil
-- [ ] Menambah Member (Nanti ada role Superuser dan Normaluser)
-
-- **Items**
-- [x] Belum ada progress
-
+<dl>
+    <dt><h3>Member dan Role</h3></dt>
+    <dd>
+        <dl>
+            <dt><li>Super [x]</li></dt>
+            <dd>Super user adalah user yang bisa mengedit item di database, termasuk hal hal yang bisa dilakukan normal user</dd>
+            <dt><li>Normal [x]</li></dt>
+            <dd>Normal user adalah user yang hanya dapat mencatat transaksi, seperti membuat kluster transaksi dan menambahkan detail pada transaksi tersebut</dd>
+        </dl>
+    </dd>
+    <dt><h3>Item</h3></dt>
+    <dd>
+        <dl>
+            <dt><li>Attribut</li></dt>
+            <dd>
+                <ul>
+                    <li>Gambar</li>
+                    <li>Nama</li>
+                    <li>Deskripsi</li>
+                    <li>Kategori [Rokok, Makanan, Minuman, Lainnya]</li>
+                    <li>Stok</li>
+                    <li>Harga Awal</li>
+                    <li>Harga Jual</li>
+                </ul>
+            </dd>
+        </dl>
+    </dd>
+</dl>
 
 
 ## Guide
