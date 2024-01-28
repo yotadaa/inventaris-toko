@@ -87,7 +87,7 @@
                                         <div class="row mb-3">
                                             <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
                                             <div class="col-md-8 col-lg-9">
-                                                <input disable='true' class="form-control" id="Email"
+                                                <input disabled='true' class="form-control" id="Email"
                                                     value="{{ $user->email }}">
                                             </div>
                                         </div>
@@ -156,14 +156,14 @@
                     <button type="button" style="margin-right: 10px;" class="btn btn-secondary"
                         data-bs-dismiss="modal">Batal
                     </button>
-                    <button type='button' onclick="logoutConfirmed()" style="margin-left: 10px;"
+                    <button type='button' onclick="deleteConfirmed()" style="margin-left: 10px;"
                         class="btn btn-primary">Konfir
                     </button>`
                 </div>
             </div>
         </div>
         <script>
-            function logoutConfirmed() {
+            function deleteConfirmed() {
                 window.location.href = "{{ route('delete-photo') }}";
             }
         </script>

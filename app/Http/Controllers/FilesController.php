@@ -6,6 +6,11 @@ use App\Models\Files;
 use App\Models\User;
 use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
+use Spatie\ImageOptimizer\Image;
+use Spatie\ImageOptimizer\OptimizerChain;
+use Spatie\ImageOptimizer\OptimizerChainFactory;
+use Spatie\ImageOptimizer\Optimizers\Pngquant;
+
 
 class FilesController extends Controller
 {
@@ -54,11 +59,25 @@ class FilesController extends Controller
 		$path = $file->move($tujuan_upload,$file_name);
         Files::where('email', '=', auth()->user()->email)->update(['path' => $path]);
         User::where('email', '=', auth()->user()->email)->update(['foto_profile' => $path]);
+
+        $optimizer = new OptimizerChain();
+        $optimizer->setTimeout(10);
+        $optimizer->addOptimizer((new Pngquant([
+            '--all-progressive',
+        ]))->setBinaryPath($path));
+
         return redirect()->route('user');
     }
 
     public function deletePhoto() {
+        if (!(auth()->check())) {
+            return redirect()->route('login');
+        }
+
+        $user = auth()->user();
+        File::delete($user->foto_profile);
         Files::where('email', '=', auth()->user()->email)->update(['path' => '/assets/img/users/user_default.png']);
-        User::where('email', '=', auth()->user()->email)->update(['foto_profile' => '/assets/img/users/user_default.png']); 
+        User::where('email', '=', auth()->user()->email)->update(['foto_profile' => '/assets/img/users/user_default.png']);
+        return redirect()->route('user');
     }
 }

@@ -79,6 +79,9 @@ class SessionController extends Controller
         // return response()->json(['status' => false, 'value' => 'email dan password tidak valid', 'get' => $existingUser]);
     }
 
+    public function update($Request) {
+        
+    }
 
 
 
