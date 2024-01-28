@@ -39,7 +39,15 @@ Batch 3
         <dl>
             <dt>Attribut</dt>
             <dd>
-                <h4>Atribut</h4>
+                <ul>
+                    <li>Gambar</li>
+                    <li>Nama</li>
+                    <li>Deskripsi</li>
+                    <li>Kategori [Rokok, Makanan, Minuman, Lainnya]</li>
+                    <li>Stok</li>
+                    <li>Harga Awal</li>
+                    <li>Harga Jual</li>
+                </ul>
             </dd>
         </dl>
     </dd>
