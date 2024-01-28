@@ -18,6 +18,17 @@ Batch 3
 - **Mencatat transaksi Item**
 - **Login dan Registrasi**
 
+## Progress
+
+- **Users**
+- [x] Membuat tabel
+- [x] Register, Login, dan Logout
+- [x] Mengubah dan menghapus oto profil
+- [ ] Menambah Member (Nanti ada role Superuser dan Normaluser)
+
+- **Items**
+- [x] Belum ada progress
+
 
 
 ## Guide
