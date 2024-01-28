@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Files;
-use App\Traits\Upload; //import the trait
+use App\Models\User;
+use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
 
 class FilesController extends Controller
 {
@@ -41,5 +41,24 @@ class FilesController extends Controller
         //     return response()->json(['status' => true,'message' => 'File uploaded', 'path' => $path]);
         // }
         // return response()->json(['status' => false, 'message' => 'Upload failed', 'file' => $request->all()]);
+    }
+
+    public function updatePhoto(Request $request) {
+        $this->validate($request, [
+			'file' => 'required'
+		]);
+        $user = auth()->user();
+        $file = $request->file('file');
+		$tujuan_upload = 'assets/img/users';
+        $file_name = (auth()->user()->email).'.png';
+		$path = $file->move($tujuan_upload,$file_name);
+        Files::where('email', '=', auth()->user()->email)->update(['path' => $path]);
+        User::where('email', '=', auth()->user()->email)->update(['foto_profile' => $path]);
+        return redirect()->route('user');
+    }
+
+    public function deletePhoto() {
+        Files::where('email', '=', auth()->user()->email)->update(['path' => '/assets/img/users/user_default.png']);
+        User::where('email', '=', auth()->user()->email)->update(['foto_profile' => '/assets/img/users/user_default.png']); 
     }
 }

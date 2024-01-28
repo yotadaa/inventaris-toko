@@ -55,3 +55,20 @@ Route::post('/session/create',[SessionController::class,'create']);
 Route::post('/submitForm', [ApiController::class, 'submitForm']);
 
 Route::post('/upload-files', [FilesController::class,'store']);
+Route::post('/update-profile-picture', [FilesController::class, 'updatePhoto'])->name('update-photo');
+Route::get('/delete-profile-picture', [FilesController::class, 'deletePhoto'])->name('delete-photo');
+
+Route::group(['middleware' => 'restrict.access'], function () {
+
+    // Route::get('/assets/img/users', function () {
+    //     return view('NiceAdmins.pages-error-404');
+    // });
+});
+
+Route::middleware(['protect.assets'])->group(function () {
+
+    Route::get('/assets/img/{any}', function () {
+        return 'Accessing protected file.';
+    })->where('any', '.*');
+});
+

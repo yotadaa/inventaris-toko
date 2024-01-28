@@ -39,11 +39,17 @@
             <li class="nav-item dropdown pe-3">
 
                 <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-                    <img id='header_profile' src="{{ $user->foto_profile }}" alt="Profile" class="rounded-circle">
+                    @if ($user)
+                        <img id='header_profile' src="{{ $user->foto_profile }}" alt="Profile" class="rounded-circle">
+                    @endif
                     {{-- <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                         <i class="bi bi-person-circle" style="scale: 1.7; margin-right: 5px"></i>
                     </div> --}}
-                    <span class="d-none d-md-block dropdown-toggle ps-2">{{ $user->name }}</span>
+                    <span class="d-none d-md-block dropdown-toggle ps-2">
+                        @if ($user)
+                            {{ $user->name }}
+                        @endif
+                    </span>
                 </a><!-- End Profile Iamge Icon -->
 
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">

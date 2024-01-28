@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Files;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -50,12 +51,16 @@ class SessionController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'foto_profile' => 'foto123',
+            'foto_profile' => '/assets/img/users/user_default.png',
         ];
 
         // return response()->json(['status' => true, 'user' => $data]);
 
         $user = User::create($data);
+        Files::create([
+            'path' => 'assets/img/users/user_default.png',
+            'email' => auth()->user()->email
+        ]);
 
         Session::flash('nama', $request->nama);
         Session::flash('email', $request->email);

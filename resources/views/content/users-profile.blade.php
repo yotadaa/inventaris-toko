@@ -44,45 +44,60 @@
                             <div class="tab-pane fade show active profile-edit" id="profile-edit">
 
                                 <!-- Profile Edit Form -->
-                                <form id='user-form' enctype="multipart/form-data">
+                                <form method="post" action=" {{ route('update-photo') }}" id='user-form'
+                                    enctype="multipart/form-data">
                                     {{ csrf_field() }}
                                     <div class="row mb-3">
                                         <label class="col-md-4 col-lg-3 col-form-label">Profile
                                             Image</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <img id='setting-profile' src="{{ $user->foto_profile }}" alt="Profile">
-                                            <div class="pt-2">
-                                                {{-- <input type="file" name='file' id="file"
-                                                    class="btn btn-primary btn-sm" title="Upload new profile image"> --}}
-                                                <input type="file" name="file">
-                                                <a href="#" class="btn btn-danger btn-sm"
-                                                    title="Remove my profile image"><i class="bi bi-trash"></i></a>
+                                            @if ($user)
+                                                <img id='setting-profile' src="{{ $user->foto_profile }}" alt="Profile">
+                                            @endif
+                                            <div class="pt-2" style="display: flex; align-items: center; gap: 5px;">
+                                                <input type="file" name='file' id="file"
+                                                    onchange="changeUpdateVisibility()" class="btn btn-primary btn-sm"
+                                                    title="Upload new profile image">
+                                                {{-- <input type="file" name="file"> --}}
+                                                <button type='button' data-bs-toggle="modal"
+                                                    data-bs-target="#deletePhotoConfirmation" href="#"
+                                                    class="btn btn-danger btn-sm" title="Remove my profile image"><i
+                                                        class="bi bi-trash"></i>
+                                                </button>
+                                                <button type='submit' value='' href="#"
+                                                    class="btn btn-success btn-sm" id='updateButton' style='display: none'
+                                                    title="Update">
+                                                    <i class="bi bi-box-arrow-down"></i>
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
-                                    <input type='hidden' name='test' id='test' value='123' />
-
-                                    <div class="row mb-3">
-                                        <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Full Name</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <input name="fullName" type="text" class="form-control" id="fullName"
-                                                value="{{ $user->name }}">
+                                </form>
+                                @if ($user)
+                                    <form>
+                                        <div class="row mb-3">
+                                            <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Full
+                                                Name</label>
+                                            <div class="col-md-8 col-lg-9">
+                                                <input name="fullName" type="text" class="form-control" id="fullName"
+                                                    value="{{ $user->name }}">
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <div class="row mb-3">
-                                        <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <input name="email" type="email" class="form-control" id="Email"
-                                                value="{{ $user->email }}">
+                                        <div class="row mb-3">
+                                            <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
+                                            <div class="col-md-8 col-lg-9">
+                                                <input disable='true' class="form-control" id="Email"
+                                                    value="{{ $user->email }}">
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <div class="text-center">
-                                        <button type="button" onclick="submitForm()" class="btn btn-primary">Save
-                                            Changes</button>
-                                    </div>
-                                </form><!-- End Profile Edit Form -->
+                                        <div class="text-center">
+                                            <button type="button" onclick="submitForm()" class="btn btn-primary">Save
+                                                Changes</button>
+                                        </div>
+                                    </form><!-- End Profile Edit Form -->
+                                @endif
 
                             </div>
 
@@ -131,7 +146,36 @@
             </div>
         </div>
     </section>
+    <div class="modal fade" id="deletePhotoConfirmation" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content p-3">
+                <div class="modal-body text-center">
+                    Konfirmasi menghapus foto profile?
+                </div>
+                <div class="text-center" style="gap: 10px;">
+                    <button type="button" style="margin-right: 10px;" class="btn btn-secondary"
+                        data-bs-dismiss="modal">Batal
+                    </button>
+                    <button type='button' onclick="logoutConfirmed()" style="margin-left: 10px;"
+                        class="btn btn-primary">Konfir
+                    </button>`
+                </div>
+            </div>
+        </div>
+        <script>
+            function logoutConfirmed() {
+                window.location.href = "{{ route('delete-photo') }}";
+            }
+        </script>
+    </div>
     <script>
+        function changeUpdateVisibility() {
+            var updateButton = document.querySelector('#updateButton');
+            updateButton.style.display = 'flex';
+            updateButton.style.width = '33px';
+            // console.log(updateButton.style.display)
+        }
+
         function submitForm() {
             // document.querySelector('#test').value = document.querySelector('#file').value
             $.ajax({
