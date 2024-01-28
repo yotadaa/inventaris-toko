@@ -24,14 +24,15 @@ Batch 3
 - [x] Membuat tabel
 - [x] Register, Login, dan Logout
 - [x] Mengubah dan menghapus foto profil
-<ul>
-    <li><h3>Member dan Role</h3></li>
-    <ul>
-        <li>
-            
-        </li>
-    </ul>
-</ul>
+<dl>
+    <dt><h3>Member dan Role</h3></dt>
+    <dd>
+        <ul>
+            <li>Super</li>
+            <li>Normal</li>
+        </ul>
+    </dd>
+</dl>
 
 - **Items**
 - [x] Belum ada progress
