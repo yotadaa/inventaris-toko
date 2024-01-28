@@ -34,7 +34,7 @@ Batch 3
             <dd>Normal user adalah user yang hanya dapat mencatat transaksi, seperti membuat kluster transaksi dan menambahkan detail pada transaksi tersebut</dd>
         </dl>
     </dd>
-    <dt>Item</dt>
+    <dt><h3>Item</h3></dt>
     <dd>
         <dl>
             <dt>Attribut</dt>
