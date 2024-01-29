@@ -78,6 +78,14 @@ Batch 3
             </dd>
         </dl>
     </dd>
+    <dt>Transaksi</dt>
+    <dd>
+        Table yang mencatat seluruh transaksi yang terjadi.
+        <ul>
+            <li>Lakukan transaksi satuan (1 item per transaksi)</li>
+            <li>Buat kluster transaksi (banyak item per transaksi)</li>
+        </ul>
+    </dd>
 </dl>
 
 
