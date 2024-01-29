@@ -78,9 +78,11 @@ Batch 3
             </dd>
             <dt>Progress</dt>
             <dd>
-                <ul>Layout tampilkan item</ul>
-                <ul>Menampilkan seluruh items</ul>
-                <ul>Modal untuk detail item</ul>
+                <ul>
+                    <li>Layout tampilkan item</li>
+                    <li>Menampilkan seluruh items</li>
+                    <li>Modal untuk detail item</li>
+                </ul>
             </dd>
         </dl>
     </dd>
