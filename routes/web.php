@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\FilesController;
+use App\Http\Controllers\ItemsController;
 use App\Http\Controllers\SessionController;
 use Illuminate\Support\Facades\Route;
 
@@ -43,6 +44,8 @@ Route::get('/user', function () {
 Route::get('/NiceAdmin/{para}', function ($para) {
     return view('NiceAdmin.'.$para);
 });
+
+Route::get('/items', [ItemsController::class, 'show'])->name('items');
 
 
 
