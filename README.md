@@ -27,7 +27,7 @@ Batch 3
 <dl>
     <dt>Authentication</dt>
     <dd>
-        <input type='check' value='true' />
+        <li><input type='checkbox' value='true' />Cek email unik</li>
     </dd>
     <dt><h3>Member dan Role</h3></dt>
     <dd>
