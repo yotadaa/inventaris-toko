@@ -27,7 +27,30 @@ Batch 3
 <dl>
     <dt><h3>Authentication</h3></dt>
     <dd>
-        <li><input type="checkbox" checked>Cek email unik</li>
+        <dl>
+            <dt>Login</dt>
+            <dd>
+                <ul>
+                    <li>Cek apakah email sudah terdaftar</li>
+                    <li>Validasi password</li>
+                </ul>
+            </dd>
+            <dt>Register</dt>
+            <dd>
+                <ul>
+                    <li>Cek apakah email sudah terdaftar</li>
+                    <li>Konfirmasi password</li>
+                </ul>
+            </dd>
+            <dt>Lupa Password</dt>
+            <dd>
+                <ul>
+                    <li>Validasi password</li>
+                    <li>Cek apakah password masih sama</li>
+                    <li>Konfirmasi password</li>
+                </ul>
+            </dd>
+        </dl>
     </dd>
     <dt><h3>Member dan Role</h3></dt>
     <dd>
