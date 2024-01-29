@@ -76,11 +76,17 @@ Batch 3
                     <li>Harga Jual</li>
                 </ul>
             </dd>
+            <dt>Progress</dt>
+            <dd>
+                <ul>Layout tampilkan item</ul>
+                <ul>Menampilkan seluruh items</ul>
+                <ul>Modal untuk detail item</ul>
+            </dd>
         </dl>
     </dd>
-    <dt>Transaksi</dt>
+    <dt>Transaksi &check;</dt>
     <dd>
-        Table yang mencatat seluruh transaksi yang terjadi &check;.
+        Table yang mencatat seluruh transaksi yang terjadi.
         <ul>
             <li>Lakukan transaksi satuan (1 item per transaksi)</li>
             <li>Buat kluster transaksi (banyak item per transaksi)</li>
