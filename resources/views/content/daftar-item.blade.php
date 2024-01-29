@@ -101,6 +101,10 @@
                                 @foreach ($items as $item)
                                     <tr style="width: 100%">
                                         <td>{{ $item->kode }}</td>
+                                        {{-- <td>
+                                            <img src="{{ $item->foto }}" width="30"
+                                                alt='preview-{{ $item->kode }}' />
+                                        </td> --}}
                                         <td>{{ $item->nama }}</td>
                                         <td style="max-width: 300px; white-space: pre-wrap">{{ $item->desk }}</td>
                                         <td>{{ $cat[$item->kategori] }}</td>

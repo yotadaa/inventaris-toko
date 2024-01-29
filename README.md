@@ -86,7 +86,7 @@ Batch 3
             </dd>
         </dl>
     </dd>
-    <dt>Transaksi &check;</dt>
+    <dt><h3>Transaksi &check;</h3></dt>
     <dd>
         Table yang mencatat seluruh transaksi yang terjadi.
         <ul>
