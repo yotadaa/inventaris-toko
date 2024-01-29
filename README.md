@@ -25,6 +25,10 @@ Batch 3
 - [x] Register, Login, dan Logout
 - [x] Mengubah dan menghapus foto profil
 <dl>
+    <dt>Authentication</dt>
+    <dd>
+        <input type='check' value='true' />
+    </dd>
     <dt><h3>Member dan Role</h3></dt>
     <dd>
         <dl>
