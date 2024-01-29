@@ -15,6 +15,7 @@ class Items extends Model
         'kategori',
         'stok',
         'harga_awal',
-        'harga_jual'
+        'harga_jual',
+        'email'
     ];
 }

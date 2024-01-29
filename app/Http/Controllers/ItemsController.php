@@ -9,6 +9,8 @@ class ItemsController extends Controller
 {
     //
     public function show() {
-        return view('content.daftar-item', ['user' => auth()->user(), 'items' => Items::all()]);
+        $items = Items::where('email', '=', auth()->user()->email)->get();
+        return view('content.daftar-item', ['user' => auth()->user(), 'items' => $items]);
     }
+
 }
