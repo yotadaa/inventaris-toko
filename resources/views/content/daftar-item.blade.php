@@ -87,7 +87,7 @@
                         <table class="table datatable table-borderless table-hover" style="width: 100%">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
+                                    <th>Kode</th>
                                     <th>Nama</th>
                                     <th>Deskripsi</th>
                                     <th>Kategori</th>
@@ -100,7 +100,7 @@
                             <tbody style="width: 100%">
                                 @foreach ($items as $item)
                                     <tr style="width: 100%">
-                                        <td>{{ $item->id }}</td>
+                                        <td>{{ $item->kode }}</td>
                                         <td>{{ $item->nama }}</td>
                                         <td style="max-width: 300px; white-space: pre-wrap">{{ $item->desk }}</td>
                                         <td>{{ $cat[$item->kategori] }}</td>
@@ -132,7 +132,8 @@
         </div>
         </div>
     </section>
-    <div class="modal fade" id="detail-modal" tabindex="-1">
+    <div style="box-shadow: 0 0 15px rgba(0,0,0,0.4)" class="modal fade shadow" id="detail-modal" tabindex="-1"
+        data-bs-backdrop="true">
         <div class="modal-dialog modal-dialog-centered ">
             <div class="modal-content">
                 <div class="modal-header">
