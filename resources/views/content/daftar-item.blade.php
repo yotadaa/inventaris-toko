@@ -43,52 +43,32 @@
                                 </span>
                             </a><!-- End Profile Iamge Icon -->
 
-                            <ul class="dropdown-menu dropdown-menu-start">
+                            <ul class="dropdown-menu dropdown-menu-start" id='category-list'>
                                 <li class="">
-                                    <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <button class="dropdown-item d-flex align-items-center" onclick="changeCategory(-1)">
                                         <i class="bi bi-caret-right-fill"></i>
                                         <span style='display: flex; justify-content: space-between; width: 100%'>
-                                            Makanan
+                                            Semua
                                             <span class="badge bg-secondary text-light">
-                                                {{ $items->where('kategori', 0)->count() }}
+                                                {{ $items->count() }}
                                             </span>
                                         </span>
-                                    </a>
+                                    </button>
                                 </li>
-                                <li class="">
-                                    <a class="dropdown-item d-flex align-items-center" href="#">
-                                        <i class="bi bi-caret-right-fill"></i>
-                                        <span style='display: flex; justify-content: space-between; width: 100%'>
-                                            Minuman
-                                            <span class="badge bg-secondary text-light">
-                                                {{ $items->where('kategori', 1)->count() }}
+                                @for ($i = 0; $i < 4; $i++)
+                                    <li class="">
+                                        <button class="dropdown-item d-flex align-items-center"
+                                            onclick="changeCategory({{ $i }})">
+                                            <i class="bi bi-caret-right-fill"></i>
+                                            <span style='display: flex; justify-content: space-between; width: 100%'>
+                                                {{ $cat[$i] }}
+                                                <span class="badge bg-secondary text-light">
+                                                    {{ $items->where('kategori', $i)->count() }}
+                                                </span>
                                             </span>
-                                        </span>
-                                    </a>
-                                </li>
-                                <li class="">
-                                    <a class="dropdown-item d-flex align-items-center" href="#">
-                                        <i class="bi bi-caret-right-fill"></i>
-                                        <span style='display: flex; justify-content: space-between; width: 100%'>Rokok
-                                            <span class="badge bg-secondary text-light">
-                                                {{ $items->where('kategori', 2)->count() }}
-                                            </span>
-                                        </span>
-                                    </a>
-                                </li>
-
-
-                                <li class="">
-                                    <a class="dropdown-item d-flex align-items-center" href="#">
-                                        <i class="bi bi-caret-right-fill"></i>
-                                        <span style='display: flex; justify-content: space-between; width: 100%'>
-                                            Lainnya
-                                            <span class="badge bg-secondary text-light">
-                                                {{ $items->where('kategori', 3)->count() }}
-                                            </span>
-                                        </span>
-                                    </a>
-                                </li>
+                                        </button>
+                                    </li>
+                                @endfor
 
                             </ul><!-- End Profile Dropdown Items -->
                         </div>
@@ -104,7 +84,7 @@
 
                     <div class="card-body text-muted small" style='padding-top: 20px;'>
                         <!-- Table with stripped rows -->
-                        <table class="table datatable" style="width: 100%">
+                        <table class="table datatable table-borderless table-hover" style="width: 100%">
                             <thead>
                                 <tr>
                                     <th>ID</th>
@@ -127,11 +107,13 @@
                                         <td class="data-numeric">{{ $item->stok }}</td>
                                         <td class="data-numeric">{{ $item->harga_awal }}</td>
                                         <td class="data-numeric">{{ $item->harga_jual }}</td>
-                                        <td class="d-block d-md-flex">
+                                        <td class="d-block d-md-block d-lg-flex" style='height: 100%'>
                                             {{-- <div style="scale: 0.8" class="btn-group" role="group"
                                                 aria-label="Basic mixed styles example"> --}}
                                             <button style="scale: 0.8" title='Detail' type='button'
-                                                class="btn shadow border btn-secondary"><i
+                                                class="btn shadow border btn-secondary" data-bs-toggle="modal"
+                                                data-bs-target="#detail-modal"
+                                                onclick="openDetailModal({{ $item }})"><i
                                                     class="bi bi-info-circle"></i></button>
                                             <button style="scale: 0.8" title='Edit' type='button'
                                                 class="btn shadow border btn-warning"><i
@@ -144,19 +126,106 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        <!-- End Table with stripped rows -->
-
                     </div>
                 </div>
             </div>
         </div>
         </div>
-
-
     </section>
+    <div class="modal fade" id="detail-modal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 style="display: flex; align-items: center; gap: 10px;" class="modal-title"><i
+                            class="bi bi-info-circle"></i>
+                        Detail Barang</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="width: 100%; display: flex; justify-content: center;align-items:center">
+                    <form class="row g-3" style="">
+                        <div style='display: flex; align-items: center; justify-content: center; '>
+                            <img id='foto-brg' width="200" style="border-radius: 5px; border: 1px solid darkgray"
+                                class="shadow">
+                        </div>
+
+                        <div class="d-block d-md-flex" style="width: 100%;flex-direction: row; gap: 10px;">
+                            <div style="width: 100%">
+                                <div class="col-12">
+                                    <label class="form-label">Nama Barang</label>
+                                    <input disabled='true' type="text" class="form-control" id="nama-brg">
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label">Kategori</label>
+                                    <input disabled='true' type="text" class="form-control" id="kategori-brg">
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label">Stok</label>
+                                    <input disabled='true' type="number" class="form-control" id="stok-brg">
+                                </div>
+                            </div>
+                            <div style="width: 100%">
+                                <div class="col-12">
+                                    <label class="form-label">Harga Awal</label>
+                                    <input disabled='true' type="number" class="form-control" id="hrg-awl-brg"
+                                        placeholder="1234 Main St">
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label">Harga Jual</label>
+                                    <input disabled='true' type="number" class="form-control" id="hrg-jual-brg"
+                                        placeholder="1234 Main St">
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label">Deskripsi</label>
+                                    <textarea disabled='true' type="text" class="form-control" id="desk-brg" placeholder="1234 Main St"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-warning"><i class="bi bi-pencil-square"></i>Edit</button>
+                    <button type="button" class="btn btn-danger"><i class="bi bi-trash"></i>Hapus</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script>
         document.querySelector('#components-nav').classList.remove('collapse');
         document.querySelector('#kelola-list').classList.remove('collapsed');
         document.querySelector('#daftar-item').classList.add("active");
+        var cats = ['Makanan', 'Minuman', 'Rokok', 'Lainnya'];
+
+        function openDetailModal(item) {
+            document.querySelector('#foto-brg').src = item.foto;
+            document.querySelector('#nama-brg').value = item.nama;
+            document.querySelector('#kategori-brg').value = item.kategori;
+            document.querySelector('#hrg-awl-brg').value = item.harga_awal;
+            document.querySelector('#hrg-jual-brg').value = item.harga_jual;
+            document.querySelector('#desk-brg').value = item.desk;
+        }
+
+        function changeCategory(cat) {
+            // Get all table rows
+            var rows = document.querySelectorAll('.datatable tbody tr');
+            if (cat === -1) {
+                rows.forEach(function(row) {
+                    row.style.display = 'table-row';
+                });
+                return;
+            }
+
+            // Loop through each row and check the category
+            rows.forEach(function(row) {
+                var categoryColumn = row.querySelector('td:nth-child(4)');
+                // console.log(categoryColumn)
+                // // Check if the category matches the selected category
+                if (categoryColumn.textContent.trim() === cats[cat]) {
+                    row.style.display = 'table-row';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
     </script>
 @endsection

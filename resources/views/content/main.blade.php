@@ -4,6 +4,9 @@
     Dashboard
 @endsection
 
+@section('misc')
+@endsection
+
 @section('body')
     <div class="pagetitle">
         <h1>Dashboard</h1>
@@ -29,11 +32,19 @@
                                 <h5 class="card-title">Transaksi Hari Ini</h5>
 
                                 <div class="d-flex align-items-center">
-                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                        <i class="bi bi-cart"></i>
-                                    </div>
-                                    <div class="ps-3">
-                                        <h6>145</h6>
+                                    <button type="button" style="border: none;"
+                                        class="card-icon rounded-circle d-flex align-items-center justify-content-center"
+                                        data-bs-toggle="tooltip" data-bs-placement="bottom" title="Lakukan Transaksi">
+                                        <i class="bi bi-cart-plus"></i>
+                                    </button>
+                                    <div class="ps-3" style='justify-content: start;'>
+                                        <h6>145
+                                        </h6>
+                                        {{-- <span style="display: flex; align-items: center; gap: 5px;" type="button"
+                                            class="btn-primary">
+                                            <strong><i class="bi bi-box-arrow-in-down"></i></strong>
+                                            Tambah
+                                        </span> --}}
                                         <span class="text-success small pt-1 fw-bold">12%</span> <span
                                             class="text-muted small pt-2 ps-1">increase</span>
 

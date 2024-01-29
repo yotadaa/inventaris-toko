@@ -31,6 +31,13 @@
     <!-- Template Main CSS File -->
     <link href="/assets/css/style.css" rel="stylesheet">
     @yield('misc')
+    <style>
+        .profile-container-small {
+            aspect-ratio: 1/1;
+            object-fit: cover;
+            box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.6);
+        }
+    </style>
 
     <!-- =======================================================
   * Template Name: NiceAdmin

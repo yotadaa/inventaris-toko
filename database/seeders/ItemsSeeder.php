@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use App\Models\Items;
 
 class ItemsSeeder extends Seeder
 {
@@ -15,8 +16,9 @@ class ItemsSeeder extends Seeder
      */
     public function run()
     {
+        Items::factory()->count(30)->create();
         DB::table('items')->insert([
-            'foto' => '/assets/img/users/user_default.png',
+            'foto' => '/assets/img/produc-3.jpg',
             'nama' => 'Garuda Pilus',
             'desk' => 'Cemilan pilus dari garuda',
             'kategori' => 0,
@@ -26,7 +28,7 @@ class ItemsSeeder extends Seeder
             'email' => 'tes@gmail.com'
         ]);
         DB::table('items')->insert([
-            'foto' => '/assets/img/users/user_default.png',
+            'foto' => '/assets/img/produc-3.jpg',
             'nama' => 'Masako Sapi 8.5g',
             'desk' => 'Bumbu Masakan perisa sapi',
             'kategori' => 3,
@@ -36,7 +38,7 @@ class ItemsSeeder extends Seeder
             'email' => 'tes@gmail.com'
         ]);
         DB::table('items')->insert([
-            'foto' => '/assets/img/users/user_default.png',
+            'foto' => '/assets/img/produc-3.jpg',
             'nama' => 'Teh Gelas Big',
             'desk' => 'Minuman teh kemasan gelas ukuran besar',
             'kategori' => 1,
@@ -46,7 +48,7 @@ class ItemsSeeder extends Seeder
             'email' => 'tes@gmail.com'
         ]);
         DB::table('items')->insert([
-            'foto' => '/assets/img/users/user_default.png',
+            'foto' => '/assets/img/produc-3.jpg',
             'nama' => 'GG Surya Pro 16',
             'desk' => 'Rokok dari gudang garam dengan kemasan merah',
             'kategori' => 2,

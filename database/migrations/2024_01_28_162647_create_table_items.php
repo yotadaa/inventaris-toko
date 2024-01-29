@@ -23,6 +23,7 @@ return new class extends Migration
             $table->float('harga_awal');
             $table->float('harga_jual');
             $table->string('email');
+            $table->integer('kode')->unique();
             $table->timestamps();
         });
     }
