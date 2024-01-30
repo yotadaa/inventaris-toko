@@ -38,8 +38,17 @@
                                         <i class="bi bi-cart-plus"></i>
                                     </button>
                                     <div class="ps-3" style='justify-content: start;'>
-                                        <h6>145
-                                        </h6>
+                                        <div class="">
+                                            @if ($transactions->where('created_at', '>=', now()->startOfDay())->where('created_at', '<=', now()->endOfDay())->count() == 0)
+                                                <div style="font-size: 18px; font-weight: 900">Belum ada transaksi</div>
+                                            @else
+                                                <h6>
+                                                    {{ $transactions->where('created_at', '>=', now()->startOfDay())->where('created_at', '<=', now()->endOfDay())->count() }}
+                                                    Transaksi
+                                                </h6>
+                                            @endif
+                                        </div>
+
                                         {{-- <span style="display: flex; align-items: center; gap: 5px;" type="button"
                                             class="btn-primary">
                                             <strong><i class="bi bi-box-arrow-in-down"></i></strong>

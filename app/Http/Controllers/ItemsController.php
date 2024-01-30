@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Items;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Spatie\ImageOptimizer\OptimizerChain;
 use Spatie\ImageOptimizer\Optimizers\Pngquant;
@@ -11,6 +12,16 @@ use Intervention\Image\Facades\Image;
 class ItemsController extends Controller
 {
     //
+
+    public function index() {
+    if (!auth()->check()) {
+        return redirect()->route('login');
+    }
+    $user = auth()->user();
+    $items = Items::where('email', $user->email)->get();
+    $transactions = Transaction::where('email', $user->email)->get();
+    return view('content.main', ['user' => $user, 'items' => $items, 'transactions' => $transactions]);
+    }
     public function show() {
         if (!(auth()->check())) {
             return redirect()->route('login');

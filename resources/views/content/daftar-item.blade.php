@@ -99,7 +99,7 @@
 
                     <div class="card-body text-muted small overflow-auto" style='padding-top: 20px;'>
                         <!-- Table with stripped rows -->
-                        <table class="table datatable table-borderless table-hover" style="width: 100%">
+                        <table id='item-container' class="table datatable table-borderless table-hover" style="width: 100%">
                             <thead>
                                 <tr>
                                     <th>Kode</th>
@@ -114,7 +114,7 @@
                             </thead>
                             <tbody style="width: 100%">
                                 @foreach ($items as $item)
-                                    <tr style="width: 100">
+                                    <tr style="width: 100" id='row{{ $item->kode }}'>
                                         <td style='max-width: 100px;'>{{ $item->kode }}</td>
                                         {{-- <td>
                                             <img src="{{ $item->foto }}" width="30"

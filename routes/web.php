@@ -17,15 +17,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    $user = auth()->user();
-    return view('content.main', ['user' => $user]);
-})->name('index');
+Route::get('/', [ItemsController::class, 'index'])->name('index');
 
-Route::get('/dashboard', function () {
-    $user = auth()->user();
-    return view('content.main', ['user' => $user]);
-})->name('dashboard');
+
+Route::get('/dashboard', [ItemsController::class, 'index'])->name('dashboard');
 
 
 Route::get('/user', function () {
