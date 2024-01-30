@@ -208,7 +208,7 @@
                 type: 'POST',
                 data: $('#change-password-form').serialize(),
                 success: function(res) {
-                    if (!status) {
+                    if (!res.status) {
                         document.querySelector('#loading-notification').style.display = 'none'
                         document.querySelector('#error-notification').style.display = 'block'
                         document.querySelector('#error-text').textContent = res.message

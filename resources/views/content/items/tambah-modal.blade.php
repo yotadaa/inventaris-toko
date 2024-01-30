@@ -1,38 +1,14 @@
-@extends('layout.index')
-
-@section('title')
-    Tambah Item
-@endsection
-@section('misc')
-    <style>
-        input[type='file'] {
-            display: none
-        }
-
-        .input-file {
-            display: inline-block;
-            padding: 8px 12px;
-            cursor: pointer;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-    </style>
-@endsection
-@section('body')
-    <section class="section">
-        <div class="card">
-            <div class="card-body">
-                <div class="card-title">
-                    Tambah Barang
-                    <nav class="">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="{{ route('index') }}">Home</a></li>
-                            <li class="breadcrumb-item"><a href="{{ route('items') }}">Barang</a></li>
-                            <li class="breadcrumb-item active">Tambah Barang</li>
-                        </ol>
-                    </nav>
-                </div>
-                <form class="row g-3" style="display: flex" method="post" action='{{ route('create') }}'
+<div class="modal fade shadow " id="tambah-modal" tabindex="-1" data-bs-backdrop="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 style="display: flex; align-items: center; gap: 10px;" class="modal-title"><i
+                        class="bi bi-info-circle"></i>
+                    Tambah Barang</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" style="width: 100%; display: flex; justify-content: center;align-items:center">
+                <form class="row g-3" style="display: flex; width: 100%;" method="post" action='{{ route('create') }}'
                     enctype="multipart/form-data">
                     @csrf
                     {{ csrf_field() }}
@@ -59,7 +35,8 @@
                                 $cat = ['Makanan', 'Minuman', 'Rokok', 'Lainnya'];
                                 ?>
                                 <button id='choose-category' type='button'
-                                    class=" btn btn-outline-secondary d-flex align-items-center" data-bs-toggle="dropdown">
+                                    class=" btn btn-outline-secondary d-flex align-items-center"
+                                    data-bs-toggle="dropdown">
 
                                     <i class="d-md-none d-block bi bi-funnel-fill"></i>
                                     <span class="d-none d-md-block dropdown-toggle">
@@ -73,7 +50,8 @@
                                             <button type='button' class="dropdown-item d-flex align-items-center"
                                                 onclick="changeCategory({{ $i }})">
                                                 <i class="bi bi-caret-right-fill"></i>
-                                                <span style='display: flex; justify-content: space-between; width: 100%'>
+                                                <span
+                                                    style='display: flex; justify-content: space-between; width: 100%'>
                                                     {{ $cat[$i] }}
                                                 </span>
                                             </button>
@@ -90,11 +68,13 @@
                             </div>
                             <div class="col-12">
                                 <label class="form-label">Harga Awal</label>
-                                <input required name='hrg_awl_brg' type="number" class="form-control" id="hrg-awl-brg"">
+                                <input required name='hrg_awl_brg' type="number" class="form-control"
+                                    id="hrg-awl-brg"">
                             </div>
                             <div class="col-12">
                                 <label class="form-label">Harga Jual</label>
-                                <input required name='hrg_jual_brg' type="number" class="form-control" id="hrg-jual-brg"">
+                                <input required name='hrg_jual_brg' type="number" class="form-control"
+                                    id="hrg-jual-brg"">
                             </div>
                             <div class="col-12">
                                 <label class="form-label">Deskripsi</label>
@@ -107,35 +87,35 @@
                         </div>
                     </div>
                 </form>
+                <script>
+                    var cats = ['Makanan', 'Minuman', 'Rokok', 'Lainnya'];
+
+                    function changeCategory(cat) {
+                        document.querySelector('#choose-category').innerHTML = `
+                        <i class="d-md-none d-block bi bi-funnel-fill"></i>
+                                            <span class="d-none d-md-block dropdown-toggle">
+                                                ${cats[cat]}
+                                            </span>`;
+                        document.querySelector('#kategori-brg').value = cat;
+                        console.log(document.querySelector('#kategori-brg').value)
+                    }
+
+                    function previewBarang() {
+                        var fileInput = document.getElementById('file');
+                        var previewImage = document.getElementById('preview-brg');
+
+                        if (fileInput.files && fileInput.files[0]) {
+                            var reader = new FileReader();
+
+                            reader.onload = function(e) {
+                                previewImage.src = e.target.result;
+                            };
+
+                            reader.readAsDataURL(fileInput.files[0]);
+                        }
+                    }
+                </script>
             </div>
         </div>
-        <script>
-            var cats = ['Makanan', 'Minuman', 'Rokok', 'Lainnya'];
-
-            function changeCategory(cat) {
-                document.querySelector('#choose-category').innerHTML = `
-                <i class="d-md-none d-block bi bi-funnel-fill"></i>
-                                    <span class="d-none d-md-block dropdown-toggle">
-                                        ${cats[cat]}
-                                    </span>`;
-                document.querySelector('#kategori-brg').value = cat;
-                console.log(document.querySelector('#kategori-brg').value)
-            }
-
-            function previewBarang() {
-                var fileInput = document.getElementById('file');
-                var previewImage = document.getElementById('preview-brg');
-
-                if (fileInput.files && fileInput.files[0]) {
-                    var reader = new FileReader();
-
-                    reader.onload = function(e) {
-                        previewImage.src = e.target.result;
-                    };
-
-                    reader.readAsDataURL(fileInput.files[0]);
-                }
-            }
-        </script>
-    </section>
-@endsection
+    </div>
+</div>

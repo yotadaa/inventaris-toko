@@ -19,7 +19,14 @@
         <div class="" style="background-color: white; box-shadow: 0px 0px 10px rgba(0,0,0,0.2); border-radius: 10px">
             <div class=" recent-sales">
                 <div class="card-body">
-                    <h5 class="card-title">Daftar Barang<br>
+                    <div class="card-title">
+                        <nav class="">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="{{ route('index') }}">Home</a></li>
+                                <li class="breadcrumb-item active">Daftar Barang</li>
+                            </ol>
+                        </nav>
+                        Daftar Barang<br>
                         <span class="text-muted small">
                             @if (count($items) > 0)
                                 Terdapat {{ count($items) }}
@@ -28,12 +35,19 @@
                                 Belum ada barang di inventaris
                             @endif
                         </span>
-                    </h5>
+                    </div>
                     <div style='display: flex; gap: 10px'>
-                        <a href='{{ route('tambah-item') }}' style="display: flex; align-items: center; gap: 5px;"
+                        {{-- <a href='{{ route('tambah-item') }}' style="display: flex; align-items: center; gap: 5px;"
                             type="button" class="btn btn-primary">
                             <strong><i class="bi bi-box-arrow-in-down"></i></strong>
-                            Tambah</a>
+                            Tambah</a> --}}
+                        <button href='{{ route('tambah-item') }}' type='button'
+                            style="display:
+                        flex; align-items: center; gap: 5px;" type="button"
+                            class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tambah-modal">
+                            <strong><i class="bi
+                            bi-box-arrow-in-down"></i></strong>
+                            Tambah</button>
                         <div class="dropdown">
 
                             <a class=" btn btn-outline-primary d-flex align-items-center" data-bs-toggle="dropdown">
@@ -124,7 +138,10 @@
                                                 class="btn shadow border btn-warning"><i
                                                     class="bi bi-pencil-square"></i></button>
                                             <button style="scale: 0.8" title='Hapus' type='button'
-                                                class="btn shadow border btn-danger"><i class="bi bi-trash"></i></button>
+                                                class="btn shadow border btn-danger" data-bs-toggle="modal"
+                                                data-bs-target="#deleteItemConfirmation"
+                                                onclick='deletionValue("{{ $item->kode }}","{{ $item->email }}")'><i
+                                                    class="bi bi-trash"></i></button>
                                             {{-- </div> --}}
                                         </td>
                                     </tr>
@@ -196,6 +213,7 @@
             </div>
         </div>
     </div>
+    @include('content.items.tambah-modal')
     <script>
         document.querySelector('#components-nav').classList.remove('collapse');
         document.querySelector('#kelola-list').classList.remove('collapsed');
@@ -234,4 +252,38 @@
             });
         }
     </script>
+    <form id='deletion-value-form' action='{{ route('delete') }}' style="display: none;">
+        <input id='confirmed-email' name='confirmedEmail' value='' type='email'>
+        <input id='confirmed-kode' name='confirmedKode' value='' type='number'>
+    </form>
+    <script>
+        function deletionValue(kode, email) {
+            console.log(kode + " dan " + email)
+            document.querySelector('#confirmed-email').value = email;
+            document.querySelector('#confirmed-kode').value = kode;
+        }
+    </script>
+    <div class="modal fade" id="deleteItemConfirmation" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content p-3">
+                <div class="modal-body text-center">
+                    Hapus barang? keputusan ini tidak dapat dibatalkan
+                </div>
+                <div class="text-center" style="gap: 10px;">
+                    <button type="button" style="margin-right: 10px;" class="btn btn-secondary"
+                        data-bs-dismiss="modal">Batal
+                    </button>
+                    <button type='button' onclick="deletionItemConfirmed()" style="margin-left: 10px;"
+                        class="btn btn-primary">Hapus
+                    </button>`
+                </div>
+            </div>
+        </div>
+        <script>
+            function deletionItemConfirmed() {
+                var form = document.getElementById('deletion-value-form');
+                form.submit();
+            }
+        </script>
+    </div>
 @endsection

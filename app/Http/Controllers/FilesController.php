@@ -55,7 +55,7 @@ class FilesController extends Controller
         $user = auth()->user();
         $file = $request->file('file');
 		$tujuan_upload = 'assets/img/users';
-        $file_name = (auth()->user()->email).'.png';
+        $file_name = (auth()->user()->email).'.'.$file->getClientOriginalName();
 		$path = $file->move($tujuan_upload,$file_name);
         Files::where('email', '=', auth()->user()->email)->update(['path' => $path]);
         User::where('email', '=', auth()->user()->email)->update(['foto_profile' => $path]);

@@ -27,6 +27,7 @@ Route::get('/dashboard', function () {
     return view('content.main', ['user' => $user]);
 })->name('dashboard');
 
+
 Route::get('/user', function () {
     $user = auth()->user();
     return view('content.users-profile', ['user' => $user]);
@@ -47,6 +48,8 @@ Route::get('/NiceAdmin/{para}', function ($para) {
 
 Route::get('/items', [ItemsController::class, 'show'])->name('items');
 Route::get('/tambah-item',[ItemsController::class,'tambah'])->name('tambah-item');
+Route::post('/items/create', [ItemsController::class, 'store'])->name('create');
+Route::post('/items/delete', [ItemsController::class, 'delete'])->name('delete');
 // Route::get('/items?page={page}', [ItemsController::class, 'show'])->name('items');
 
 
