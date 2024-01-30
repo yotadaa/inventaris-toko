@@ -71,7 +71,7 @@ class ItemsController extends Controller
         $user = auth()->user();
         $itemToDelete = Items::whereRaw('email = ? AND kode = ?', [$request->confirmedEmail, $request->confirmedKode])->first();
         $itemToDelete->delete();
-        return response()->json(['success' => true, 'message' => 'barang berhasil dihapus']);
+        return redirect()->route('items');
     }
 
 }

@@ -82,6 +82,9 @@ Batch 3
                     <li>Layout tampilkan item</li>
                     <li>Menampilkan seluruh items</li>
                     <li>Modal untuk detail item</li>
+                    <li>Tambah Item</li>
+                    <li>Hapus Item</li>
+                    <li>Detail Item</li>
                 </ul>
             </dd>
         </dl>
@@ -92,6 +95,10 @@ Batch 3
         <ul>
             <li>Lakukan transaksi satuan (1 item per transaksi)</li>
             <li>Buat kluster transaksi (banyak item per transaksi)</li>
+        </ul>
+        Karekteristik:
+        <ul>
+            <li>Transaksi (Penjualan dan Belanja) tidak bisa dihapus dan diubah</li>
         </ul>
     </dd>
 </dl>

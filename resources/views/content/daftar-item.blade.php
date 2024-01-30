@@ -252,7 +252,8 @@
             });
         }
     </script>
-    <form id='deletion-value-form' action='{{ route('delete') }}' style="display: none;">
+    <form method='post' id='deletion-value-form' action='{{ route('delete') }}' style="display: none;">
+        @csrf @method('post')
         <input id='confirmed-email' name='confirmedEmail' value='' type='email'>
         <input id='confirmed-kode' name='confirmedKode' value='' type='number'>
     </form>
