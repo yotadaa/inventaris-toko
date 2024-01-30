@@ -103,6 +103,19 @@ Batch 3
     </dd>
 </dl>
 
+## Todo
+
+<h4> Kelola
+- [ ] Edit item
+- [ ] Menu Catat Transaksi (Satuan, Grup)
+- [ ] Menu Catat Perbelanjaan
+- [ ] Riwayat Transaksi
+
+<h4> Analisis </h4>
+- [ ]chart transaksi
+
+<h4>Member</h4>
+- [ ]Kelola anggota (Tambah, Ubah, Hapus, Role)
 
 ## Guide
 
