@@ -54,9 +54,13 @@
                                             @if ($user)
                                                 <img id='setting-profile' src="{{ $user->foto_profile }}" alt="Profile">
                                             @endif
+                                            <div class="" id='error-file-type' style='display: none;'>
+                                                <h3 class="btn badge bg-danger">Format file tidak didukung</h3>
+                                            </div>
+
                                             <div class="pt-2" style="display: flex; align-items: center; gap: 5px;">
                                                 <input type="file" name='file' id="file"
-                                                    onchange="changeUpdateVisibility()" class="btn btn-primary btn-sm"
+                                                    onchange="changeUpdateVisibility(event)" class="btn btn-primary btn-sm"
                                                     title="Upload new profile image">
                                                 {{-- <input type="file" name="file"> --}}
                                                 <button type='button' data-bs-toggle="modal"
@@ -154,6 +158,7 @@
             </div>
         </div>
     </section>
+    @include('content.filter-file')
     <div class="modal fade" id="deletePhotoConfirmation" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content p-3">
@@ -177,10 +182,19 @@
         </script>
     </div>
     <script>
-        function changeUpdateVisibility() {
+        function changeUpdateVisibility(event) {
             var updateButton = document.querySelector('#updateButton');
-            updateButton.style.display = 'flex';
-            updateButton.style.width = '33px';
+            document.querySelector('#error-file-type').style.display = 'none'
+            if (handleFileSelect(event)) {
+                document.getElementById('file').value = ''
+                updateButton.style.display = 'none';
+                document.querySelector('#error-file-type').style.display = 'block'
+            } else {
+                previewBarang('file', 'setting-profile')
+                document.querySelector('#error-file-type').style.display = 'none'
+                updateButton.style.display = 'flex';
+                updateButton.style.width = '33px';
+            }
             // console.log(updateButton.style.display)
         }
 
@@ -220,6 +234,7 @@
             })
         }
     </script>
+    @include('content.items.preview-script')
     <script>
         var current = document.querySelector("#user");
         current.classList.remove('collapsed');

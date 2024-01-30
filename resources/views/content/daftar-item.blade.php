@@ -97,7 +97,7 @@
             <div class="col-lg-12">
                 <div class="card" style='margin-top: 20px;'>
 
-                    <div class="card-body text-muted small" style='padding-top: 20px;'>
+                    <div class="card-body text-muted small overflow-auto" style='padding-top: 20px;'>
                         <!-- Table with stripped rows -->
                         <table class="table datatable table-borderless table-hover" style="width: 100%">
                             <thead>
@@ -114,8 +114,8 @@
                             </thead>
                             <tbody style="width: 100%">
                                 @foreach ($items as $item)
-                                    <tr style="width: 100%">
-                                        <td>{{ $item->kode }}</td>
+                                    <tr style="width: 100">
+                                        <td style='max-width: 100px;'>{{ $item->kode }}</td>
                                         {{-- <td>
                                             <img src="{{ $item->foto }}" width="30"
                                                 alt='preview-{{ $item->kode }}' />
@@ -134,9 +134,18 @@
                                                 data-bs-target="#detail-modal"
                                                 onclick="openDetailModal({{ $item }})"><i
                                                     class="bi bi-info-circle"></i></button>
-                                            <button style="scale: 0.8" title='Edit' type='button'
-                                                class="btn shadow border btn-warning"><i
-                                                    class="bi bi-pencil-square"></i></button>
+                                            <form id='view-edit-form' method='post' action='{{ route('edit') }}'>
+                                                @csrf @method('post')
+                                                <input style="display: none" type='numeric' name='kode'
+                                                    value='{{ $item->kode }}'>
+                                                <input style="display: none" type='email' name='email'
+                                                    value='{{ $item->email }}'>
+                                                <button type="submit" style="scale: 0.8" title='Edit'
+                                                    href='{{ route('edit', $item) }}'
+                                                    class="btn shadow border btn-warning"><i
+                                                        class="bi bi-pencil-square"></i>
+                                                </button>
+                                            </form>
                                             <button style="scale: 0.8" title='Hapus' type='button'
                                                 class="btn shadow border btn-danger" data-bs-toggle="modal"
                                                 data-bs-target="#deleteItemConfirmation"
@@ -205,7 +214,7 @@
                         </div>
                     </form>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer" style="display: flex; justify-content: start; align-items: center">
                     <button type="button" class="btn btn-warning"><i class="bi bi-pencil-square"></i>Edit</button>
                     <button type="button" class="btn btn-danger"><i class="bi bi-trash"></i>Hapus</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -216,6 +225,7 @@
     @include('content.items.tambah-modal')
     <script>
         document.querySelector('#components-nav').classList.remove('collapse');
+        document.querySelector('#components-nav').classList.add('show');
         document.querySelector('#kelola-list').classList.remove('collapsed');
         document.querySelector('#daftar-item').classList.add("active");
         var cats = ['Makanan', 'Minuman', 'Rokok', 'Lainnya'];
@@ -227,6 +237,7 @@
             document.querySelector('#hrg-awl-brg').value = item.harga_awal;
             document.querySelector('#hrg-jual-brg').value = item.harga_jual;
             document.querySelector('#desk-brg').value = item.desk;
+            document.querySelector('#stok-brg').value = item.stok;
         }
 
         function changeCategory(cat) {

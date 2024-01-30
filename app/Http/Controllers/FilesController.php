@@ -6,11 +6,7 @@ use App\Models\Files;
 use App\Models\User;
 use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
-use Spatie\ImageOptimizer\Image;
-use Spatie\ImageOptimizer\OptimizerChain;
-use Spatie\ImageOptimizer\OptimizerChainFactory;
-use Spatie\ImageOptimizer\Optimizers\Pngquant;
-
+use Intervention\Image\Facades\Image;
 
 class FilesController extends Controller
 {
@@ -24,28 +20,8 @@ class FilesController extends Controller
 
     public function store(Request $request)
     {
-        // $this->validate($request, [
-		// 	'file' => 'required'
-		// ]);
-
-		// menyimpan data file yang diupload ke variabel $file
 		$file = $request->file('file');
-        return response()->json(['status' => true,'message' => 'File uploaded', 'path' => $file]);
-        // Session::flash('file', $request->file);
-        // $path = $this->UploadFile($request->file('file'), 'Products');//use the method in the trait
-        // Files::create([
-        //     'path' => $path
-        // ]);
-        // return response()->json(['status' => true,'message' => 'File uploaded', 'path' => $path]);
-        // if ($request->hasFile('file')) {
-        //     return response()->json(['status' => true,'message' => 'File uploaded']);
-        //     $path = $this->UploadFile($request->file('file'), 'Products');//use the method in the trait
-        //     Files::create([
-        //         'path' => $path
-        //     ]);
-        //     return response()->json(['status' => true,'message' => 'File uploaded', 'path' => $path]);
-        // }
-        // return response()->json(['status' => false, 'message' => 'Upload failed', 'file' => $request->all()]);
+        return response()->json(['status' => true,'message' => 'File uploaded', 'path' => $file]);;
     }
 
     public function updatePhoto(Request $request) {
@@ -53,19 +29,20 @@ class FilesController extends Controller
 			'file' => 'required'
 		]);
         $user = auth()->user();
-        $file = $request->file('file');
+        $original = $request->file('file');
+        $file = Image::make($original)
+        ->resize(800, 600, function ($constraint) {
+            $constraint->aspectRatio();
+            $constraint->upsize();
+        })
+        ->orientate()
+        ->encode($original->getClientOriginalExtension(), 40);
 		$tujuan_upload = 'assets/img/users';
-        $file_name = (auth()->user()->email).'.'.$file->getClientOriginalName();
-		$path = $file->move($tujuan_upload,$file_name);
+        $file_name = (auth()->user()->email).'.'.$original->getClientOriginalExtension();
+		$path = 'assets/img/users/'.$file_name;//$file->move($tujuan_upload,$file_name);
+        $file->save(public_path($path));
         Files::where('email', '=', auth()->user()->email)->update(['path' => $path]);
         User::where('email', '=', auth()->user()->email)->update(['foto_profile' => $path]);
-
-        $optimizer = new OptimizerChain();
-        $optimizer->setTimeout(10);
-        $optimizer->addOptimizer((new Pngquant([
-            '--all-progressive',
-        ]))->setBinaryPath($path));
-
         return redirect()->route('user');
     }
 

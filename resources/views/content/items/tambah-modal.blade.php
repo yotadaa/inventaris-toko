@@ -12,14 +12,17 @@
                     enctype="multipart/form-data">
                     @csrf
                     {{ csrf_field() }}
-                    <div style="display: flex; gap: 20px; width: 100%;">
+                    <div class="d-block d-md-flex" style="gap: 20px; width: 100%;">
                         <div>
                             <img id='preview-brg' src='/assets/img/product-3.jpg' width='200'
                                 class="profile-container-small">
+                            <div class="" id='error-file-type' style='display: none;'>
+                                <h3 class="btn badge bg-danger">Format file tidak didukung</h3>
+                            </div>
                             <div style="display: flex; gap: 10px;" class="mt-2">
                                 <label class="btn btn-primary btn-sm" for='file'><i
                                         class="bi bi-box-arrow-up"></i>Upload</label>
-                                <input onchange="previewBarang()" style="display: none" type="file" name='file'
+                                <input onchange="checkState(event)" style="display: none" type="file" name='file'
                                     id="file" onchange="changeUpdateVisibility()" class="btn btn-primary btn-sm"
                                     title="Upload new profile image">
                             </div>
@@ -39,7 +42,7 @@
                                     data-bs-toggle="dropdown">
 
                                     <i class="d-md-none d-block bi bi-funnel-fill"></i>
-                                    <span class="d-none d-md-block dropdown-toggle">
+                                    <span class=dropdown-toggle">
                                         Kategori
                                     </span>
                                 </button>
@@ -82,13 +85,24 @@
                             </div>
                             <div class="text-right mt-3">
                                 <button type="submit" class="btn btn-primary">Submit</button>
-                                <button type="reset" class="btn btn-secondary">Reset</button>
+                                <button type="reset" class="btn btn-danger">Reset</button>
+                                <button type="button" class="btn btn-secondary"
+                                    data-bs-dismiss="modal">Kembali</button>
                             </div>
                         </div>
                     </div>
                 </form>
                 <script>
                     var cats = ['Makanan', 'Minuman', 'Rokok', 'Lainnya'];
+
+                    function checkState(event) {
+                        if (handleFileSelect(event)) {
+                            document.querySelector('#error-file-type').style.display = 'block'
+                        } else {
+                            document.querySelector('#error-file-type').style.display = 'none'
+                            previewBarang('file', 'preview-brg')
+                        }
+                    }
 
                     function changeCategory(cat) {
                         document.querySelector('#choose-category').innerHTML = `
@@ -99,22 +113,9 @@
                         document.querySelector('#kategori-brg').value = cat;
                         console.log(document.querySelector('#kategori-brg').value)
                     }
-
-                    function previewBarang() {
-                        var fileInput = document.getElementById('file');
-                        var previewImage = document.getElementById('preview-brg');
-
-                        if (fileInput.files && fileInput.files[0]) {
-                            var reader = new FileReader();
-
-                            reader.onload = function(e) {
-                                previewImage.src = e.target.result;
-                            };
-
-                            reader.readAsDataURL(fileInput.files[0]);
-                        }
-                    }
                 </script>
+                @include('content.items.preview-script')
+                @include('content.filter-file')
             </div>
         </div>
     </div>

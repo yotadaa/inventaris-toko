@@ -50,6 +50,8 @@ Route::get('/items', [ItemsController::class, 'show'])->name('items');
 Route::get('/tambah-item',[ItemsController::class,'tambah'])->name('tambah-item');
 Route::post('/items/create', [ItemsController::class, 'store'])->name('create');
 Route::post('/items/delete', [ItemsController::class, 'delete'])->name('delete');
+Route::post('/items/edit', [ItemsController::class, 'editView'])->name('edit');
+Route::post('/items/update', [ItemsController::class, 'update'])->name('update');
 // Route::get('/items?page={page}', [ItemsController::class, 'show'])->name('items');
 
 
