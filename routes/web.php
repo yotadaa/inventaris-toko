@@ -46,6 +46,7 @@ Route::get('/NiceAdmin/{para}', function ($para) {
 });
 
 Route::get('/items', [ItemsController::class, 'show'])->name('items');
+Route::get('/tambah-item',[ItemsController::class,'tambah'])->name('tambah-item');
 // Route::get('/items?page={page}', [ItemsController::class, 'show'])->name('items');
 
 

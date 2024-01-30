@@ -30,9 +30,10 @@
                         </span>
                     </h5>
                     <div style='display: flex; gap: 10px'>
-                        <button style="display: flex; align-items: center; gap: 5px;" type="button" class="btn btn-primary">
+                        <a href='{{ route('tambah-item') }}' style="display: flex; align-items: center; gap: 5px;"
+                            type="button" class="btn btn-primary">
                             <strong><i class="bi bi-box-arrow-in-down"></i></strong>
-                            Tambah</button>
+                            Tambah</a>
                         <div class="dropdown">
 
                             <a class=" btn btn-outline-primary d-flex align-items-center" data-bs-toggle="dropdown">

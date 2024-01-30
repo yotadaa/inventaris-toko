@@ -79,8 +79,9 @@
                                         <h5 class="card-title text-center pb-0 fs-4">Login</h5>
                                     </div>
 
-                                    <form id='login-form' class="row g-3 needs-validation" novalidate>
-
+                                    <form onsubmit="submitForm(event)" id='login-form' class="row g-3 needs-validation"
+                                        novalidate>
+                                        @csrf
                                         <div class="col-12">
                                             <label for="email" class="form-label">Email</label>
                                             <div class="input-group has-validation">
@@ -118,7 +119,9 @@
                                             </div>
                                         </div>
                                         <div class="col-12">
-                                            <button type='button' class="btn btn-primary w-100" onclick="submitForm()"
+                                            <button type='button' class="btn btn-primary w-100"
+                                                onclick="submitForm(event)" type="button">Login</button>
+                                            <button style="display: none" type='submit' class="btn btn-primary w-100"
                                                 type="button">Login</button>
                                         </div>
                                         <div class="col-12">
@@ -144,6 +147,22 @@
             class="bi bi-arrow-up-short"></i></a>
 
     <script>
+        document.querySelector('#email').value = localStorage.getItem('remember');
+        document.querySelector('#rememberMe').checked = localStorage.getItem('remember-state');
+
+        function getCookie(cookie_name) {
+            var cookies = document.cookie.split('; ');
+            for (var i = 0; i < cookies.length; i++) {
+                var parts = cookies[i].split('=');
+                if (parts[0] === cookie_name) {
+                    return parts[1];
+                }
+            }
+            return null;
+        }
+
+        // console.log(getCookie('remember'));
+
         function changeVisibility(ids) {
             const field = document.querySelector(`#${ids}`);
             if (field.type === 'password') {
@@ -155,7 +174,8 @@
     </script>
 
     <script>
-        function submitForm() {
+        function submitForm(e) {
+            e.preventDefault();
             document.querySelector('#loading-notification').style.display = 'block'
             document.querySelector('#error-notification').style.display = 'none'
             $.ajax({
@@ -163,10 +183,16 @@
                 type: 'POST',
                 data: $('#login-form').serialize(),
                 success: function(res) {
-                    console.log(res);
+                    var remember = document.querySelector('#rememberMe');
+                    console.log(res)
+                    if (remember.checked) {
+                        localStorage.setItem('remember', document.querySelector('#email').value);
+                        localStorage.setItem('remember-state', remember.checked);
+                    }
                     if (!res.status) {
-                        document.querySelector('#loading-notification').style.display = 'none'
-                        document.querySelector('#error-notification').style.display = 'block'
+                        document.querySelector('#loading-notification').style.display = 'none';
+                        document.querySelector('#error-notification').style.display = 'block';
+
                     } else {
                         window.location.href = '/';
                     }

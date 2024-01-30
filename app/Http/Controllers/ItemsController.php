@@ -16,4 +16,12 @@ class ItemsController extends Controller
         return view('content.daftar-item', ['user' => auth()->user(), 'items' => $items]);
     }
 
+    public function tambah() {
+        if (!auth()->check()) {
+            return redirect()->route('login');
+        }
+        $user = auth()->user();
+        return view('content/items/tambah', ['user' => $user]);
+    }
+
 }

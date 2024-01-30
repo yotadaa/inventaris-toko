@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Cookie;
 
 class SessionController extends Controller
 {
@@ -25,9 +26,12 @@ class SessionController extends Controller
         ];
 
         if (Auth::attempt($infoLogin)) {
+            if ($request->remember) {
+                Cookie::make('remember', $request->email, 525600);
+            }
             return response()->json(['status' => true]);
         } else {
-            return response()->json(['status' => false, 'value' => 'email dan password tidak valid', 'get' => $infoLogin]);
+            return response()->json(['status' => false, 'value' => 'email dan password tidak valid', 'get' => $infoLogin, 'remember' => $request->remember]);
         }
     }
 
