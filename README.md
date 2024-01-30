@@ -21,17 +21,17 @@ Batch 3
 
 ## Todo
 
-<h4> Kelola
+**Kelola**
 - [ ] Edit item
 - [ ] Menu Catat Transaksi (Satuan, Grup)
 - [ ] Menu Catat Perbelanjaan
 - [ ] Riwayat Transaksi
 
-<h4> Analisis </h4>
-- [ ]chart transaksi
+**Analisis </h4>**
+- [ ] chart transaksi
 
-<h4>Member</h4>
-- [ ]Kelola anggota (Tambah, Ubah, Hapus, Role)
+**Member**
+- [ ] Kelola anggota (Tambah, Ubah, Hapus, Role)
 
 ## Progress
 
