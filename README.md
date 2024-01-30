@@ -18,12 +18,28 @@ Batch 3
 - **Mencatat transaksi Item**
 - **Login dan Registrasi**
 
+
+## Todo
+
+<h4> Kelola
+- [ ] Edit item
+- [ ] Menu Catat Transaksi (Satuan, Grup)
+- [ ] Menu Catat Perbelanjaan
+- [ ] Riwayat Transaksi
+
+<h4> Analisis </h4>
+- [ ]chart transaksi
+
+<h4>Member</h4>
+- [ ]Kelola anggota (Tambah, Ubah, Hapus, Role)
+
 ## Progress
 
 - **Users**
 - [x] Membuat tabel
 - [x] Register, Login, dan Logout
 - [x] Mengubah dan menghapus foto profil
+
 <dl>
     <dt><h3>Authentication</h3></dt>
     <dd>
@@ -102,20 +118,6 @@ Batch 3
         </ul>
     </dd>
 </dl>
-
-## Todo
-
-<h4> Kelola
-- [ ] Edit item
-- [ ] Menu Catat Transaksi (Satuan, Grup)
-- [ ] Menu Catat Perbelanjaan
-- [ ] Riwayat Transaksi
-
-<h4> Analisis </h4>
-- [ ]chart transaksi
-
-<h4>Member</h4>
-- [ ]Kelola anggota (Tambah, Ubah, Hapus, Role)
 
 ## Guide
 
