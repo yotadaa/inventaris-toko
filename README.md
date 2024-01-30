@@ -22,7 +22,7 @@ Batch 3
 ## Todo
 
 **Kelola**
-- [ ] Edit item
+- [x] Edit item
 - [ ] Menu Catat Transaksi (Satuan, Grup)
 - [ ] Menu Catat Perbelanjaan
 - [ ] Riwayat Transaksi
@@ -31,7 +31,9 @@ Batch 3
 - [ ] chart transaksi
 
 **Member**
-- [ ] Kelola anggota (Tambah, Ubah, Hapus, Role)
+- [ ] Tambah
+- [ ] Ubah
+- [ ] Hapus
 
 ## Progress
 
