@@ -40,7 +40,7 @@
                                     <div class="ps-3" style='justify-content: start;'>
                                         <div class="">
                                             @if ($transactions->where('created_at', '>=', now()->startOfDay())->where('created_at', '<=', now()->endOfDay())->count() == 0)
-                                                <div style="font-size: 18px; font-weight: 900">Belum ada transaksi</div>
+                                                <div style="font-size: 18px; font-weight: 600">Belum ada transaksi</div>
                                             @else
                                                 <h6>
                                                     {{ $transactions->where('created_at', '>=', now()->startOfDay())->where('created_at', '<=', now()->endOfDay())->count() }}

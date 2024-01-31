@@ -21,7 +21,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="components-alerts.html">
+                    <a id='transaksi' href="{{ route('transaksi') }}">
                         <i class="bi bi-circle"></i><span>Catat Transaksi</span>
                     </a>
                 </li>

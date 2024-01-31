@@ -4,6 +4,7 @@ use App\Http\Controllers\ApiController;
 use App\Http\Controllers\FilesController;
 use App\Http\Controllers\ItemsController;
 use App\Http\Controllers\SessionController;
+use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -78,3 +79,6 @@ Route::middleware(['protect.assets'])->group(function () {
     })->where('any', '.*');
 });
 
+
+
+Route::get('/transaksi', [TransactionController::class, 'riwayat'])->name('transaksi');
