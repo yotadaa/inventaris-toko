@@ -82,3 +82,4 @@ Route::middleware(['protect.assets'])->group(function () {
 
 
 Route::get('/transaksi', [TransactionController::class, 'riwayat'])->name('transaksi');
+Route::post('/transaksi/add', [TransactionController::class, 'add']);

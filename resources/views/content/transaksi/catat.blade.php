@@ -16,6 +16,7 @@
     </style>
 @endsection
 @section('body')
+    @include('no-reload.body-up')
     <?php
     $cat = ['Makanan', 'Minuman', 'Rokok', 'Lainnya'];
     ?>

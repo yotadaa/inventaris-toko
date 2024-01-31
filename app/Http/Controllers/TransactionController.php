@@ -91,4 +91,20 @@ class TransactionController extends Controller
         echo $period;
         //return view('content.transaksi.catat', ['user'=>$user, 'transactions' => $filteredResults->where('email', $user->email), 'periode' => $periode]);
     }
+
+    public function add(Request $request) {
+        if (!auth()->check()) {
+            return redirect()->route('login');
+        }
+        $user = auth()->user();
+        $items = $request->input('transactionItems');
+        foreach ($items as $item) {
+            Transaction::create([
+                'id_brg' => $item['kode'],
+                'qty' => $item['count'],
+                'email' => user->email
+            ]);
+        }
+        return response()->json(['succcess'=> true, 'items' => $items]);
+    }
 }

@@ -1,6 +1,6 @@
-<div class="modal fade shadow " id="tambah-modal" tabindex="-1" data-bs-backdrop="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content">
+<div class="modal fade shadow shadow" id="tambah-modal" tabindex="-1" data-bs-backdrop="false">
+    <div class="modal-dialog modal-dialog-centered modal-lg shadow">
+        <div class="modal-content shadow">
             <div class="modal-header">
                 <h5 style="display: flex; align-items: center; gap: 10px;" class="modal-title"><i
                         class="bi bi-info-circle"></i>
@@ -13,8 +13,8 @@
                         <div class="search-bar" style='display: flex; width: 100%; margin-bottom: 10px;'>
                             <div class="search-form d-flex align-items-center" style='width: 100%'>
                                 <input style='width: 100%; padding: 5px;' type="text" name="query"
-                                    placeholder="Cari nama, kode, atau kategori" id='search-item'
-                                    title="Enter search keyword" oninput="searchBar(value)">
+                                    placeholder="Cari nama, kode, atau kategori" id='search-item' title="Cari Barang"
+                                    oninput="searchBar(value)">
                             </div>
                         </div>
                         <div id='items-in' class="card" style="border: 1px solid darkgray">
@@ -31,7 +31,8 @@
                                     </thead>
                                     <tbody style="width: 100%">
                                         @foreach ($items as $item)
-                                            <tr style="width: 100;" id='item{{ $item->kode }}'>
+                                            <tr onclick="chooseItem({{ $item }})" style="width: 100;"
+                                                id='item{{ $item->kode }}'>
                                                 <td style='max-width: 100px; align-items: center'>
                                                     {{ $item->kode }}</td>
                                                 {{-- <td>
@@ -43,14 +44,23 @@
                                                 <td style='height: 100%'>
                                                     <button style="scale: 0.8; font-weight: 900" type='button'
                                                         title='add-item' class="btn btn-warning"
-                                                        onclick="addItem('{{ $item->kode }}')">
-                                                        <i id='icon{{$item->kode}}' class="bi bi-plus-lg" style="font-weight: 900"></i>
+                                                        onclick="addItem({{ $item->kode }})">
+                                                        <i id='icon{{ $item->kode }}' class="bi bi-plus-lg"
+                                                            style="font-weight: 900"></i>
                                                     </button>
                                                 </td>
                                             </tr>
                                         @endforeach
                                     </tbody>
                                 </table>
+                            </div>
+                        </div>
+                        <h6 id='item-value-title'>Silahkan Pilih Item</h6>
+                        <div class="search-bar" style='display: flex; width: 100%; margin-bottom: 10px;'>
+                            <div class="search-form d-flex align-items-center" style='width: 100%'>
+                                <input style='width: 100%; padding: 5px;' type="number" name="query"
+                                    placeholder="Jumlah Barang" id='count-item' title="Jumlah Barang"
+                                    oninput="changeCount(value)">
                             </div>
                         </div>
                     </div>
@@ -61,7 +71,8 @@
 
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary">Save changes</button>
+                                <button onclick="submitTransaction()" type="button" class="btn btn-primary"
+                                    data-bs-toggle="modal" data-bs-target="#konfirmasi-catat">Catat!</button>
                                 <button onclick="" type="reset" class="btn btn-danger">Reset</button>
                             </div>
                         </form>
@@ -70,6 +81,54 @@
                 <script>
                     var cats = ['Makanan', 'Minuman', 'Rokok', 'Lainnya'];
                     var kodes = [];
+                    var currentKode = -1;
+
+                    function changeCount(value) {
+                        var indexToUpdate = kodes.findIndex(function(item) {
+                            return item.kode === currentKode;
+                        });
+                        if (indexToUpdate !== -1) {
+                            kodes[indexToUpdate].count = value;
+                        } else {
+                            return;
+                        }
+                    }
+
+                    function chooseItem(item) {
+                        var icon = document.querySelector(`#icon${item.kode}`)
+                        if (icon.classList.contains('bi-plus-lg')) {
+                            return;
+                        }
+                        currentKode = item.kode;
+                        var indexToUpdate = kodes.findIndex(function(each) {
+                            return each.kode === item.kode;
+                        });
+                        document.querySelector('#count-item').value = kodes[indexToUpdate].count
+                        document.querySelector('#item-value-title').innerHTML = `
+                        Input Jumlah Barang untuk <span class='text-danger'>${item.nama}</span>
+                        `;
+                    }
+
+                    function submitTransaction() {
+                        if (kodes.length === 0) {
+                            return;
+                        }
+                        $.ajax({
+                            url: '/transaksi/add',
+                            type: 'POST',
+                            data: {
+                                transactionItems: kodes
+                            },
+                            success: function(res) {
+                                console.log(res)
+                                window.location.reload();
+                            },
+                            error: function(error) {
+                                console.error(error);
+                                // Handle errors here
+                            }
+                        });
+                    }
 
                     function resetForm(event) {
                         event.preventDefault();
@@ -103,10 +162,25 @@
                         var icon = document.querySelector(`#icon${kode}`)
                         if (icon.classList.contains('bi-plus-lg')) {
                             icon.classList.remove('bi-plus-lg')
-                            td[3].textContent = '-'
+                            icon.classList.add('bi-trash')
+
+                            var newItem = {
+                                kode: kode,
+                                count: 0
+                            }
+                            kodes = [...kodes, newItem]
+                            console.log(kodes);
+
                         } else {
-icon.classList.remove('bi-plus-lg')
-                            td[3].textContent = '-'
+                            currentKode = -1
+                            document.querySelector('#count-item').value = 0;
+                            document.querySelector('#item-value-title').textContent = `Silahkan Pilih Item`
+                            icon.classList.add('bi-plus-lg')
+                            icon.classList.remove('bi-trash')
+
+                            kodes = kodes.filter(function(item) {
+                                return item.kode !== kode;
+                            });
                         }
                     }
 
@@ -130,4 +204,22 @@ icon.classList.remove('bi-plus-lg')
             </div>
         </div>
     </div>
+</div>
+<div class="modal fade shadow" id="konfirmasi-catat" tabindex="-1" data-bs-backdrop="false">
+    <div class="modal-dialog modal-dialog-centered ">
+        <div class="modal-content p-3 ">
+            <div class="modal-body text-center">
+                Konfirmasi catat transaksi
+            </div>
+            <div class="text-center" style="gap: 10px;">
+                <button type="button" style="margin-right: 10px;" class="btn btn-secondary" data-bs-toggle="modal"
+                    data-bs-target="#tambah-modal">Batal
+                </button>
+                <button type='button' onclick="submitTransaction()" style="margin-left: 10px;"
+                    class="btn btn-primary">Catat
+                </button>`
+            </div>
+        </div>
+    </div>
+    <script></script>
 </div>
