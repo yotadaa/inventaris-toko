@@ -55,10 +55,17 @@
                                             Tambah
                                         </span> --}}
                                         <span class="text-muted small pt-2 ps-1">
-                                            {{ $transactions->where('created_at', '>=', now()->startOfDay())->where('created_at', '<=', now()->endOfDay())->sortByDesc(function ($transaction) {
-                                                    return \Carbon\Carbon::parse($transaction->created_at);
-                                                })->first()->qty }}
-                                            Item transaksi terakhir
+                                            @if (
+                                                $transactions->where('created_at', '>=', now()->startOfDay())->where('created_at', '<=', now()->endOfDay())->sortByDesc(function ($transaction) {
+                                                        return \Carbon\Carbon::parse($transaction->created_at);
+                                                    })->first())
+                                                {{ $transactions->where('created_at', '>=', now()->startOfDay())->where('created_at', '<=', now()->endOfDay())->sortByDesc(function ($transaction) {
+                                                        return \Carbon\Carbon::parse($transaction->created_at);
+                                                    })->first()->qty }}
+                                                Item transaksi terakhir
+                                            @else
+                                                Belum ada transaksi
+                                            @endif
                                         </span>
 
                                     </div>

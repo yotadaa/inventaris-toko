@@ -1,5 +1,8 @@
 @php
-    $popularItems = $transactions->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()])->sortByDesc('qty');
+    $popularItems = $transactions
+        ->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()])
+        ->sortByDesc('qty')
+        ->take(5);
 @endphp
 
 <div class="col-12">
@@ -11,7 +14,7 @@
         <div class="card-body pb-0">
             <h5 class="card-title">Item Terpopuler Minggu Ini</h5>
 
-            <table id='item-container' class="table datatable table-hover" style="width: 100%">
+            <table id='item-container' class="table table-hover" style="width: 100%">
                 <thead>
                     <tr>
                         <th>Preview</th>
