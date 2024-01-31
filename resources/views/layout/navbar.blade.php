@@ -22,7 +22,7 @@
                 </li>
                 <li>
                     <a id='transaksi' href="{{ route('transaksi') }}">
-                        <i class="bi bi-circle"></i><span>Catat Transaksi</span>
+                        <i class="bi bi-circle"></i><span>Transaksi</span>
                     </a>
                 </li>
                 <li>
@@ -30,20 +30,20 @@
                         <i class="bi bi-circle"></i><span>Catat Perbelanjaan</span>
                     </a>
                 </li>
-                <li>
+                {{-- <li>
                     <a href="components-alerts.html">
                         <i class="bi bi-circle"></i><span>Riwayat Transaksi</span>
                     </a>
-                </li>
+                </li> --}}
             </ul>
         </li><!-- End Components Nav -->
 
-        <li class="nav-item">
+        {{-- <li class="nav-item">
             <a class="nav-link collapsed" id='analisis' href="{{ route('user') }}">
                 <i class="bi bi-bar-chart-line"></i>
                 <span>Analisis</span>
             </a>
-        </li>
+        </li> --}}
 
         <li class="nav-item">
             <a class="nav-link collapsed" id='user' href="{{ route('user') }}">

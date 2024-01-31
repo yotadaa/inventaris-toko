@@ -1,8 +1,24 @@
+@php
+    $report = $transactions->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()])->sortBy('created_at');
+    $pendapatan = $report->map(function ($item) {
+        return $item->qty * $item->harga_jual;
+    });
+    $barang = $report->map(function ($item) {
+        return $item->qty * $item->harga_jual - $item->qty * $item->harga_awal;
+    });
+
+@endphp
+
+<script>
+    console.log(@json($pendapatan))
+    console.log(@json($barang))
+</script>
+
 <div class="col-12">
     <div class="card">
 
         <div class="card-body">
-            <h5 class="card-title">Laporan Minggu Terakhir</span></h5>
+            <h5 class="card-title">Laporan Pendapatan Minggu Terakhir</span></h5>
 
             <!-- Line Chart -->
             <div id="reportsChart"></div>
@@ -11,15 +27,14 @@
                 document.addEventListener("DOMContentLoaded", () => {
                     new ApexCharts(document.querySelector("#reportsChart"), {
                         series: [{
-                            name: 'Sales',
-                            data: [31, 40, 28, 51, 42, 82, 56],
-                        }, {
-                            name: 'Revenue',
-                            data: [11, 32, 45, 32, 34, 52, 41]
-                        }, {
-                            name: 'Customers',
-                            data: [15, 11, 32, 18, 9, 24, 11]
-                        }],
+                                name: 'Pendapatan',
+                                data: @json($pendapatan)
+                            },
+                            {
+                                name: 'Barang',
+                                data: @json($barang)
+                            }
+                        ],
                         chart: {
                             height: 350,
                             type: 'area',
@@ -30,7 +45,7 @@
                         markers: {
                             size: 4
                         },
-                        colors: ['#4154f1', '#2eca6a', '#ff771d'],
+                        colors: ['#2eca6a', '#ff771d'],
                         fill: {
                             type: "gradient",
                             gradient: {
