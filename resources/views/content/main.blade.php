@@ -42,10 +42,10 @@
                                             @if ($transactions->where('created_at', '>=', now()->startOfDay())->where('created_at', '<=', now()->endOfDay())->count() == 0)
                                                 <div style="font-size: 18px; font-weight: 600">Belum ada transaksi</div>
                                             @else
-                                                <h6>
-                                                    {{ $transactions->where('created_at', '>=', now()->startOfDay())->where('created_at', '<=', now()->endOfDay())->count() }}
-                                                    Transaksi
-                                                </h6>
+                                                <div class="card-title" style="margin: 0; padding: 0">
+                                                    {{ $transactions->where('created_at', '>=', now()->startOfDay())->where('created_at', '<=', now()->endOfDay())->sum('qty') }}
+                                                    Terjual
+                                                </div>
                                             @endif
                                         </div>
 
@@ -54,8 +54,12 @@
                                             <strong><i class="bi bi-box-arrow-in-down"></i></strong>
                                             Tambah
                                         </span> --}}
-                                        <span class="text-success small pt-1 fw-bold">12%</span> <span
-                                            class="text-muted small pt-2 ps-1">increase</span>
+                                        <span class="text-muted small pt-2 ps-1">
+                                            {{ $transactions->where('created_at', '>=', now()->startOfDay())->where('created_at', '<=', now()->endOfDay())->sortByDesc(function ($transaction) {
+                                                    return \Carbon\Carbon::parse($transaction->created_at);
+                                                })->first()->qty }}
+                                            Item transaksi terakhir
+                                        </span>
 
                                     </div>
                                 </div>
@@ -76,9 +80,29 @@
                                         <i class="bi bi-currency-dollar"></i>
                                     </div>
                                     <div class="ps-3">
-                                        <h6>$3,264</h6>
-                                        <span class="text-success small pt-1 fw-bold">8%</span> <span
-                                            class="text-muted small pt-2 ps-1">increase</span>
+                                        <div class="card-title" style="margin: 0; padding: 0">
+                                            @php
+                                                $todaySum = 0;
+                                                foreach ($transactions as $item) {
+                                                    if (\Carbon\Carbon::parse($item->created_at)->isToday()) {
+                                                        $todaySum += $item->qty * $item->harga_jual;
+                                                    }
+                                                }
+                                            @endphp
+                                            RP {{ number_format($todaySum) }}
+                                        </div>
+                                        <span class="text-success small pt-1 fw-bold">
+                                            @php
+                                                $pendapatanBersih = 0;
+                                                foreach ($transactions as $item) {
+                                                    if (\Carbon\Carbon::parse($item->created_at)->isToday()) {
+                                                        $pendapatanBersih += $item->qty * $item->harga_jual - $item->qty * $item->harga_awal;
+                                                    }
+                                                }
+                                            @endphp
+
+                                            Rp {{ number_format($pendapatanBersih) }} Bersih
+                                        </span>
 
                                     </div>
                                 </div>

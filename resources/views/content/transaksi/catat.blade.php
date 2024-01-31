@@ -21,7 +21,14 @@
     $cat = ['Makanan', 'Minuman', 'Rokok', 'Lainnya'];
     ?>
     <script>
-        console.log('{{ $periode }}')
+        var currentItem = {
+            nama: '',
+            kode: '',
+            foto: '',
+            terjual: '',
+            pendapatan: '',
+            waktu: ''
+        }
     </script>
     <section class="section">
         <div class="" style="background-color: white; box-shadow: 0px 0px 10px rgba(0,0,0,0.2); border-radius: 10px">
@@ -52,11 +59,9 @@
                             <strong><i class="bi bi-box-arrow-in-down"></i></strong>
                             Tambah</a> --}}
                         <div class='d-flex' style="gap: 10px;">
-                            <button href='{{ route('tambah-item') }}' type='button'
-                                style="display:
-                            flex; align-items: center; gap: 5px;"
-                                type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                data-bs-target="#tambah-modal">
+                            <button type='button' style="display: flex; align-items: center; gap: 5px;" type="button"
+                                class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tambah-modal"
+                                onclick='resetAll()'>
                                 <strong><i class="bi
                                 bi-box-arrow-in-down"></i></strong>
                                 Tambah</button>
@@ -145,7 +150,7 @@
                                 @foreach ($transactions as $item)
                                     <tr style="width: 100" id='row{{ $item->kode }}'>
 
-                                        <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d-m-Y s:i:H') }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d-m-Y H:i:s') }}</td>
                                         <td style='max-width: 100px;'>{{ $item->kode }}</td>
                                         {{-- <td>
                                             <img src="{{ $item->foto }}" width="30"
@@ -159,32 +164,39 @@
                                                 </span><span>{{ $item->qty * $item->harga_jual }}</span></span>
                                         </td>
                                         <td class="data-numeric text-center">
-                                            <span class="text-success"
-                                                style="display: flex; justify-content: space-between; font-weight: 600"><span>Rp</span><span>{{ $item->qty * $item->harga_jual - $item->qty * $item->harga_awal }}</span></span>
+                                            <span class="badge bg-success "
+                                                style="display: flex; justify-content: space-between; font-weight: 600"><span
+                                                    style="color:white;">Rp</span><span
+                                                    style="color:white;">{{ $item->qty * $item->harga_jual - $item->qty * $item->harga_awal }}</span></span>
                                         </td>
-                                        <td class="d-block d-md-block d-lg-flex" style='height: 100%'>
-                                            {{-- <div style="scale: 0.8" class="btn-group" role="group"
-                                                aria-label="Basic mixed styles example"> --}}
-                                            <button style="scale: 0.8" title='Detail' type='button'
-                                                class="btn shadow border btn-secondary" data-bs-toggle="modal"
-                                                data-bs-target="#detail-modal"><i class="bi bi-info-circle"></i></button>
-                                            <form id='view-edit-form' method='post' action='{{ route('edit') }}'>
-                                                @csrf @method('post')
-                                                <input style="display: none" type='numeric' name='kode'
-                                                    value='{{ $item->kode }}'>
-                                                <input style="display: none" type='email' name='email'
-                                                    value='{{ $item->email }}'>
-                                                <button type="submit" style="scale: 0.8" title='Edit'
-                                                    class="btn shadow border btn-warning"><i
-                                                        class="bi bi-pencil-square"></i>
-                                                </button>
-                                            </form>
-                                            <button style="scale: 0.8" title='Hapus' type='button'
-                                                class="btn shadow border btn-danger" data-bs-toggle="modal"
-                                                data-bs-target="#deleteItemConfirmation"
-                                                onclick='deletionValue("{{ $item->kode }}","{{ $item->email }}")'><i
-                                                    class="bi bi-trash"></i></button>
-                                            {{-- </div> --}}
+                                        <td>
+                                            <div class="d-block d-md-block d-lg-flex"
+                                                style='height: 100%; align-items:center'>
+                                                {{-- <div style="scale: 0.8" class="btn-group" role="group"
+                                                    aria-label="Basic mixed styles example"> --}}
+                                                <button onclick="openDetailModal({{ json_encode($item) }})"
+                                                    style="scale: 0.8" title='Detail' type='button'
+                                                    class="btn shadow border btn-secondary shadow" data-bs-toggle="modal"
+                                                    data-bs-target="#detail-modal"><i
+                                                        class="bi bi-info-circle"></i></button>
+                                                {{-- <form id='view-edit-form' method='post' action='{{ route('edit') }}'>
+                                                    @csrf @method('post')
+                                                    <input style="display: none" type='numeric' name='kode'
+                                                        value='{{ $item->kode }}'>
+                                                    <input style="display: none" type='email' name='email'
+                                                        value='{{ $item->email }}'>
+                                                    <button type="submit" style="scale: 0.8" title='Edit'
+                                                        class="btn shadow border btn-warning"><i
+                                                            class="bi bi-pencil-square"></i>
+                                                    </button>
+                                                </form>
+                                                <button style="scale: 0.8" title='Hapus' type='button'
+                                                    class="btn shadow border btn-danger" data-bs-toggle="modal"
+                                                    data-bs-target="#deleteItemConfirmation"
+                                                    onclick='deletionValue("{{ $item->kode }}","{{ $item->email }}")'><i
+                                                        class="bi bi-trash"></i></button> --}}
+                                                {{-- </div> --}}
+                                            </div>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -213,8 +225,12 @@
                                 class="shadow">
                         </div>
 
-                        <div class="d-block d-md-flex" style="width: 100%;flex-direction: row; gap: 10px;">
+                        <div class="d-block" style="width: 100%;flex-direction: row; gap: 10px;">
                             <div style="width: 100%">
+                                <div class="col-12">
+                                    <label class="form-label">Waktu</label>
+                                    <input disabled='true' type="text" class="form-control" id="waktu-brg">
+                                </div>
                                 <div class="col-12">
                                     <label class="form-label">Nama Barang</label>
                                     <input disabled='true' type="text" class="form-control" id="nama-brg">
@@ -223,25 +239,17 @@
                                     <label class="form-label">Kategori</label>
                                     <input disabled='true' type="text" class="form-control" id="kategori-brg">
                                 </div>
-                                <div class="col-12">
-                                    <label class="form-label">Stok</label>
-                                    <input disabled='true' type="number" class="form-control" id="stok-brg">
-                                </div>
                             </div>
                             <div style="width: 100%">
                                 <div class="col-12">
-                                    <label class="form-label">Harga Awal</label>
-                                    <input disabled='true' type="number" class="form-control" id="hrg-awl-brg"
+                                    <label class="form-label">Terjual</label>
+                                    <input disabled='true' type="number" class="form-control" id="keluar-brg"
                                         placeholder="1234 Main St">
                                 </div>
                                 <div class="col-12">
-                                    <label class="form-label">Harga Jual</label>
-                                    <input disabled='true' type="number" class="form-control" id="hrg-jual-brg"
+                                    <label class="form-label">Pendapatan</label>
+                                    <input disabled='true' type="text" class="form-control" id="pendapatan-brg"
                                         placeholder="1234 Main St">
-                                </div>
-                                <div class="col-12">
-                                    <label class="form-label">Deskripsi</label>
-                                    <textarea disabled='true' type="text" class="form-control" id="desk-brg" placeholder="1234 Main St"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -263,14 +271,17 @@
         document.querySelector('#transaksi').classList.add("active");
         var cats = ['Makanan', 'Minuman', 'Rokok', 'Lainnya'];
 
+
+
         function openDetailModal(item) {
+            console.log(item)
             document.querySelector('#foto-brg').src = item.foto;
             document.querySelector('#nama-brg').value = item.nama;
-            document.querySelector('#kategori-brg').value = item.kategori;
-            document.querySelector('#hrg-awl-brg').value = item.harga_awal;
-            document.querySelector('#hrg-jual-brg').value = item.harga_jual;
-            document.querySelector('#desk-brg').value = item.desk;
-            document.querySelector('#stok-brg').value = item.stok;
+            document.querySelector('#kategori-brg').value = cats[item.kategori];
+            document.querySelector('#pendapatan-brg').value = 'Rp. ' + (item.qty * item.harga_jual);
+            document.querySelector('#keluar-brg').value = item.qty;
+            document.querySelector('#waktu-brg').value =
+                "{{ \Carbon\Carbon::parse($item->created_at)->locale('id')->isoFormat('dddd, D MMMM YYYY [pukul] H:mm:ss') }}";
         }
 
         function changeCategory(cat) {

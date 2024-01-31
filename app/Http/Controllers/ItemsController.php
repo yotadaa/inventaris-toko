@@ -5,8 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Items;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
-use Spatie\ImageOptimizer\OptimizerChain;
-use Spatie\ImageOptimizer\Optimizers\Pngquant;
+use Illuminate\Support\Facades\DB;
 use Intervention\Image\Facades\Image;
 
 class ItemsController extends Controller
@@ -19,8 +18,10 @@ class ItemsController extends Controller
     }
     $user = auth()->user();
     $items = Items::where('email', $user->email)->get();
-    $transactions = Transaction::where('email', $user->email)->get();
-    return view('content.main', ['user' => $user, 'items' => $items, 'transactions' => $transactions]);
+    $result = Transaction::join('items', 'transactions.id_brg', '=', 'items.kode')
+    ->select('transactions.qty', 'transactions.created_at', 'items.foto', 'items.nama', 'items.desk', 'items.kategori','items.stok', 'items.harga_awal', 'items.harga_jual', 'items.email', 'items.kode')
+    ->get();
+    return view('content.main', ['user' => $user, 'items' => $items, 'transactions' => $result]);
     }
     public function show() {
         if (!(auth()->check())) {

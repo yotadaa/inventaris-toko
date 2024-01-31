@@ -20,7 +20,7 @@ class TransactionController extends Controller
         $items = Items::where('email', $user->email)->get();
         $result = DB::table('transactions')
             ->join('items', 'transactions.id_brg', '=', 'items.kode')
-            ->select('transactions.qty', 'transactions.created_at', 'items.*')
+            ->select('transactions.qty', 'transactions.created_at', 'items.foto', 'items.nama', 'items.desk', 'items.kategori','items.stok', 'items.harga_awal', 'items.harga_jual', 'items.email', 'items.kode')
             ->get();
         switch ($period) {
             case 'day':
@@ -102,7 +102,8 @@ class TransactionController extends Controller
             Transaction::create([
                 'id_brg' => $item['kode'],
                 'qty' => $item['count'],
-                'email' => user->email
+                'email' => $user->email,
+                'created_at' => now()
             ]);
         }
         return response()->json(['succcess'=> true, 'items' => $items]);

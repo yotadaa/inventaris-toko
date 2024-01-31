@@ -1,60 +1,46 @@
 <div class="col-12">
     <div class="card recent-sales overflow-auto">
-
+        <?php
+        $cat = ['Makanan', 'Minuman', 'Rokok', 'Lainnya'];
+        ?>
         <div class="card-body">
             <h5 class="card-title">Transaksi Terakhir</span></h5>
 
-            <table class="table table-borderless datatable">
+            <table id='item-container' class="table datatable table-borderless table-hover" style="width: 100%">
                 <thead>
                     <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Customer</th>
-                        <th scope="col">Product</th>
-                        <th scope="col">Price</th>
-                        <th scope="col">Status</th>
+                        <th>Kode</th>
+                        <th>Nama</th>
+                        <th>Kategori</th>
+                        <th>Keluar</th>
+                        <th>Pendapatan</th>
+                        <th>Bersih</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row"><a href="#">#2457</a></th>
-                        <td>Brandon Jacob</td>
-                        <td><a href="#" class="text-primary">At praesentium minu</a>
-                        </td>
-                        <td>$64</td>
-                        <td><span class="badge bg-success">Approved</span></td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><a href="#">#2147</a></th>
-                        <td>Bridie Kessler</td>
-                        <td><a href="#" class="text-primary">Blanditiis dolor omnis
-                                similique</a></td>
-                        <td>$47</td>
-                        <td><span class="badge bg-warning">Pending</span></td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><a href="#">#2049</a></th>
-                        <td>Ashleigh Langosh</td>
-                        <td><a href="#" class="text-primary">At recusandae
-                                consectetur</a></td>
-                        <td>$147</td>
-                        <td><span class="badge bg-success">Approved</span></td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><a href="#">#2644</a></th>
-                        <td>Angus Grady</td>
-                        <td><a href="#" class="text-primar">Ut voluptatem id earum
-                                et</a></td>
-                        <td>$67</td>
-                        <td><span class="badge bg-danger">Rejected</span></td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><a href="#">#2644</a></th>
-                        <td>Raheem Lehner</td>
-                        <td><a href="#" class="text-primary">Sunt similique
-                                distinctio</a></td>
-                        <td>$165</td>
-                        <td><span class="badge bg-success">Approved</span></td>
-                    </tr>
+                <tbody style="width: 100%">
+                    @foreach ($transactions as $item)
+                        <tr style="width: 100" id='row{{ $item->kode }}'>
+
+                            <td style='max-width: 100px;'>{{ $item->kode }}</td>
+                            {{-- <td>
+                                <img src="{{ $item->foto }}" width="30"
+                                    alt='preview-{{ $item->kode }}' />
+                            </td> --}}
+                            <td>{{ $item->nama }}</td>
+                            <td>{{ $cat[$item->kategori] }}</td>
+                            <td class="data-numeric text-center">{{ $item->qty }}</td>
+                            <td class="data-numeric text-center" style=''>
+                                <span style="display: flex; justify-content: space-between;"><span>Rp
+                                    </span><span>{{ $item->qty * $item->harga_jual }}</span></span>
+                            </td>
+                            <td class="data-numeric text-center">
+                                <span class="badge bg-success "
+                                    style="display: flex; justify-content: space-between; font-weight: 600"><span
+                                        style="color:white;">Rp</span><span
+                                        style="color:white;">{{ $item->qty * $item->harga_jual - $item->qty * $item->harga_awal }}</span></span>
+                            </td>
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
 

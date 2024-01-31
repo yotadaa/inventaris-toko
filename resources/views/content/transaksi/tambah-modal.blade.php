@@ -1,6 +1,6 @@
 <div class="modal fade shadow shadow" id="tambah-modal" tabindex="-1" data-bs-backdrop="false">
     <div class="modal-dialog modal-dialog-centered modal-lg shadow">
-        <div class="modal-content shadow">
+        <div class="modal-content shadow" style="background-color: rgb(235, 235, 235)">
             <div class="modal-header">
                 <h5 style="display: flex; align-items: center; gap: 10px;" class="modal-title"><i
                         class="bi bi-info-circle"></i>
@@ -43,7 +43,7 @@
                                                 <td>{{ $cat[$item->kategori] }}</td>
                                                 <td style='height: 100%'>
                                                     <button style="scale: 0.8; font-weight: 900" type='button'
-                                                        title='add-item' class="btn btn-warning"
+                                                        title='add-item' class="btn btn-warning shadow"
                                                         onclick="addItem({{ $item->kode }})">
                                                         <i id='icon{{ $item->kode }}' class="bi bi-plus-lg"
                                                             style="font-weight: 900"></i>
@@ -71,9 +71,9 @@
 
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button onclick="submitTransaction()" type="button" class="btn btn-primary"
-                                    data-bs-toggle="modal" data-bs-target="#konfirmasi-catat">Catat!</button>
-                                <button onclick="" type="reset" class="btn btn-danger">Reset</button>
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#konfirmasi-catat">Catat!</button>
+                                <button onclick="resetAll()" type="button" class="btn btn-danger">Reset</button>
                             </div>
                         </form>
                     </div>
@@ -82,6 +82,24 @@
                     var cats = ['Makanan', 'Minuman', 'Rokok', 'Lainnya'];
                     var kodes = [];
                     var currentKode = -1;
+
+                    function resetAll() {
+                        kodes.forEach(function(code) {
+                            var row = document.querySelector(`#item${code.kode}`);
+                            var td = row.querySelectorAll('td');
+                            td.forEach(function(el) {
+                                el.classList.remove('bg-secondary');
+                                el.style.color = 'black';
+                            });
+                            td[3].querySelector('button').querySelector('i').classList.add('bi-plus-lg')
+                            td[3].querySelector('button').querySelector('i').classList.remove('bi-trash')
+                        });
+
+                        document.querySelector('#count-item').disabled = true
+                        document.querySelector('#count-item').value = 0
+                        document.querySelector('#item-value-title').innerHTML = `Silah Pilih Item`;
+                        kodes = [];
+                    }
 
                     function changeCount(value) {
                         var indexToUpdate = kodes.findIndex(function(item) {
@@ -103,6 +121,7 @@
                         var indexToUpdate = kodes.findIndex(function(each) {
                             return each.kode === item.kode;
                         });
+                        document.querySelector('#count-item').disabled = false
                         document.querySelector('#count-item').value = kodes[indexToUpdate].count
                         document.querySelector('#item-value-title').innerHTML = `
                         Input Jumlah Barang untuk <span class='text-danger'>${item.nama}</span>
@@ -169,7 +188,6 @@
                                 count: 0
                             }
                             kodes = [...kodes, newItem]
-                            console.log(kodes);
 
                         } else {
                             currentKode = -1
