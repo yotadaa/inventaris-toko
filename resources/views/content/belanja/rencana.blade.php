@@ -92,7 +92,9 @@
                                         </td>
                                         <td style="vertical-align: middle">
                                             <button class="btn btn-secondary"><i class="bi bi-eye"></i></button>
-                                            <button class="btn btn-secondary">Selesai</button>
+                                            <button
+                                                @if ($item->status == 0) class="btn btn-secondary"
+                                            @else class="btn btn-success" @endif>Selesai</button>
                                         </td>
                                     </tr>
                                 @endforeach

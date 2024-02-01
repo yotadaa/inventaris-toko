@@ -86,7 +86,7 @@ class BelanjaController extends Controller
         $items = Items::where('email', $user->email)->get();
         $rencana = DB::table('table_rencana_belanja')
         ->join('items', 'table_rencana_belanja.kode', '=', 'items.kode')
-        ->select('table_rencana_belanja.qty', 'table_rencana_belanja.group','table_rencana_belanja.id','table_rencana_belanja.created_at', 'items.foto', 'items.nama', 'items.desk', 'items.kategori','items.stok', 'items.harga_awal', 'items.harga_jual', 'table_rencana_belanja.email', 'items.kode')
+        ->select('table_rencana_belanja.qty','table_rencana_belanja.status', 'table_rencana_belanja.group','table_rencana_belanja.id','table_rencana_belanja.created_at', 'items.foto', 'items.nama', 'items.desk', 'items.kategori','items.stok', 'items.harga_awal', 'items.harga_jual', 'table_rencana_belanja.email', 'items.kode')
         ->get();
         return view('content.belanja.rencana', ['user' => $user, 'rencana' => $rencana, 'items'=>$items]);
     }
@@ -111,5 +111,9 @@ class BelanjaController extends Controller
         }
 
         return response()->json(['success' => true, 'message' => 'Berhasil mencatat rencana belanja!']);
+    }
+
+    public function submitRencana() {
+
     }
 }

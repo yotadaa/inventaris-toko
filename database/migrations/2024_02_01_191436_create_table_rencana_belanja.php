@@ -13,8 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('rencana_belanja', function (Blueprint $table) {
+        Schema::create('table_rencana_belanja', function (Blueprint $table) {
             $table->id();
+            $table->integer('group');
+            $table->integer('kode');
+            $table->integer('qty');
+            $table->string('email');
+            $table->integer('status');
             $table->timestamps();
         });
     }
@@ -26,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('rencana_belanja');
+        Schema::dropIfExists('table_rencana_belanja');
     }
 };

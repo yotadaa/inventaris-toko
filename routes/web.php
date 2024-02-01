@@ -73,11 +73,11 @@ Route::group(['middleware' => 'restrict.access'], function () {
     // });
 });
 
-Route::middleware(['protect.assets'])->group(function () {
-    Route::get('/assets/img/{any}', function () {
-        return 'Accessing protected file.';
-    })->where('any', '.*');
-});
+// Route::middleware(['protect.assets'])->group(function () {
+//     Route::get('/assets/img/{any}', function () {
+//         return 'Accessing protected file.';
+//     })->where('any', '.*');
+// });
 
 
 
