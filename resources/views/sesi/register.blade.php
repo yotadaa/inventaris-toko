@@ -140,8 +140,7 @@
                                         </div> --}}
                                         <div class="col-12">
                                             <button class="btn btn-primary w-100" type="button"
-                                                onclick="submitForm()">Create
-                                                Account</button>
+                                                onclick="submitForm()">Buat Akun</button>
                                         </div>
                                         <div class="col-12">
                                             <p class="small mb-0">Sudah punya akun? <a href="{{ route('login') }}">Log
@@ -188,7 +187,7 @@
                         document.querySelector('#loading-notification').style.display = 'none';
                         document.querySelector('#error-notification').style.display = 'block';
                     } else {
-                        window.location.href = '/';
+                        window.location.href = '/session';
                     }
                 },
                 error: function(error) {

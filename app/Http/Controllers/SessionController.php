@@ -56,30 +56,21 @@ class SessionController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'foto_profile' => '/assets/img/users/user_default.png',
+            'role' => 'super',
+            'root' => $request->email
         ];
-
-        // return response()->json(['status' => true, 'user' => $data]);
 
         $user = User::create($data);
-        Files::create([
-            'path' => 'assets/img/users/user_default.png',
-            'email' => auth()->user()->email
-        ]);
 
-        Session::flash('nama', $request->nama);
-        Session::flash('email', $request->email);
-
-        $infoLogin = [
-            'email' => $request->email,
-            'password' => $request->password
-        ];
+        if ($user) return response()->json(['status' => true, 'user' => $user]);
+        else return response()->json(['status' => false, 'msg' => 'Gagal membuat akun']);
 
 
-        if (Auth::attempt($infoLogin)) {
-            return response()->json(['status' => true, 'user' => $user]);
-        } else {
-            return response()->json(['status' => false, 'value' => 'email dan password tidak valid']);
-        }
+        // if (Auth::attempt($infoLogin)) {
+        //     return response()->json(['status' => true, 'user' => $user]);
+        // } else {
+        //     return response()->json(['status' => false, 'value' => 'email dan password tidak valid']);
+        // }
         // return response()->json(['status' => false, 'value' => 'email dan password tidak valid', 'get' => $existingUser]);
     }
 
