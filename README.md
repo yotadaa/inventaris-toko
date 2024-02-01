@@ -125,6 +125,14 @@ Fitur hapus/ubah transaksi dan perbelanjaan postponed.
 </dl>
 
 ## Guide
+```
+php --ini
+lihat pada bagian Loaded Configuration File, di situ terdapat letak file php.ini
+buka file tersebut
+cari ;extension=gd
+hapus ;
+save
+```
 
 ```
 cd project-folder

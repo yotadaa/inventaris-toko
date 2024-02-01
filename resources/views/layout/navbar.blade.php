@@ -26,7 +26,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="components-alerts.html">
+                    <a id='belanja' href="{{ route('belanja') }}">
                         <i class="bi bi-circle"></i><span>Catat Perbelanjaan</span>
                     </a>
                 </li>

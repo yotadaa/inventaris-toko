@@ -1,4 +1,4 @@
-<div class="modal fade shadow shadow" id="tambah-modal" tabindex="-1" data-bs-backdrop="false">
+<div class="modal fade shadow" id="tambah-modal" tabindex="-1" data-bs-backdrop="false">
     <div class="modal-dialog modal-dialog-centered modal-fullscreen shadow">
         <div class="modal-content shadow" style="background-color: rgb(235, 235, 235)">
             <div class="modal-header">
@@ -26,6 +26,7 @@
                                             <th>Kode</th>
                                             <th>Nama</th>
                                             <th>Kategori</th>
+                                            <th>Stok</th>
                                             <th>&nbsp;</th>
                                         </tr>
                                     </thead>
@@ -41,6 +42,7 @@
                                                 </td> --}}
                                                 <td>{{ $item->nama }}</td>
                                                 <td>{{ $cat[$item->kategori] }}</td>
+                                                <td>{{ $item->stok }}</td>
                                                 <td style='height: 100%'>
                                                     <button style="scale: 0.8; font-weight: 900" type='button'
                                                         title='add-item' class="btn btn-warning shadow"
@@ -106,7 +108,7 @@
                             return item.kode === currentKode;
                         });
                         if (indexToUpdate !== -1) {
-                            kodes[indexToUpdate].count = value;
+                            kodes[indexToUpdate].count = Number(value);
                         } else {
                             return;
                         }
@@ -129,6 +131,7 @@
                     }
 
                     function submitTransaction() {
+                        console.log(kodes)
                         if (kodes.length === 0) {
                             return;
                         }
@@ -139,8 +142,14 @@
                                 transactionItems: kodes
                             },
                             success: function(res) {
-                                console.log(res)
-                                window.location.reload();
+                                if (res.success) {
+                                    console.log(res)
+                                    window.location.reload();
+                                } else {
+                                    $('#error-notification').modal('show');
+                                    document.querySelector('#error-notification-content').textContent = res.message;
+                                    console.log('pesan: ', res.message)
+                                }
                             },
                             error: function(error) {
                                 console.error(error);
@@ -241,3 +250,5 @@
     </div>
     <script></script>
 </div>
+
+@include('content.error-notif')

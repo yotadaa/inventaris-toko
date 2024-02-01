@@ -21,7 +21,6 @@
     $cat = ['Makanan', 'Minuman', 'Rokok', 'Lainnya'];
     ?>
     <script>
-        var targetModal = '';
         var currentItem = {
             nama: '',
             kode: '',
@@ -44,9 +43,9 @@
                         </nav>
                         Transaksi<br>
                         <span class="text-muted small">
-                            @if (count($transactions) > 0)
+                            @if ($belanja->count() > 0)
                                 Terdapat total
-                                {{ $transactions->count() }}
+                                {{ $belanja->count() }}
                             @else
                                 Belum ada transaksi {{ $periode }}
                             @endif
@@ -60,9 +59,9 @@
                             <strong><i class="bi bi-box-arrow-in-down"></i></strong>
                             Tambah</a> --}}
                         <div class='d-flex' style="gap: 10px;">
-                            <button id='tambah-transaksi-button' type='button'
-                                style="display: flex; align-items: center; gap: 5px;" type="button" class="btn btn-primary"
-                                data-bs-toggle="modal" data-bs-target="#tambah-modal" onclick='resetAll()'>
+                            <button type='button' style="display: flex; align-items: center; gap: 5px;" type="button"
+                                class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tambah-modal"
+                                onclick='resetAll()'>
                                 <strong><i class="bi
                                 bi-box-arrow-in-down"></i></strong>
                                 Tambah</button>
@@ -84,7 +83,7 @@
                                             <span style='display: flex; justify-content: space-between; width: 100%'>
                                                 Semua
                                                 <span class="badge bg-secondary text-light">
-                                                    {{ $transactions->count() }}
+                                                    {{ $belanja->count() }}
                                                 </span>
                                             </span>
                                         </button>
@@ -97,7 +96,7 @@
                                                 <span style='display: flex; justify-content: space-between; width: 100%'>
                                                     {{ $cat[$i] }}
                                                     <span class="badge bg-secondary text-light">
-                                                        {{ $transactions->where('kategori', $i)->count() }}
+                                                        {{ $belanja->where('kategori', $i)->count() }}
                                                     </span>
                                                 </span>
                                             </button>
@@ -141,14 +140,13 @@
                                     <th>Kode</th>
                                     <th>Nama</th>
                                     <th>Kategori</th>
-                                    <th>Keluar</th>
-                                    <th>Pendapatan</th>
-                                    <th>Bersih</th>
+                                    <th>Masuk</th>
+                                    <th>Pengeluaran</th>
                                     <th>&nbsp;</th>
                                 </tr>
                             </thead>
                             <tbody style="width: 100%">
-                                @foreach ($transactions as $item)
+                                @foreach ($belanja as $item)
                                     <tr style="width: 100" id='row{{ $item->kode }}'>
 
                                         <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d-m-Y H:i:s') }}</td>
@@ -163,12 +161,6 @@
                                         <td class="data-numeric text-center" style=''>
                                             <span style="display: flex; justify-content: space-between;"><span>Rp
                                                 </span><span>{{ $item->qty * $item->harga_jual }}</span></span>
-                                        </td>
-                                        <td class="data-numeric text-center">
-                                            <span class="badge bg-success "
-                                                style="display: flex; justify-content: space-between; font-weight: 600"><span
-                                                    style="color:white;">Rp</span><span
-                                                    style="color:white;">{{ $item->qty * $item->harga_jual - $item->qty * $item->harga_awal }}</span></span>
                                         </td>
                                         <td>
                                             <div class="d-block d-md-block d-lg-flex"
@@ -264,12 +256,12 @@
             </div>
         </div>
     </div>
-    @include('content.transaksi.tambah-modal')
+    {{-- @include('content.transaksi.tambah-modal') --}}
     <script>
         document.querySelector('#components-nav').classList.remove('collapse');
         document.querySelector('#components-nav').classList.add('show');
         document.querySelector('#kelola-list').classList.remove('collapsed');
-        document.querySelector('#transaksi').classList.add("active");
+        document.querySelector('#belanja').classList.add("active");
         var cats = ['Makanan', 'Minuman', 'Rokok', 'Lainnya'];
 
 
@@ -281,7 +273,7 @@
             document.querySelector('#kategori-brg').value = cats[item.kategori];
             document.querySelector('#pendapatan-brg').value = 'Rp. ' + (item.qty * item.harga_jual);
             document.querySelector('#keluar-brg').value = item.qty;
-            @if ($transactions->count() > 0)
+            @if ($belanja->count() > 0)
                 document.querySelector('#waktu-brg').value =
                     "{{ \Carbon\Carbon::parse($item->created_at)->locale('id')->isoFormat('dddd, D MMMM YYYY [pukul] H:mm:ss') }}";
             @else

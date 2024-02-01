@@ -99,13 +99,26 @@ class TransactionController extends Controller
         $user = auth()->user();
         $items = $request->input('transactionItems');
         foreach ($items as $item) {
-            Transaction::create([
-                'id_brg' => $item['kode'],
-                'qty' => $item['count'],
-                'email' => $user->email,
-                'created_at' => now()
-            ]);
+            $itemToUpdate = Items::whereRaw('kode = ? AND email = ?', [$item['kode'], $user->email])->first();
+            if ($item['count'] > $itemToUpdate->stok) {
+                return response()->json(['success' => false,
+                    'message' => 'Terdapat stok barang yang kurang: '.$item['kode'].' '.Items::whereRaw('kode = ? AND email = ?', [$item['kode'], $user->email])->first()->nama,
+                ]);
+            } else {
+                if ($item['count'] > 0) {
+                    Transaction::create([
+                        'id_brg' => $item['kode'],
+                        'qty' => $item['count'],
+                        'email' => $user->email,
+                        'created_at' => now()
+                    ]);
+                    $itemToUpdate->update([
+                        'stok' => $itemToUpdate->stok - $item['count'],
+                    ]);
+                    $itemToUpdate->save();
+                }
+            }
         }
-        return response()->json(['succcess'=> true, 'items' => $items]);
+        return response()->json(['success'=> true, 'items' => $items]);
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ApiController;
+use App\Http\Controllers\BelanjaController;
 use App\Http\Controllers\FilesController;
 use App\Http\Controllers\ItemsController;
 use App\Http\Controllers\SessionController;
@@ -83,3 +84,6 @@ Route::middleware(['protect.assets'])->group(function () {
 
 Route::get('/transaksi', [TransactionController::class, 'riwayat'])->name('transaksi');
 Route::post('/transaksi/add', [TransactionController::class, 'add']);
+
+
+Route::get('/belanja', [BelanjaController::class, 'index'])->name('belanja');
