@@ -48,8 +48,12 @@
                     </div> --}}
                     <span class="d-none d-md-block dropdown-toggle ps-2">
                         @if ($user)
-                            {{ $user->name }}
+                            <span
+                                style="display: inline-block; max-width: 130px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
+                                {{ $user->name }}
+                            </span>
                         @endif
+
                     </span>
                 </a><!-- End Profile Iamge Icon -->
 

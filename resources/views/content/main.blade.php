@@ -38,16 +38,14 @@
                                         <i class="bi bi-cart-plus"></i>
                                     </button>
                                     <div class="ps-3" style='justify-content: start;'>
-                                        <div class="">
-                                            @if ($transactions->where('created_at', '>=', now()->startOfDay())->where('created_at', '<=', now()->endOfDay())->count() == 0)
-                                                <div style="font-size: 18px; font-weight: 600">Belum ada transaksi</div>
-                                            @else
-                                                <div class="card-title" style="margin: 0; padding: 0">
-                                                    {{ $transactions->where('created_at', '>=', now()->startOfDay())->where('created_at', '<=', now()->endOfDay())->sum('qty') }}
-                                                    Terjual
-                                                </div>
-                                            @endif
-                                        </div>
+                                        @if ($transactions->where('created_at', '>=', now()->startOfDay())->where('created_at', '<=', now()->endOfDay())->count() == 0)
+                                            <div style="font-size: 18px; font-weight: 600">Belum ada transaksi</div>
+                                        @else
+                                            <div class="card-title" style="margin: 0; padding: 0">
+                                                {{ $transactions->where('created_at', '>=', now()->startOfDay())->where('created_at', '<=', now()->endOfDay())->sum('qty') }}
+                                                Terjual
+                                            </div>
+                                        @endif
 
                                         {{-- <span style="display: flex; align-items: center; gap: 5px;" type="button"
                                             class="btn-primary">

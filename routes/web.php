@@ -22,7 +22,7 @@ Route::get('/', [ItemsController::class, 'index'])->name('index');
 
 
 Route::get('/dashboard', [ItemsController::class, 'index'])->name('dashboard');
-
+Route::post('/user/update', [SessionController::class, 'updateUser'])->name('update-user');
 
 Route::get('/user', function () {
     $user = auth()->user();

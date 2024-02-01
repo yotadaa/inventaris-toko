@@ -44,21 +44,31 @@
         'Saturday' => 0,
         'Sunday' => 0,
     ];
+    $pendapatanValue = $weekCount;
+    $barangValue = $weekCount;
     $report
         ->groupBy(function ($transaction) {
             return Carbon\Carbon::parse($transaction->created_at)->dayName;
         })
-        ->map(function ($group, $day) use (&$weekCount) {
+        ->map(function ($group, $day) use (&$weekCount, &$pendapatanValue, &$barangValue) {
             $weekCount[$day] = $group->count();
+            $pendapatanValue[$day] = $group->sum(function ($transaction) {
+                return $transaction->qty * $transaction->harga_jual;
+            });
+            $barangValue[$day] = $group->sum(function ($transaction) {
+                return $transaction->qty * $transaction->harga_jual - $transaction->qty * $transaction->harga_awal;
+            });
         });
 
     $weekCount = array_values($weekCount);
+    $pendapatanValue = array_values($pendapatanValue);
+    $barangValue = array_values($barangValue);
 
 @endphp
 
 <script>
-    console.log(@json($result))
-    console.log(@json($weekCount))
+    console.log(@json($barangValue))
+    console.log(@json($pendapatanValue))
     console.log('{{ $lastWeek->startOfWeek() }}, {{ $lastWeek->endOfWeek() }}');
     var categories = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu']
 </script>
@@ -77,11 +87,11 @@
                     new ApexCharts(document.querySelector("#reportsChart"), {
                         series: [{
                                 name: 'Pendapatan',
-                                data: @json($pendapatan)
+                                data: @json($pendapatanValue)
                             },
                             {
                                 name: 'Barang',
-                                data: @json($barang)
+                                data: @json($barangValue)
                             }
                         ],
                         chart: {
@@ -94,7 +104,7 @@
                         markers: {
                             size: 4
                         },
-                        colors: ['#2eca6a', '#ff771d'],
+                        colors: ['#ff771d', '#2eca6a'],
                         fill: {
                             type: "gradient",
                             gradient: {
@@ -161,7 +171,7 @@
                         markers: {
                             size: 4
                         },
-                        colors: ['#2eca6a', '#ff771d'],
+                        colors: ['#e6d800', '#0bb4ff'],
                         fill: {
                             type: "gradient",
                             gradient: {

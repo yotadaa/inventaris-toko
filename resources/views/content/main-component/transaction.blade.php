@@ -1,3 +1,7 @@
+@php
+    $transactionTrack = $transactions->sortByDesc('created_at')->take(10);
+@endphp
+
 <div class="col-12">
     <div class="card recent-sales overflow-auto">
         <?php
@@ -6,7 +10,7 @@
         <div class="card-body">
             <h5 class="card-title">Transaksi Terakhir</span></h5>
 
-            <table id='item-container' class="table datatable table-borderless table-hover" style="width: 100%">
+            <table id='item-container' class="table table-borderless table-hover" style="width: 100%">
                 <thead>
                     <tr>
                         <th>Kode</th>
@@ -18,7 +22,7 @@
                     </tr>
                 </thead>
                 <tbody style="width: 100%">
-                    @foreach ($transactions as $item)
+                    @foreach ($transactionTrack as $item)
                         <tr style="width: 100" id='row{{ $item->kode }}'>
 
                             <td style='max-width: 100px;'>{{ $item->kode }}</td>

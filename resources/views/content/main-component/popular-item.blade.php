@@ -42,7 +42,7 @@
                                     text-center">{{ $item->qty }}
                             </td>
                             <td class="data-numeric text-center text-success">
-                                <span class="fw-bold" style="display: flex; justify-content: space-between; "><span>
+                                <span class="fw-bold" style="display: flex; justify-content: center; "><span>
                                     </span><span>Rp {{ number_format($item->qty * $item->harga_jual) }}</span></span>
                             </td>
                         </tr>

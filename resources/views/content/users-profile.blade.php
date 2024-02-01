@@ -78,12 +78,13 @@
                                     </div>
                                 </form>
                                 @if ($user)
-                                    <form>
+                                    <form method="post" action="{{ route('update-user') }}">
+                                        @csrf
                                         <div class="row mb-3">
-                                            <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Full
+                                            <label for="name" class="col-md-4 col-lg-3 col-form-label">Full
                                                 Name</label>
                                             <div class="col-md-8 col-lg-9">
-                                                <input name="fullName" type="text" class="form-control" id="fullName"
+                                                <input name="name" type="text" class="form-control" id="fullName"
                                                     value="{{ $user->name }}">
                                             </div>
                                         </div>
@@ -91,13 +92,14 @@
                                         <div class="row mb-3">
                                             <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
                                             <div class="col-md-8 col-lg-9">
-                                                <input disabled='true' class="form-control" id="Email"
-                                                    value="{{ $user->email }}">
+                                                <input disabled='true' class="form-control" value="{{ $user->email }}">
+                                                <input style='display:none' name='email' class="form-control"
+                                                    id="Email" value="{{ $user->email }}">
                                             </div>
                                         </div>
 
                                         <div class="text-center">
-                                            <button type="button" onclick="submitForm()" class="btn btn-primary">Save
+                                            <button type="submit" class="btn btn-primary">Save
                                                 Changes</button>
                                         </div>
                                     </form><!-- End Profile Edit Form -->
@@ -121,7 +123,8 @@
                                         <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">New
                                             Password</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="newpassword" type="password" class="form-control" id="newPassword">
+                                            <input name="newpassword" type="password" class="form-control"
+                                                id="newPassword">
                                         </div>
                                     </div>
 

@@ -1,5 +1,5 @@
 <div class="modal fade shadow shadow" id="tambah-modal" tabindex="-1" data-bs-backdrop="false">
-    <div class="modal-dialog modal-dialog-centered modal-lg shadow">
+    <div class="modal-dialog modal-dialog-centered modal-fullscreen shadow">
         <div class="modal-content shadow" style="background-color: rgb(235, 235, 235)">
             <div class="modal-header">
                 <h5 style="display: flex; align-items: center; gap: 10px;" class="modal-title"><i
