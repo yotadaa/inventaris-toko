@@ -23,17 +23,20 @@ Batch 3
 
 **Kelola**
 - [x] Edit item
-- [ ] Menu Catat Transaksi (Satuan, Grup)
-- [ ] Menu Catat Perbelanjaan
-- [ ] Riwayat Transaksi
+- [x] Menu Catat Transaksi
+- [ ] Catat Perbelanjaan
+- [ ] Riwayata Perbelanjaan
+- [x] Riwayat Transaksi
 
 **Analisis </h4>**
-- [ ] chart transaksi
+- [x] chart transaksi
 
 **Member**
 - [ ] Tambah
 - [ ] Ubah
 - [ ] Hapus
+
+Fitur hapus/ubah transaksi dan perbelanjaan postponed.
 
 ## Progress
 
