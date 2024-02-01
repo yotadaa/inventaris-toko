@@ -42,7 +42,7 @@
                                     data-bs-toggle="dropdown">
 
                                     <i class="d-md-none d-block bi bi-funnel-fill"></i>
-                                    <span class=dropdown-toggle">
+                                    <span id='category-title' class=dropdown-toggle">
                                         Kategori
                                     </span>
                                 </button>
@@ -51,7 +51,7 @@
                                     @for ($i = 0; $i < 4; $i++)
                                         <li class="">
                                             <button type='button' class="dropdown-item d-flex align-items-center"
-                                                onclick="changeCategory({{ $i }})">
+                                                onclick="changeCategoryItem({{ $i }})">
                                                 <i class="bi bi-caret-right-fill"></i>
                                                 <span
                                                     style='display: flex; justify-content: space-between; width: 100%'>
@@ -104,7 +104,7 @@
                         }
                     }
 
-                    function changeCategory(cat) {
+                    function changeCategoryItem(cat) {
                         document.querySelector('#choose-category').innerHTML = `
                         <i class="d-md-none d-block bi bi-funnel-fill"></i>
                                             <span class="d-none d-md-block dropdown-toggle">
@@ -112,6 +112,7 @@
                                             </span>`;
                         document.querySelector('#kategori-brg').value = cat;
                         console.log(document.querySelector('#kategori-brg').value)
+                        // document.querySelector('#category-title').innerHTML = cats[cat];
                     }
                 </script>
                 @include('content.items.preview-script')

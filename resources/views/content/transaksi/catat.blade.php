@@ -280,8 +280,12 @@
             document.querySelector('#kategori-brg').value = cats[item.kategori];
             document.querySelector('#pendapatan-brg').value = 'Rp. ' + (item.qty * item.harga_jual);
             document.querySelector('#keluar-brg').value = item.qty;
-            document.querySelector('#waktu-brg').value =
-                "{{ \Carbon\Carbon::parse($item->created_at)->locale('id')->isoFormat('dddd, D MMMM YYYY [pukul] H:mm:ss') }}";
+            @if ($transactions->count() > 0)
+                document.querySelector('#waktu-brg').value =
+                    "{{ \Carbon\Carbon::parse($item->created_at)->locale('id')->isoFormat('dddd, D MMMM YYYY [pukul] H:mm:ss') }}";
+            @else
+                document.querySelector('#waktu-brg').value = "";
+            @endif
         }
 
         function changeCategory(cat) {

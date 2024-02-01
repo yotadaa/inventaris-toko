@@ -19,9 +19,9 @@ class ItemsController extends Controller
     $user = auth()->user();
     $items = Items::where('email', $user->email)->get();
     $result = Transaction::join('items', 'transactions.id_brg', '=', 'items.kode')
-    ->select('transactions.qty', 'transactions.created_at', 'items.foto', 'items.nama', 'items.desk', 'items.kategori','items.stok', 'items.harga_awal', 'items.harga_jual', 'items.email', 'items.kode')
+    ->select('transactions.qty', 'transactions.created_at', 'items.foto', 'items.nama', 'items.desk', 'items.kategori','items.stok', 'items.harga_awal', 'items.harga_jual', 'transactions.email', 'items.kode')
     ->get();
-    return view('content.main', ['user' => $user, 'items' => $items, 'transactions' => $result]);
+    return view('content.main', ['user' => $user, 'items' => $items, 'transactions' => $result->where('email',$user->email)]);
     }
     public function show() {
         if (!(auth()->check())) {
