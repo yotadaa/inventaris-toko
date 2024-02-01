@@ -1,6 +1,6 @@
 @extends('layout.index')
 @section('title')
-    Transaksi
+    Belanja
 @endsection
 
 @section('misc')
@@ -38,19 +38,19 @@
                         <nav class="">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{{ route('index') }}">Home</a></li>
-                                <li class="breadcrumb-item active">Transaksi</li>
+                                <li class="breadcrumb-item active">Belanja</li>
                             </ol>
                         </nav>
-                        Transaksi<br>
+                        Belanja<br>
                         <span class="text-muted small">
                             @if ($belanja->count() > 0)
                                 Terdapat total
                                 {{ $belanja->count() }}
+                                Transaksi {{ $periode }}
                             @else
-                                Belum ada transaksi {{ $periode }}
+                                Belum ada belanja {{ $periode }}
                             @endif
 
-                            Transaksi {{ $periode }}
                         </span>
                     </div>
                     <div class="d-block d-md-flex" style='gap: 10px'>
@@ -58,13 +58,12 @@
                             type="button" class="btn btn-primary">
                             <strong><i class="bi bi-box-arrow-in-down"></i></strong>
                             Tambah</a> --}}
-                        <div class='d-flex' style="gap: 10px;">
-                            <button type='button' style="display: flex; align-items: center; gap: 5px;" type="button"
-                                class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tambah-modal"
-                                onclick='resetAll()'>
+                        <div class='d-flex' style="gap: 10px; margin-bottom: 10px;">
+                            <a href="/belanja/rencana" style="display: flex; align-items: center; gap: 5px;"
+                                class="btn btn-primary">
                                 <strong><i class="bi
                                 bi-box-arrow-in-down"></i></strong>
-                                Tambah</button>
+                                Buat Daftar</a>
                             <div class="dropdown">
 
                                 <a class=" btn btn-outline-primary d-flex align-items-center" data-bs-toggle="dropdown">
@@ -107,7 +106,8 @@
                             </div>
                         </div>
 
-                        <div class="btn-group" role="group" aria-label="Basic outlined example">
+                        <div class="btn-group" role="group" aria-label="Basic outlined example"
+                            style="margin-bottom: 10px">
                             <a id='day'
                                 class="btn btn-outline-secondary @if ($periode == 'Hari ini') active" href='#' @else " href='/transaksi?period=day' @endif>Hari
                                 Ini</a>
@@ -339,4 +339,21 @@
             }
         </script>
     </div>
+    <script>
+        function tambahDaftarBelanja() {
+            $.ajax({
+                url: '/tes',
+                type: 'POST',
+                data: {
+                    test: [
+                        value = 'success'
+                    ]
+                },
+                success: function(res) {},
+                error: function(err) {
+                    console.error(err);
+                }
+            });
+        }
+    </script>
 @endsection

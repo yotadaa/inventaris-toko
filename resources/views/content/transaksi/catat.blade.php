@@ -47,11 +47,10 @@
                             @if (count($transactions) > 0)
                                 Terdapat total
                                 {{ $transactions->count() }}
+                                Transaksi {{ $periode }}
                             @else
                                 Belum ada transaksi {{ $periode }}
                             @endif
-
-                            Transaksi {{ $periode }}
                         </span>
                     </div>
                     <div class="d-block d-md-flex" style='gap: 10px'>
@@ -158,13 +157,14 @@
                                                 alt='preview-{{ $item->kode }}' />
                                         </td> --}}
                                         <td>{{ $item->nama }}</td>
-                                        <td>{{ $cat[$item->kategori] }}</td>
-                                        <td class="data-numeric text-center">{{ $item->qty }}</td>
-                                        <td class="data-numeric text-center" style=''>
+                                        <td style="vertical-align: middle">{{ $cat[$item->kategori] }}</td>
+                                        <td style="vertical-align: middle" class="data-numeric text-center">
+                                            {{ $item->qty }}</td>
+                                        <td style="vertical-align: middle" class="data-numeric text-center" style=''>
                                             <span style="display: flex; justify-content: space-between;"><span>Rp
                                                 </span><span>{{ $item->qty * $item->harga_jual }}</span></span>
                                         </td>
-                                        <td class="data-numeric text-center">
+                                        <td class="data-numeric text-center" style="vertical-align: middle">
                                             <span class="badge bg-success "
                                                 style="display: flex; justify-content: space-between; font-weight: 600"><span
                                                     style="color:white;">Rp</span><span

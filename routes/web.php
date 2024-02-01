@@ -74,7 +74,6 @@ Route::group(['middleware' => 'restrict.access'], function () {
 });
 
 Route::middleware(['protect.assets'])->group(function () {
-
     Route::get('/assets/img/{any}', function () {
         return 'Accessing protected file.';
     })->where('any', '.*');
@@ -87,3 +86,6 @@ Route::post('/transaksi/add', [TransactionController::class, 'add']);
 
 
 Route::get('/belanja', [BelanjaController::class, 'index'])->name('belanja');
+Route::post('/tes', [BelanjaController::class, 'test']);
+Route::get('/belanja/rencana', [BelanjaController::class, 'rencana']);
+Route::post('/belanja/add-rencana', [BelanjaController::class, 'addRencana']);

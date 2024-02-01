@@ -40,7 +40,7 @@
 
                 <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
                     @if ($user)
-                        <img id='header_profile' src="{{ $user->foto_profile }}" alt="Profile"
+                        <img id='header_profile' src="{{ asset($user->foto_profile) }}" alt="Profile"
                             class="profile-container-small rounded-circle">
                     @endif
                     {{-- <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">

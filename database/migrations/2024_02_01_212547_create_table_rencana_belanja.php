@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('belanja', function (Blueprint $table) {
+        Schema::create('rencana_belanja', function (Blueprint $table) {
             $table->id();
             $table->integer('group');
             $table->integer('kode');
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('belanja');
+        Schema::dropIfExists('rencana_belanja');
     }
 };
