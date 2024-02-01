@@ -90,7 +90,7 @@
                                 data: @json($pendapatanValue)
                             },
                             {
-                                name: 'Barang',
+                                name: 'Bersih',
                                 data: @json($barangValue)
                             }
                         ],

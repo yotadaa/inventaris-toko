@@ -35,10 +35,10 @@
                     </nav>
                     Daftar Rencana Belanja
                     <div class="text-muted small" style="font-size:;">
-                        @if ($rencana->count() == 0)
+                        @if ($rencana->unique('group')->count() == 0)
                             Kamu tidak punya rencana belanja
                         @else
-                            Kamu punya {{ $rencana->count() }} rencana belanja
+                            Kamu punya {{ $rencana->unique('group')->count() }} rencana belanja
                         @endif
                     </div>
                 </div>
@@ -92,9 +92,9 @@
                                         </td>
                                         <td style="vertical-align: middle">
                                             <button class="btn btn-secondary"><i class="bi bi-eye"></i></button>
-                                            <button
-                                                @if ($item->status == 0) class="btn btn-secondary"
-                                            @else class="btn btn-success" @endif>Selesai</button>
+                                            <button ondblclick="submitRencana(this)"
+                                                @if ($item->status == 0) class="btn btn-warning"
+                                            @else disabled='true' class="btn btn-success" @endif>Selesai</button>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -105,6 +105,27 @@
             </div>
         </div>
     </section>
+    <script>
+        function submitRencana(button) {
+            var uncle = button.parentNode.parentNode.querySelectorAll('td');
+
+            $.ajax({
+                url: '/belanja/submit-rencana',
+                method: 'POST',
+                data: {
+                    kode: Number(uncle[0].innerText)
+                },
+                success: (res) => {
+                    button.disabled = true;
+                    button.classList.add('btn-success')
+                    button.classList.remove('btn-warning')
+                },
+                error: (err) => {
+                    console.error(err)
+                }
+            })
+        }
+    </script>
 
     @include('content.belanja.tambah-rencana')
 @endsection

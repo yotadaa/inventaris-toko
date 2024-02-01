@@ -89,3 +89,4 @@ Route::get('/belanja', [BelanjaController::class, 'index'])->name('belanja');
 Route::post('/tes', [BelanjaController::class, 'test']);
 Route::get('/belanja/rencana', [BelanjaController::class, 'rencana']);
 Route::post('/belanja/add-rencana', [BelanjaController::class, 'addRencana']);
+Route::post('/belanja/submit-rencana', [BelanjaController::class, 'submitRencana']);

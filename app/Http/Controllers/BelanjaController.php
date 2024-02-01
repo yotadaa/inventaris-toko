@@ -105,7 +105,8 @@ class BelanjaController extends Controller
                     'kode' => $item['kode'],
                     'qty' => $item['qty'],
                     'email' => $user->email,
-                    'created_at' => now()
+                    'created_at' => now(),
+                    'status' => 0,
                 ]);
             }
         }
@@ -113,7 +114,36 @@ class BelanjaController extends Controller
         return response()->json(['success' => true, 'message' => 'Berhasil mencatat rencana belanja!']);
     }
 
-    public function submitRencana() {
+    public function submitRencana(Request $request) {
+        if (!auth()->check()) {
+            return redirect()->route('login');
+        }
+        $user = auth()->user();
+        $kode = $request->input('kode');
+        $itemsFromRencana = DB::table('table_rencana_belanja')->where('group', $kode)->get();
+        $grup = DB::table('belanja')->whereRaw('email = ?', [$user->email])->count('group')+1;
+        foreach($itemsFromRencana as $item) {
+            DB::table('belanja')->insert([
+                'group' => $grup,
+                'kode' => $item->kode,
+                'qty' => $item->qty,
+                'email' => $user->email,
+                'created_at'=>now()
+            ]);
+            $itemToUpdate = DB::table('items')->where('kode', $item->kode)->first();
+            if ($itemToUpdate) {
+            DB::table('items')
+                ->where('kode', $item->kode)
+                ->update([
+                    'stok' => $itemToUpdate->stok + $item->qty,
+                ]);
+            }
+        }
 
+        DB::table('table_rencana_belanja')->where('group', $kode)->update([
+            'status'=> 1,
+        ]);
+
+        return response()->json(['status' => true, 'message' => 'Berhasil mensubmit rencana']);
     }
 }

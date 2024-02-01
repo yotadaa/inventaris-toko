@@ -1,5 +1,6 @@
 <script>
-    var rencanaItem = []
+    var rencanaItem = [];
+    var isSubmitting = false;
 </script>
 <div class="modal fade shadow" id="tambah-rencana" tabindex="-1" data-bs-backdrop="false">
     <div class="modal-dialog modal-dialog-centered modal-fullscreen shadow">
@@ -26,7 +27,7 @@
                     <table id='item-container' class="table table-borderless table-hover" style="width: 100%">
                         <thead>
                             <tr>
-                                <th>Kode</th>
+                                <th style="vertical-align: middle">Kode</th>
                                 <th>Nama</th>
                                 <th>Kategori</th>
                                 <th>Jumlah</th>
@@ -36,7 +37,8 @@
                         <tbody style="width: 100%">
                             @foreach ($items as $item)
                                 <tr style="width: 100;" id='item{{ $item->kode }}'>
-                                    <td style='max-width: 100px; align-items: center'>
+                                    <td class="text-center"
+                                        style='max-width: 100px; align-items: center; vertical-align: middle'>
                                         {{ $item->kode }}</td>
                                     {{-- <td>
                                                         <img src="{{ $item->foto }}" width="30"
@@ -73,6 +75,10 @@
 
 <script>
     function tambahRencana() {
+        if (isSubmitting) {
+            return;
+        }
+        isSubmitting = true;
         $.ajax({
             url: '/belanja/add-rencana',
             method: 'POST',
@@ -81,6 +87,7 @@
             },
             success: (res) => {
                 if (res.success) {
+                    isSubmitting = false;
                     window.location.reload();
                 }
             },
