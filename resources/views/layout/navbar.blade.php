@@ -60,6 +60,13 @@
         </li>
 
         <li class="nav-item">
+            <a class="nav-link collapsed" id='user' href="{{ route('user') }}">
+                <i class="bi bi-people" style="scale: 1.1"></i>
+                <span>About</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
             <button style="width: 100%" data-bs-toggle="modal" data-bs-target="#logoutConfirmation"
                 class="nav-link collapsed" id='logout'">
                 <i class="bi bi-box-arrow-left
