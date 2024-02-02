@@ -52,7 +52,8 @@
                                             Image</label>
                                         <div class="col-md-8 col-lg-9">
                                             @if ($user)
-                                                <img id='setting-profile' src="{{ $user->foto_profile }}" alt="Profile">
+                                                <img id='setting-profile' src="{{ $user->foto_profile }}" alt="Profile"
+                                                    data-bs-target="#foto-modal" data-bs-toggle="modal" width="500">
                                             @endif
                                             <div class="" id='error-file-type' style='display: none;'>
                                                 <h3 class="btn badge bg-danger">Format file tidak didukung</h3>
@@ -238,6 +239,7 @@
         }
     </script>
     @include('content.items.preview-script')
+    @include('content.foto-modal')
     <script>
         var current = document.querySelector("#user");
         current.classList.remove('collapsed');

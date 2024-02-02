@@ -19,19 +19,23 @@
                             </div>
                         </div>
                     </div>
-                    <div class="small text-danger">**Klik tombol dua kali</div>
+
+                    <div class="text-muted text-center" style="font-size: 20px; width: 100%;" id='detail-loading'>Sedang
+                        memuat data...</div>
                     <table id='detail-item-container' class="table table-borderless table-hover" style="width: 100%">
                         <thead>
                             <tr>
                                 <th style="vertical-align: middle">Kode</th>
                                 <th>Nama</th>
                                 <th>Kategori</th>
-                                <th>Jumlah</th>
+                                <th class="text-center">Jumlah</th>
+                                <th class="text-center">Total</th>
                                 <th>&nbsp;</th>
                             </tr>
                         </thead>
-                        <tbody style="width: 100%">
-                            @foreach ($items as $item)
+                        <tbody>
+
+                            @foreach ($rencana as $item)
                                 <tr style="width: 100; display: none" id='item-detail{{ $item->kode }}'>
                                     <td class="text-center"
                                         style='max-width: 100px; align-items: center; vertical-align: middle'>
@@ -42,11 +46,14 @@
                                                     </td> --}}
                                     <td>{{ $item->nama }}</td>
                                     <td>{{ $cat[$item->kategori] }}</td>
-                                    <td style='max-width: 100px'>
-                                        <input min='0' disabled='true' oninput="changeItemValue(this)"
+                                    <td style='max-width: 100px' class="text-center"></td>
+                                    <td style='max-width: 100px' class="text-center">
+                                        {{-- <input min='0' disabled='true' oninput="changeItemValue(this)"
                                             style='width: 100px; padding: 5px;border-radius: 5px;outline: none;border-width: 1px;'
                                             type="number" name="value{{ $item->kode }}" placeholder="Jumlah"
-                                            id='value{{ $item->kode }}' title="Cari Barang" </td>
+                                            id='value{{ $item->kode }}' title="Cari Barang"> --}}
+                                        <span style='font-size: 15px' class="badge text-danger"></span>
+                                    </td>
                                     <td style='height: 100%;justify-content: start;' class='d-flex'>
                                         <button style="scale: 0.8; font-weight: 900" type='button' title='add-item'
                                             class="btn btn-danger shadow" onclick="checkDetailItem(this)">
@@ -56,6 +63,9 @@
                                     </td>
                                     <td style="display: none">
                                         {{ $item->id }}
+                                    </td>
+                                    <td style="display: none">
+                                        {{ $item->group }}
                                     </td>
                                 </tr>
                             @endforeach

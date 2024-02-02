@@ -62,6 +62,8 @@
                 </section>
                 <div class="border-bottom"></div>
                 <section class="section">
+
+                    <div class="small text-danger">**Klik Selesai tombol dua kali</div>
                     @if ($rencana->count() == 0)
                         <div class="text-center mt-3">
                             Belum ada daftar rencana
@@ -100,13 +102,15 @@
                                         </td>
                                         <td style="vertical-align: middle">
                                             <button
-                                                onclick="detailRencana({{ json_encode($rencana->where('group', $item->group)) }})"
+                                                onclick="detailRencana({{ $item->group }}, {{ json_encode($rencana->where('group', $item->group)) }})"
                                                 class="btn btn-secondary" data-bs-toggle="modal"
                                                 data-bs-target="#detail-rencana">
                                                 <i class="bi bi-eye"></i></button>
                                             <button ondblclick="submitRencana(this)"
                                                 @if ($item->status == 0) class="btn btn-warning"
                                             @else disabled='true' class="btn btn-success" @endif>Selesai</button>
+                                            <button ondblclick="hapusRencana({{ $item->group }})" class="btn btn-danger"><i
+                                                    class="bi bi-trash"></i></button>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -118,6 +122,23 @@
         </div>
     </section>
     <script>
+        function hapusRencana(group) {
+            $.ajax({
+                url: '/belanja/rencana/hapus',
+                method: 'POST',
+                data: {
+                    group: group,
+                    email: '{{ $user->email }}'
+                },
+                success: (res) => {
+                    window.location.reload();
+                },
+                error: (err) => {
+                    console.error(err);
+                }
+            })
+        }
+
         function checkDetailItem(button) {
             var icon = button.querySelector('i');
             if (icon.classList.contains('bi-square')) {
@@ -135,7 +156,7 @@
 
             var row = button.parentNode.parentNode.querySelectorAll('td')[5]
             var id = Number(row.innerText)
-            console.log(id)
+            // console.log(id)
             $.ajax({
                 url: '/belanja/update-check',
                 method: 'POST',
@@ -143,7 +164,7 @@
                     id: id
                 },
                 success: (res) => {
-
+                    // console.log(res)
                 },
                 error: (err) => {
                     console.error(err)
@@ -151,32 +172,61 @@
             })
         }
 
-        function detailRencana(item) {
-            const keys = Object.keys(item)
+        function detailRencana(group, item) {
+            document.querySelector('#detail-loading').style.display = 'block'
+            $.ajax({
+                url: '/belanja/rencana/get',
+                method: 'POST',
+                data: {
+                    group: Number(group)
+                },
+                success: (res) => {
+                    document.querySelector('#detail-loading').style.display = 'none'
+                    currentGroup = res.value
+                    // console.log(res)
+                    const keys = Object.keys(item)
+                    var table = document.querySelector('#detail-item-container').querySelector('tbody')
+                        .querySelectorAll('tr')
+                    table.forEach(function(row) {
+                        var td = row.querySelectorAll('td');
+                        row.style.display = 'none'
+                        td[5].querySelector('button').querySelector('i').classList.add('bi-square')
+                        td[5].querySelector('button').querySelector('i').classList.remove('bi-check-lg')
+                        td[5].querySelector('button').classList.add('btn-danger')
+                        td[5].querySelector('button').classList.remove('btn-success')
+                    })
+                    table.forEach(function(row, index) {
+                        var code = row.querySelector('td').innerText;
+                        var td = row.querySelectorAll('td');
 
-            var table = document.querySelector('#detail-item-container').querySelector('tbody').querySelectorAll('tr')
-            table.forEach(function(row) {
-                var code = row.querySelector('td').innerText
-                var td = row.querySelectorAll('td');
-                keys.map((keys) => {
-                    if (item[keys].kode === Number(code)) {
-                        row.style.display = 'table-row'
-                        // console.log(Object.keys(item[keys]))
-                        console.log(item[keys].checked)
-                        if (item[keys].checked === 1) {
-                            console.log(td[4])
-                            td[4].querySelector('button').querySelector('i').classList.remove('bi-square')
-                            td[4].querySelector('button').querySelector('i').classList.add('bi-check-lg')
-                            td[4].querySelector('button').classList.remove('btn-danger')
-                            td[4].querySelector('button').classList.add('btn-success')
-                        } else {
-                            td[4].querySelector('button').querySelector('i').classList.add('bi-square')
-                            td[4].querySelector('button').querySelector('i').classList.remove('bi-check-lg')
-                            td[4].querySelector('button').classList.add('btn-danger')
-                            td[4].querySelector('button').classList.remove('btn-success')
+                        // Assuming `group` and `res` are defined outside this loop
+                        if (group === Number(td[7].innerText)) {
+                            var options = {
+                                style: 'decimal',
+                                maximumFractionDigits: 2
+                            };
+                            var formattedNumber = (res.value[index].qty * res.value[index].harga_awal)
+                                .toLocaleString('en-US', options);
+
+
+                            row.style.display = 'table-row';
+                            td[3].innerText = res.value[index].qty;
+                            td[4].querySelector('span').innerText = 'Rp ' + formattedNumber;
+                            parseFloat(formattedNumber.replace(/,/g, ''));
+                            if (res.value[index].checked === 1) {
+                                td[5].querySelector('button').querySelector('i').classList.remove(
+                                    'bi-square')
+                                td[5].querySelector('button').querySelector('i').classList.add(
+                                    'bi-check-lg')
+                                td[5].querySelector('button').classList.remove('btn-danger')
+                                td[5].querySelector('button').classList.add('btn-success')
+                            }
                         }
-                    }
-                });
+                    });
+                },
+                error: (err) => {
+                    console.error(err);
+                }
             })
         }
 

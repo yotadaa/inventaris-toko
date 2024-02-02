@@ -156,13 +156,29 @@ class BelanjaController extends Controller
         $item = DB::table('table_rencana_belanja')->whereRaw('email = ? AND id = ?', [$user->email, $request->input('id')])->first();
         if ($item) {
             DB::table('table_rencana_belanja')
-                ->where('id', $item->id)
+                ->where('id','=', $request->input('id'))
                 ->update([
-                    'checked' => !$item->checked
+                    'checked' => !$item->checked,
                 ]);
+            return response()->json(['status' => true, 'message' => 'berhasil mengubah status', 'item'=>$item]);
         } else {
             return response()->json(['status' => false, 'message' => 'item tidak ditemukan']);
         }
-        return response()->json(['status' => true, 'message' => 'berhasil mengubah status']);
+    }
+
+    public function getRencana(Request $request) {
+        $item = DB::table('table_rencana_belanja')
+        ->join('items', 'table_rencana_belanja.kode', '=', 'items.kode')
+        ->select('table_rencana_belanja.qty','table_rencana_belanja.checked','table_rencana_belanja.status', 'table_rencana_belanja.group','table_rencana_belanja.id','table_rencana_belanja.created_at', 'items.foto', 'items.nama', 'items.desk', 'items.kategori','items.stok', 'items.harga_awal', 'items.harga_jual', 'table_rencana_belanja.email', 'items.kode')
+        ->get();
+        $rencana = $item->where('group', $request->input('group'));
+        return response()->json(['value' => $rencana]);
+    }
+    public function hapusRencana(Request $request) {
+        DB::table('table_rencana_belanja')->where([
+            ['email', '=', 'tes@gmail.com'],
+            ['group', '=', 9],
+        ])->delete();        
+        return response()->json(['success' => true, 'message' => 'Berhasil menghapus']);
     }
 }
