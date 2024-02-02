@@ -40,10 +40,6 @@
                                     <td class="text-center"
                                         style='max-width: 100px; align-items: center; vertical-align: middle'>
                                         {{ $item->kode }}</td>
-                                    {{-- <td>
-                                                        <img src="{{ $item->foto }}" width="30"
-                                                            alt='preview-{{ $item->kode }}' />
-                                                    </td> --}}
                                     <td>{{ $item->nama }}</td>
                                     <td>{{ $cat[$item->kategori] }}</td>
                                     <td style='max-width: 100px'>

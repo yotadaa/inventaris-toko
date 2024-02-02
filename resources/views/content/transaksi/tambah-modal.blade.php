@@ -19,7 +19,7 @@
                         </div>
                         <div id='items-in' class="card" style="border: 1px solid darkgray">
                             <div class="card-body overflow-auto" style="max-height: 300px">
-                                <table id='item-container' class="table table-borderless table-hover"
+                                <table id='item-container' class="table datatable table-borderless table-hover"
                                     style="width: 100%">
                                     <thead>
                                         <tr>

@@ -20,6 +20,9 @@
     <?php
     $cat = ['Makanan', 'Minuman', 'Rokok', 'Lainnya'];
     ?>
+    @php
+        $testVar = 123;
+    @endphp
     <script>
         document.querySelector('#components-nav').classList.remove('collapse');
         document.querySelector('#components-nav').classList.add('show');
@@ -53,11 +56,10 @@
                 <section class="section">
                     <div class="d-block d-md-flex" style='gap: 10px'>
                         <div class='d-flex' style="gap: 10px; margin-bottom: 10px;">
-                            <a href="/belanja/rencana" style="display: flex; align-items: center; gap: 5px;"
-                                class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tambah-rencana">
-                                <strong><i class="bi
-                                bi-box-arrow-in-down"></i></strong>
-                                Tambah Daftar</a>
+                            <button style="display: flex; align-items: center; gap: 5px;" class="btn btn-primary"
+                                data-bs-toggle="modal" data-bs-target="#tambah-rencana" onclick="testFunc(event)">
+                                <strong><i class="bi bi-box-arrow-in-down"></i></strong>
+                                Tambah Daftar</button>
                         </div>
                 </section>
                 <div class="border-bottom"></div>
@@ -69,7 +71,7 @@
                             Belum ada daftar rencana
                         </div>
                     @else
-                        <table id='item-container' class="table table-borderless table-striped table-hover"
+                        <table id='item-container' class="table datatable table-borderless table-striped table-hover"
                             style="width: 100%">
                             <thead>
                                 <tr>
@@ -104,13 +106,13 @@
                                             <button
                                                 onclick="detailRencana({{ $item->group }}, {{ json_encode($rencana->where('group', $item->group)) }})"
                                                 class="btn btn-secondary" data-bs-toggle="modal"
-                                                data-bs-target="#detail-rencana">
+                                                data-bs-target="#detail-rencana" style='scale: 0.9'>
                                                 <i class="bi bi-eye"></i></button>
-                                            <button ondblclick="submitRencana(this)"
+                                            <button style='scale: 0.9' ondblclick="submitRencana(this)"
                                                 @if ($item->status == 0) class="btn btn-warning"
                                             @else disabled='true' class="btn btn-success" @endif>Selesai</button>
-                                            <button ondblclick="hapusRencana({{ $item->group }})" class="btn btn-danger"><i
-                                                    class="bi bi-trash"></i></button>
+                                            <button style='scale: 0.9' ondblclick="hapusRencana({{ $item->group }})"
+                                                class="btn btn-danger"><i class="bi bi-trash"></i></button>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -122,6 +124,10 @@
         </div>
     </section>
     <script>
+        function testFunc(event) {
+            console.log('{{ ++$testVar }}');
+        }
+
         function hapusRencana(group) {
             $.ajax({
                 url: '/belanja/rencana/hapus',
@@ -174,6 +180,16 @@
 
         function detailRencana(group, item) {
             document.querySelector('#detail-loading').style.display = 'block'
+            var table = document.querySelector('#detail-item-container').querySelector('tbody')
+                .querySelectorAll('tr')
+            table.forEach(function(row) {
+                var td = row.querySelectorAll('td');
+                row.style.display = 'none'
+                td[5].querySelector('button').querySelector('i').classList.add('bi-square')
+                td[5].querySelector('button').querySelector('i').classList.remove('bi-check-lg')
+                td[5].querySelector('button').classList.add('btn-danger')
+                td[5].querySelector('button').classList.remove('btn-success')
+            })
             $.ajax({
                 url: '/belanja/rencana/get',
                 method: 'POST',
@@ -187,14 +203,6 @@
                     const keys = Object.keys(item)
                     var table = document.querySelector('#detail-item-container').querySelector('tbody')
                         .querySelectorAll('tr')
-                    table.forEach(function(row) {
-                        var td = row.querySelectorAll('td');
-                        row.style.display = 'none'
-                        td[5].querySelector('button').querySelector('i').classList.add('bi-square')
-                        td[5].querySelector('button').querySelector('i').classList.remove('bi-check-lg')
-                        td[5].querySelector('button').classList.add('btn-danger')
-                        td[5].querySelector('button').classList.remove('btn-success')
-                    })
                     table.forEach(function(row, index) {
                         var code = row.querySelector('td').innerText;
                         var td = row.querySelectorAll('td');
