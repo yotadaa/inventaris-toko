@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Belanja;
 use App\Models\Items;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
@@ -21,7 +22,11 @@ class ItemsController extends Controller
     $result = Transaction::join('items', 'transactions.id_brg', '=', 'items.kode')
     ->select('transactions.qty', 'transactions.created_at', 'items.foto', 'items.nama', 'items.desk', 'items.kategori','items.stok', 'items.harga_awal', 'items.harga_jual', 'transactions.email', 'items.kode')
     ->get();
-    return view('content.main', ['user' => $user, 'items' => $items, 'transactions' => $result->where('email',$user->email)]);
+    $belanja = DB::table('belanja')
+    ->join('items', 'belanja.kode', '=', 'items.kode')
+    ->select('belanja.qty', 'belanja.created_at','belanja.group', 'items.foto', 'items.nama', 'items.desk', 'items.kategori','items.stok', 'items.harga_awal', 'items.harga_jual', 'belanja.email', 'items.kode')
+    ->get();
+    return view('content.main', ['user' => $user, 'items' => $items, 'transactions' => $result->where('email',$user->email), 'belanja' => $belanja]);
     }
     public function show() {
         if (!(auth()->check())) {

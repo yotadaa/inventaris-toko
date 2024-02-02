@@ -143,56 +143,30 @@
 
                         <div class="activity">
 
-                            <div class="activity-item d-flex">
-                                <div class="activite-label">32 min</div>
-                                <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
-                                <div class="activity-content">
-                                    Quia quae rerum <a href="#" class="fw-bold text-dark">explicabo
-                                        officiis</a> beatae
+                            @if ($belanja->count() > 0)
+                                @foreach ($belanja->sortByDesc('created_at') as $item)
+                                    <div class="activity-item d-flex">
+                                        <div class="activite-label" style="white-space: pre-warp; max-width: 50px">
+                                            {{ \Carbon\Carbon::parse($item->created_at)->locale('id')->isoFormat('dddd, D MMMM') }}
+                                        </div>
+                                        <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
+                                        <div class="activity-content">
+                                            Melakukan belanja senilai <span class="text-danger fw-bold">Rp
+                                                {{ $item->harga_awal * $item->qty }},</span>
+                                            {{ $belanja->where('group', $item->group)->count() }} item
+                                        </div>
+                                    </div>
+                                @endforeach
+                            @else
+                                <div class="activity-item d-flex">
+                                    <div class="activite-label" style="white-space: pre-warp; max-width: 50px">
+                                    </div>
+                                    <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
+                                    <div class="activity-content">
+                                        Belum ada melakukan belanja
+                                    </div>
                                 </div>
-                            </div><!-- End activity item-->
-
-                            <div class="activity-item d-flex">
-                                <div class="activite-label">56 min</div>
-                                <i class='bi bi-circle-fill activity-badge text-danger align-self-start'></i>
-                                <div class="activity-content">
-                                    Voluptatem blanditiis blanditiis eveniet
-                                </div>
-                            </div><!-- End activity item-->
-
-                            <div class="activity-item d-flex">
-                                <div class="activite-label">2 hrs</div>
-                                <i class='bi bi-circle-fill activity-badge text-primary align-self-start'></i>
-                                <div class="activity-content">
-                                    Voluptates corrupti molestias voluptatem
-                                </div>
-                            </div><!-- End activity item-->
-
-                            <div class="activity-item d-flex">
-                                <div class="activite-label">1 day</div>
-                                <i class='bi bi-circle-fill activity-badge text-info align-self-start'></i>
-                                <div class="activity-content">
-                                    Tempore autem saepe <a href="#" class="fw-bold text-dark">occaecati
-                                        voluptatem</a> tempore
-                                </div>
-                            </div><!-- End activity item-->
-
-                            <div class="activity-item d-flex">
-                                <div class="activite-label">2 days</div>
-                                <i class='bi bi-circle-fill activity-badge text-warning align-self-start'></i>
-                                <div class="activity-content">
-                                    Est sit eum reiciendis exercitationem
-                                </div>
-                            </div><!-- End activity item-->
-
-                            <div class="activity-item d-flex">
-                                <div class="activite-label">4 weeks</div>
-                                <i class='bi bi-circle-fill activity-badge text-muted align-self-start'></i>
-                                <div class="activity-content">
-                                    Dicta dolorem harum nulla eius. Ut quidem quidem sit quas
-                                </div>
-                            </div><!-- End activity item-->
-
+                            @endif
                         </div>
 
                     </div>

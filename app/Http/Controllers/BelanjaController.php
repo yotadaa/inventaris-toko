@@ -21,7 +21,7 @@ class BelanjaController extends Controller
         $items = Items::where('email', $user->email)->get();
         $result = DB::table('belanja')
             ->join('items', 'belanja.kode', '=', 'items.kode')
-            ->select('belanja.qty', 'belanja.created_at', 'items.foto', 'items.nama', 'items.desk', 'items.kategori','items.stok', 'items.harga_awal', 'items.harga_jual', 'belanja.email', 'items.kode')
+            ->select('belanja.qty', 'belanja.created_at','belanja.group', 'items.foto', 'items.nama', 'items.desk', 'items.kategori','items.stok', 'items.harga_awal', 'items.harga_jual', 'belanja.email', 'items.kode')
             ->get();
         switch ($period) {
             case 'day':
@@ -86,7 +86,7 @@ class BelanjaController extends Controller
         $items = Items::where('email', $user->email)->get();
         $rencana = DB::table('table_rencana_belanja')
         ->join('items', 'table_rencana_belanja.kode', '=', 'items.kode')
-        ->select('table_rencana_belanja.qty','table_rencana_belanja.status', 'table_rencana_belanja.group','table_rencana_belanja.id','table_rencana_belanja.created_at', 'items.foto', 'items.nama', 'items.desk', 'items.kategori','items.stok', 'items.harga_awal', 'items.harga_jual', 'table_rencana_belanja.email', 'items.kode')
+        ->select('table_rencana_belanja.qty','table_rencana_belanja.checked','table_rencana_belanja.status', 'table_rencana_belanja.group','table_rencana_belanja.id','table_rencana_belanja.created_at', 'items.foto', 'items.nama', 'items.desk', 'items.kategori','items.stok', 'items.harga_awal', 'items.harga_jual', 'table_rencana_belanja.email', 'items.kode')
         ->get();
         return view('content.belanja.rencana', ['user' => $user, 'rencana' => $rencana, 'items'=>$items]);
     }
@@ -128,7 +128,8 @@ class BelanjaController extends Controller
                 'kode' => $item->kode,
                 'qty' => $item->qty,
                 'email' => $user->email,
-                'created_at'=>now()
+                'created_at'=>now(),
+                'checked' => 0
             ]);
             $itemToUpdate = DB::table('items')->where('kode', $item->kode)->first();
             if ($itemToUpdate) {
@@ -145,5 +146,23 @@ class BelanjaController extends Controller
         ]);
 
         return response()->json(['status' => true, 'message' => 'Berhasil mensubmit rencana']);
+    }
+
+    public function updateCheck(Request $request) {
+        if (!auth()->check()) {
+            return redirect()->route('login');
+        }
+        $user = auth()->user();
+        $item = DB::table('table_rencana_belanja')->whereRaw('email = ? AND id = ?', [$user->email, $request->input('id')])->first();
+        if ($item) {
+            DB::table('table_rencana_belanja')
+                ->where('id', $item->id)
+                ->update([
+                    'checked' => !$item->checked
+                ]);
+        } else {
+            return response()->json(['status' => false, 'message' => 'item tidak ditemukan']);
+        }
+        return response()->json(['status' => true, 'message' => 'berhasil mengubah status']);
     }
 }

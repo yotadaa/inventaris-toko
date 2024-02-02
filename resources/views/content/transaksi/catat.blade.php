@@ -147,7 +147,7 @@
                                 </tr>
                             </thead>
                             <tbody style="width: 100%">
-                                @foreach ($transactions as $item)
+                                @foreach ($transactions->sortByDesc('created_at') as $item)
                                     <tr style="width: 100" id='row{{ $item->kode }}'>
 
                                         <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d-m-Y H:i:s') }}</td>

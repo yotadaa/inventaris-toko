@@ -20,6 +20,14 @@
     <?php
     $cat = ['Makanan', 'Minuman', 'Rokok', 'Lainnya'];
     ?>
+    <script>
+        document.querySelector('#components-nav').classList.remove('collapse');
+        document.querySelector('#components-nav').classList.add('show');
+        document.querySelector('#kelola-list').classList.remove('collapsed');
+        document.querySelector('#belanja').classList.add("active");
+
+        var currentGroup = {};
+    </script>
 
     <section class="section">
 
@@ -74,7 +82,7 @@
                                 $groupedRencana = $rencana // there are item like [1,1,1,2,2,3], get the unique row
                             @endphp --}}
                             <tbody>
-                                @foreach ($rencana->unique('group') as $item)
+                                @foreach ($rencana->unique('group')->sortByDesc('created_at') as $item)
                                     <tr>
                                         <td style="vertical-align: middle" class="text-center">{{ $item->group }}</td>
                                         <td style="vertical-align: middle">
@@ -91,7 +99,11 @@
                                             </span>
                                         </td>
                                         <td style="vertical-align: middle">
-                                            <button class="btn btn-secondary"><i class="bi bi-eye"></i></button>
+                                            <button
+                                                onclick="detailRencana({{ json_encode($rencana->where('group', $item->group)) }})"
+                                                class="btn btn-secondary" data-bs-toggle="modal"
+                                                data-bs-target="#detail-rencana">
+                                                <i class="bi bi-eye"></i></button>
                                             <button ondblclick="submitRencana(this)"
                                                 @if ($item->status == 0) class="btn btn-warning"
                                             @else disabled='true' class="btn btn-success" @endif>Selesai</button>
@@ -106,6 +118,68 @@
         </div>
     </section>
     <script>
+        function checkDetailItem(button) {
+            var icon = button.querySelector('i');
+            if (icon.classList.contains('bi-square')) {
+                icon.classList.remove('bi-square')
+                icon.classList.add('bi-check-lg')
+                button.classList.remove('btn-danger')
+                button.classList.add('btn-success')
+            } else {
+
+                icon.classList.add('bi-square')
+                icon.classList.remove('bi-check-lg')
+                button.classList.add('btn-danger')
+                button.classList.remove('btn-success')
+            }
+
+            var row = button.parentNode.parentNode.querySelectorAll('td')[5]
+            var id = Number(row.innerText)
+            console.log(id)
+            $.ajax({
+                url: '/belanja/update-check',
+                method: 'POST',
+                data: {
+                    id: id
+                },
+                success: (res) => {
+
+                },
+                error: (err) => {
+                    console.error(err)
+                }
+            })
+        }
+
+        function detailRencana(item) {
+            const keys = Object.keys(item)
+
+            var table = document.querySelector('#detail-item-container').querySelector('tbody').querySelectorAll('tr')
+            table.forEach(function(row) {
+                var code = row.querySelector('td').innerText
+                var td = row.querySelectorAll('td');
+                keys.map((keys) => {
+                    if (item[keys].kode === Number(code)) {
+                        row.style.display = 'table-row'
+                        // console.log(Object.keys(item[keys]))
+                        console.log(item[keys].checked)
+                        if (item[keys].checked === 1) {
+                            console.log(td[4])
+                            td[4].querySelector('button').querySelector('i').classList.remove('bi-square')
+                            td[4].querySelector('button').querySelector('i').classList.add('bi-check-lg')
+                            td[4].querySelector('button').classList.remove('btn-danger')
+                            td[4].querySelector('button').classList.add('btn-success')
+                        } else {
+                            td[4].querySelector('button').querySelector('i').classList.add('bi-square')
+                            td[4].querySelector('button').querySelector('i').classList.remove('bi-check-lg')
+                            td[4].querySelector('button').classList.add('btn-danger')
+                            td[4].querySelector('button').classList.remove('btn-success')
+                        }
+                    }
+                });
+            })
+        }
+
         function submitRencana(button) {
             var uncle = button.parentNode.parentNode.querySelectorAll('td');
 
@@ -128,4 +202,5 @@
     </script>
 
     @include('content.belanja.tambah-rencana')
+    @include('content.belanja.detail-rencana')
 @endsection
