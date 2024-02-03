@@ -59,12 +59,15 @@
                             <strong><i class="bi bi-box-arrow-in-down"></i></strong>
                             Tambah</a> --}}
                         <div class='d-flex' style="gap: 10px;">
-                            <button id='tambah-transaksi-button' type='button'
-                                style="display: flex; align-items: center; gap: 5px;" type="button" class="btn btn-primary"
-                                data-bs-toggle="modal" data-bs-target="#tambah-modal" onclick='resetAll()'>
-                                <strong><i class="bi
+                            @if ($user->role == 'super')
+                                <button id='tambah-transaksi-button' type='button'
+                                    style="display: flex; align-items: center; gap: 5px;" type="button"
+                                    class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tambah-modal"
+                                    onclick='resetAll()'>
+                                    <strong><i class="bi
                                 bi-box-arrow-in-down"></i></strong>
-                                Tambah</button>
+                                    Tambah</button>
+                            @endif
                             <div class="dropdown">
 
                                 <a class=" btn btn-outline-primary d-flex align-items-center" data-bs-toggle="dropdown">

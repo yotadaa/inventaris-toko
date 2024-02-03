@@ -30,12 +30,13 @@
         document.querySelector('#belanja').classList.add("active");
 
         var currentGroup = {};
+        var isDeleting = false
     </script>
 
     <section class="section">
 
         <div class="card">
-            <div class="card-body">
+            <div class="card-body overflow-auto">
                 <div class="card-title">
                     <nav class="">
                         <ol class="breadcrumb">
@@ -63,7 +64,7 @@
                         </div>
                 </section>
                 <div class="border-bottom"></div>
-                <section class="section">
+                <section class="section overflow-auto" style='overflow-x: scroll'>
 
                     <div class="small text-danger">**Klik Selesai tombol dua kali</div>
                     @if ($rencana->count() == 0)
@@ -108,11 +109,18 @@
                                                 class="btn btn-secondary" data-bs-toggle="modal"
                                                 data-bs-target="#detail-rencana" style='scale: 0.9'>
                                                 <i class="bi bi-eye"></i></button>
-                                            <button style='scale: 0.9' ondblclick="submitRencana(this)"
-                                                @if ($item->status == 0) class="btn btn-warning"
+                                            @if ($user->role == 'super')
+                                                <button style='scale: 0.9' ondblclick="submitRencana(this)"
+                                                    @if ($item->status == 0) class="btn btn-warning"
                                             @else disabled='true' class="btn btn-success" @endif>Selesai</button>
-                                            <button style='scale: 0.9' ondblclick="hapusRencana({{ $item->group }})"
-                                                class="btn btn-danger"><i class="bi bi-trash"></i></button>
+                                                <button id='button-delete-{{ $item->group }}' style='scale: 0.9'
+                                                    ondblclick="hapusRencana({{ $item->group }})" class="btn btn-danger">
+                                                    <i class="bi bi-trash"></i>
+                                                    <span class="visually-hidden spinner-border spinner-border-sm"
+                                                        role="status" aria-hidden="true"></span>
+                                                    <span class="visually-hidden">Loading...</span>
+                                                </button>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach
@@ -129,6 +137,14 @@
         }
 
         function hapusRencana(group) {
+            var button = document.getElementById(`button-delete-${group}`);
+            button.querySelector('span').classList.remove('visually-hidden');
+            button.querySelector('i').classList.add('visually-hidden');
+            var row = $('#item-container tbody tr').filter(function() {
+                return $(this).find('td:eq(0)').text().trim() == group;
+            });
+            button.disabled = true;
+            isDeleting = true;
             $.ajax({
                 url: '/belanja/rencana/hapus',
                 method: 'POST',
@@ -137,12 +153,16 @@
                     email: '{{ $user->email }}'
                 },
                 success: (res) => {
-                    window.location.reload();
+                    console.log(res)
+                    if (res.success) {
+                        // window.location.reload()
+                        row.remove()
+                    } else {}
                 },
                 error: (err) => {
                     console.error(err);
                 }
-            })
+            });
         }
 
         function checkDetailItem(button) {
@@ -160,7 +180,7 @@
                 button.classList.remove('btn-success')
             }
 
-            var row = button.parentNode.parentNode.querySelectorAll('td')[5]
+            var row = button.parentNode.parentNode.querySelectorAll('td')[6]
             var id = Number(row.innerText)
             // console.log(id)
             $.ajax({
@@ -170,6 +190,8 @@
                     id: id
                 },
                 success: (res) => {
+                    console.log(id)
+                    console.log(res)
                     // console.log(res)
                 },
                 error: (err) => {
