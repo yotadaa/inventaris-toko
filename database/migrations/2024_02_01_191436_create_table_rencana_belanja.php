@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('qty');
             $table->string('email');
             $table->integer('status');
+            $table->tinyInteger('checked');
             $table->timestamps();
         });
     }

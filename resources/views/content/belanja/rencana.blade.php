@@ -72,7 +72,7 @@
                             Belum ada daftar rencana
                         </div>
                     @else
-                        <table id='item-container' class="table datatable table-borderless table-striped table-hover"
+                        <table id='items-container' class="table datatable table-borderless table-striped table-hover"
                             style="width: 100%">
                             <thead>
                                 <tr>
@@ -145,7 +145,7 @@
             var button = document.getElementById(`button-delete-${group}`);
             button.querySelector('span').classList.remove('visually-hidden');
             button.querySelector('i').classList.add('visually-hidden');
-            var row = $('#item-container tbody tr').filter(function() {
+            var row = $('#items-container tbody tr').filter(function() {
                 return $(this).find('td:eq(0)').text().trim() == group;
             });
             button.disabled = true;
