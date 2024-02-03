@@ -112,7 +112,12 @@
                                             @if ($user->role == 'super')
                                                 <button style='scale: 0.9' ondblclick="submitRencana(this)"
                                                     @if ($item->status == 0) class="btn btn-warning"
-                                            @else disabled='true' class="btn btn-success" @endif>Selesai</button>
+                                            @else disabled='true' class="btn btn-success" @endif>
+                                                    <span class="visually-hidden spinner-border spinner-border-sm"
+                                                        role="status" aria-hidden="true"></span>
+                                                    <span class="visually-hidden">Loading...</span>
+                                                    Selesai
+                                                </button>
                                                 <button id='button-delete-{{ $item->group }}' style='scale: 0.9'
                                                     ondblclick="hapusRencana({{ $item->group }})" class="btn btn-danger">
                                                     <i class="bi bi-trash"></i>
@@ -262,6 +267,8 @@
 
         function submitRencana(button) {
             var uncle = button.parentNode.parentNode.querySelectorAll('td');
+            button.querySelector('span').classList.remove('visually-hidden');
+            button.disabled = true;
 
             $.ajax({
                 url: '/belanja/submit-rencana',
@@ -272,7 +279,7 @@
                 success: (res) => {
                     console.log(res)
                     if (res.status) {
-                        button.disabled = true;
+                        button.querySelector('span').classList.add('visually-hidden');
                         button.classList.add('btn-success')
                         button.classList.remove('btn-warning')
                     }
