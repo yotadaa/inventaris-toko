@@ -270,9 +270,12 @@
                     kode: Number(uncle[0].innerText)
                 },
                 success: (res) => {
-                    button.disabled = true;
-                    button.classList.add('btn-success')
-                    button.classList.remove('btn-warning')
+                    console.log(res)
+                    if (res.status) {
+                        button.disabled = true;
+                        button.classList.add('btn-success')
+                        button.classList.remove('btn-warning')
+                    }
                 },
                 error: (err) => {
                     console.error(err)

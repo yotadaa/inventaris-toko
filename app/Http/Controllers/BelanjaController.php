@@ -129,7 +129,6 @@ class BelanjaController extends Controller
                 'qty' => $item->qty,
                 'email' => $user->root,
                 'created_at'=>now(),
-                'checked' => 0
             ]);
             $itemToUpdate = DB::table('items')->where('kode', $item->kode)->first();
             if ($itemToUpdate) {
@@ -145,7 +144,7 @@ class BelanjaController extends Controller
             'status'=> 1,
         ]);
 
-        return response()->json(['status' => true, 'message' => 'Berhasil mensubmit rencana']);
+        return response()->json(['status' => true, 'message' => 'Berhasil mensubmit rencana', 'item' => $itemsFromRencana]);
     }
 
     public function updateCheck(Request $request) {
@@ -170,7 +169,7 @@ class BelanjaController extends Controller
         if (!auth()->check()) {
             return redirect()->route('login');
         }
-        $user = auth()->user();
+        $user = auth()->user(); 
         $item = DB::table('table_rencana_belanja')
         ->join('items', 'table_rencana_belanja.kode', '=', 'items.kode')
         ->select('table_rencana_belanja.qty','table_rencana_belanja.checked','table_rencana_belanja.status', 'table_rencana_belanja.group','table_rencana_belanja.id','table_rencana_belanja.created_at', 'items.foto', 'items.nama', 'items.desk', 'items.kategori','items.stok', 'items.harga_awal', 'items.harga_jual', 'table_rencana_belanja.email', 'items.kode')
