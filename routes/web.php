@@ -93,3 +93,8 @@ Route::post('/belanja/submit-rencana', [BelanjaController::class, 'submitRencana
 Route::post('/belanja/update-check', [BelanjaController::class, 'updateCheck']);
 Route::post('/belanja/rencana/get', [BelanjaController::class, 'getRencana']);
 Route::post('/belanja/rencana/hapus', [BelanjaController::class, 'hapusRencana']);
+
+
+Route::get('/about', function() {
+    return view('content.about');
+});
