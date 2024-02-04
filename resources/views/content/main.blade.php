@@ -144,7 +144,7 @@
                         <div class="activity">
 
                             @if ($belanja->count() > 0)
-                                @foreach ($belanja->sortByDesc('created_at') as $item)
+                                @foreach ($belanja->take(10)->sortByDesc('created_at') as $item)
                                     <div class="activity-item d-flex">
                                         <div class="activite-label" style="white-space: pre-warp; max-width: 50px">
                                             {{ \Carbon\Carbon::parse($item->created_at)->locale('id')->isoFormat('dddd, D MMMM') }}

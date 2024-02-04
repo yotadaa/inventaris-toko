@@ -53,15 +53,15 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link collapsed" id='user' href="{{ route('user') }}">
+            <a class="nav-link collapsed" id='member' href="{{ route('member') }}">
                 <i class="bi bi-people" style="scale: 1.1"></i>
                 <span>Member</span>
             </a>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link collapsed" id='user' href="{{ route('user') }}">
-                <i class="bi bi-people" style="scale: 1.1"></i>
+            <a class="nav-link collapsed" id='about' href="/about">
+                <i class="bi bi-info-circle" style="scale: 1.1"></i>
                 <span>About</span>
             </a>
         </li>

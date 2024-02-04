@@ -14,19 +14,19 @@ class ItemsController extends Controller
     //
 
     public function index() {
-    if (!auth()->check()) {
-        return redirect()->route('login');
-    }
-    $user = auth()->user();
-    $items = Items::where('email', $user->email)->get();
-    $result = Transaction::join('items', 'transactions.id_brg', '=', 'items.kode')
-    ->select('transactions.qty', 'transactions.created_at', 'items.foto', 'items.nama', 'items.desk', 'items.kategori','items.stok', 'items.harga_awal', 'items.harga_jual', 'transactions.email', 'items.kode')
-    ->get();
-    $belanja = DB::table('belanja')
-    ->join('items', 'belanja.kode', '=', 'items.kode')
-    ->select('belanja.qty', 'belanja.created_at','belanja.group', 'items.foto', 'items.nama', 'items.desk', 'items.kategori','items.stok', 'items.harga_awal', 'items.harga_jual', 'belanja.email', 'items.kode')
-    ->get();
-    return view('content.main', ['user' => $user, 'items' => $items, 'transactions' => $result->where('email',$user->email), 'belanja' => $belanja]);
+        if (!auth()->check()) {
+            return redirect()->route('login');
+        }
+        $user = auth()->user();
+        $items = Items::where('email', $user->email)->get();
+        $result = Transaction::join('items', 'transactions.id_brg', '=', 'items.kode')
+        ->select('transactions.qty', 'transactions.created_at', 'items.foto', 'items.nama', 'items.desk', 'items.kategori','items.stok', 'items.harga_awal', 'items.harga_jual', 'transactions.email', 'items.kode')
+        ->get();
+        $belanja = DB::table('belanja')
+        ->join('items', 'belanja.kode', '=', 'items.kode')
+        ->select('belanja.qty', 'belanja.created_at','belanja.group', 'items.foto', 'items.nama', 'items.desk', 'items.kategori','items.stok', 'items.harga_awal', 'items.harga_jual', 'belanja.email', 'items.kode')
+        ->get();
+        return view('content.main', ['user' => $user, 'items' => $items, 'transactions' => $result->where('email',$user->email), 'belanja' => $belanja]);
     }
     public function show() {
         if (!(auth()->check())) {
@@ -144,6 +144,14 @@ class ItemsController extends Controller
             return redirect()->route('items');
         }
 
+    }
+
+    public function about() {
+        if (!auth()->check()) {
+            return redirect()->route('login');
+        }
+        $user = auth()->user();
+        return view('content.about',['user' => $user]);
     }
 
 }

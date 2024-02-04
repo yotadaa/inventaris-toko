@@ -4,6 +4,7 @@ use App\Http\Controllers\ApiController;
 use App\Http\Controllers\BelanjaController;
 use App\Http\Controllers\FilesController;
 use App\Http\Controllers\ItemsController;
+use App\Http\Controllers\MemberController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
@@ -95,6 +96,6 @@ Route::post('/belanja/rencana/get', [BelanjaController::class, 'getRencana']);
 Route::post('/belanja/rencana/hapus', [BelanjaController::class, 'hapusRencana']);
 
 
-Route::get('/about', function() {
-    return view('content.about');
-});
+
+Route::get('/about', [ItemsController::class, 'about'])->name('about');
+Route::get('/member', [MemberController::class, 'index'])->name('member');
