@@ -13,11 +13,11 @@ class BelanjaController extends Controller
 {
     //
     public function index(Request $request) {
-        if (!auth()->check()) {
+        if (!auth()->guard('web')->check() && !auth()->guard('member')->check()) {
             return redirect()->route('login');
         }
+        $user = auth()->guard('web')->check() ? auth()->guard('web')->user() : auth()->guard('member')->user();
         $period = $request->query('period', 'default_value_if_not_provided');
-        $user = auth()->user();
         $items = Items::where('email', $user->root)->get();
         $result = DB::table('belanja')
             ->join('items', 'belanja.kode', '=', 'items.kode')
@@ -54,10 +54,10 @@ class BelanjaController extends Controller
     }
 
     public function add(Request $request) {
-        if (!auth()->check()) {
+        if (!auth()->guard('web')->check() && !auth()->guard('member')->check()) {
             return redirect()->route('login');
         }
-        $user = auth()->user();
+        $user = auth()->guard('web')->check() ? auth()->guard('web')->user() : auth()->guard('member')->user();
         $items = $request->input('transactionItems');
         $grup = Belanja::whereRaw('email = ?', [$user->root])->count('group')+1;
         foreach ($items as $item) {
@@ -79,10 +79,10 @@ class BelanjaController extends Controller
     }
 
     public function rencana() {
-        if (!auth()->check()) {
+        if (!auth()->guard('web')->check() && !auth()->guard('member')->check()) {
             return redirect()->route('login');
         }
-        $user = auth()->user();
+        $user = auth()->guard('web')->check() ? auth()->guard('web')->user() : auth()->guard('member')->user();
         $items = Items::where('email', $user->root)->get();
         $rencana = DB::table('table_rencana_belanja')
         ->join('items', 'table_rencana_belanja.kode', '=', 'items.kode')
@@ -92,10 +92,10 @@ class BelanjaController extends Controller
     }
 
     public function addRencana(Request $request) {
-        if (!auth()->check()) {
+        if (!auth()->guard('web')->check() && !auth()->guard('member')->check()) {
             return redirect()->route('login');
         }
-        $user = auth()->user();
+        $user = auth()->guard('web')->check() ? auth()->guard('web')->user() : auth()->guard('member')->user();
         $rencanaItem = $request->input('rencanaItem');
         $group = DB::table('table_rencana_belanja')->where('email', $user->root)->count()+1;
         foreach($rencanaItem as $item) {
@@ -115,10 +115,10 @@ class BelanjaController extends Controller
     }
 
     public function submitRencana(Request $request) {
-        if (!auth()->check()) {
+        if (!auth()->guard('web')->check() && !auth()->guard('member')->check()) {
             return redirect()->route('login');
         }
-        $user = auth()->user();
+        $user = auth()->guard('web')->check() ? auth()->guard('web')->user() : auth()->guard('member')->user();
         $kode = $request->input('kode');
         $itemsFromRencana = DB::table('table_rencana_belanja')->where('group', $kode)->get();
         $grup = DB::table('belanja')->whereRaw('email = ?', [$user->root])->count('group')+1;
@@ -148,10 +148,10 @@ class BelanjaController extends Controller
     }
 
     public function updateCheck(Request $request) {
-        if (!auth()->check()) {
+        if (!auth()->guard('web')->check() && !auth()->guard('member')->check()) {
             return redirect()->route('login');
         }
-        $user = auth()->user();
+        $user = auth()->guard('web')->check() ? auth()->guard('web')->user() : auth()->guard('member')->user();
         $item = DB::table('table_rencana_belanja')->whereRaw('email = ? AND id = ?', [$user->root, $request->input('id')])->first();
         if ($item) {
             DB::table('table_rencana_belanja')
@@ -166,10 +166,10 @@ class BelanjaController extends Controller
     }
 
     public function getRencana(Request $request) {
-        if (!auth()->check()) {
+        if (!auth()->guard('web')->check() && !auth()->guard('member')->check()) {
             return redirect()->route('login');
         }
-        $user = auth()->user(); 
+        $user = auth()->guard('web')->check() ? auth()->guard('web')->user() : auth()->guard('member')->user();
         $item = DB::table('table_rencana_belanja')
         ->join('items', 'table_rencana_belanja.kode', '=', 'items.kode')
         ->select('table_rencana_belanja.qty','table_rencana_belanja.checked','table_rencana_belanja.status', 'table_rencana_belanja.group','table_rencana_belanja.id','table_rencana_belanja.created_at', 'items.foto', 'items.nama', 'items.desk', 'items.kategori','items.stok', 'items.harga_awal', 'items.harga_jual', 'table_rencana_belanja.email', 'items.kode')

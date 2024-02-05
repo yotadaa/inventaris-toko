@@ -23,8 +23,7 @@
                                 <label class="btn btn-primary btn-sm" for='file'><i
                                         class="bi bi-box-arrow-up"></i>Upload</label>
                                 <input onchange="checkState(event)" style="display: none" type="file" name='file'
-                                    id="file" onchange="changeUpdateVisibility()" class="btn btn-primary btn-sm"
-                                    title="Upload new profile image">
+                                    id="file" class="btn btn-primary btn-sm" title="Upload new profile image">
                             </div>
                         </div>
                         <div style="display: block; width: 100%;">

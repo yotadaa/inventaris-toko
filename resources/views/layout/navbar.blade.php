@@ -52,12 +52,14 @@
             </a>
         </li>
 
-        <li class="nav-item">
-            <a class="nav-link collapsed" id='member' href="{{ route('member') }}">
-                <i class="bi bi-people" style="scale: 1.1"></i>
-                <span>Member</span>
-            </a>
-        </li>
+        @if ($user->role == 'super')
+            <li class="nav-item">
+                <a class="nav-link collapsed" id='member' href="{{ route('member') }}">
+                    <i class="bi bi-people" style="scale: 1.1"></i>
+                    <span>Member</span>
+                </a>
+            </li>
+        @endif
 
         <li class="nav-item">
             <a class="nav-link collapsed" id='about' href="/about">

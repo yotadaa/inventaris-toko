@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Files;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -10,33 +9,49 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Cookie;
-
 class SessionController extends Controller
 {
     //
+
+    public function __construct() {
+        // $this->middleware('guest')->except('logout');
+        // $this->middleware('guest:web')->except('logout');
+        // $this->middleware('guest:member')->except('logout');
+    }
     public function index() {
         return view('sesi.login');
     }
 
     public function login(Request $request) {
         Session::flash('email', $request->email);
-        $infoLogin = [
+
+        $credential1 = [
+            'email' => $request->email,
+            'password' => $request->password
+        ];
+        $credential2 = [
             'email' => $request->email,
             'password' => $request->password
         ];
 
-        if (Auth::attempt($infoLogin)) {
-            if ($request->remember) {
-                Cookie::make('remember', $request->email, 525600);
-            }
-            return response()->json(['status' => true]);
+        $guard = $request->has('role') ? 'member' : 'web';
+        $credentials = $request->has('role') ? $credential2 : $credential1;
+
+        if (Auth::guard($guard)->attempt($credentials,  $request->get('remember'))) {
+            $request->session()->regenerate();
+            return response()->json(['status' => true, 'user' => Auth::guard($guard)->user(), 'statuses' => auth()->guard($guard)->check()]);
         } else {
-            return response()->json(['status' => false, 'value' => 'email dan password tidak valid', 'get' => $infoLogin, 'remember' => $request->remember]);
+            return response()->json(['status' => false, 'value' => 'email dan password tidak valid']);
         }
     }
 
+
     function logout() {
-        Auth::logout();
+        if (auth()->guard('web')->check()) {
+            Auth::guard('web')->logout();
+        } else {
+            Auth::guard('member')->logout();
+        }
         return redirect()->route('login');
     }
 
@@ -79,10 +94,11 @@ class SessionController extends Controller
     }
 
     public function changePassword(Request $request) {
-        if (!(auth()->check())) {
+        if (!(auth()->guard('web')->check() && auth()->guard('member')->check())) {
             return redirect()->route('login');
         }
-
+        $user = auth()->guard('web')->check() ? auth()->guard('web')->user() : auth()->guard('member')->user();
+        
         if ($request->newpassword != $request->renewpassword) {
             return response()->json(['status' => false, 'message' => 'Periksa kembali password!']);
         }

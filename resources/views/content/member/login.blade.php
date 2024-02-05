@@ -10,8 +10,8 @@
     <meta content="" name="keywords">
 
     <!-- Favicons -->
-    <link href="assets/img/favicon.png" rel="icon">
-    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+    <link href="{{ asset('assets/img/favicon.png') }}" rel="icon">
+    <link href="{{ asset('assets/img/apple-touch-icon.png') }}" rel="apple-touch-icon">
 
     <!-- Google Fonts -->
     <link href="https://fonts.gstatic.com" rel="preconnect">
@@ -20,16 +20,16 @@
         rel="stylesheet">
 
     <!-- Vendor CSS Files -->
-    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-    <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-    <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
-    <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
-    <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
-    <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
+    <link href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/vendor/boxicons/css/boxicons.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/vendor/quill/quill.snow.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/vendor/quill/quill.bubble.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/vendor/remixicon/remixicon.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/vendor/simple-datatables/style.css') }}" rel="stylesheet">
 
     <!-- Template Main CSS File -->
-    <link href="assets/css/style.css" rel="stylesheet">
+    <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
@@ -43,12 +43,6 @@
 </head>
 
 <body>
-
-    {{-- @if (Auth::guard('member')->check())
-        <script>
-            window.location.href = '/'
-        </script>
-    @endif --}}
 
     @if (auth()->guard('member')->check() ||
             auth()->guard('web')->check())
@@ -85,14 +79,27 @@
                                     <div class="pt-4 pb-2">
                                         <h5 class="card-title text-center pb-0 fs-4">Login</h5>
                                         <p>
-                                            Bukan pemilik toko? Silahkan <a href="{{ route('member-login') }}">Login
-                                                Member</a>
+                                            Pemilik Toko? Silahkan <a href="{{ route('login') }}">Login
+                                                Admin</a>
                                         </p>
                                     </div>
 
                                     <form onsubmit="submitForm(event)" id='login-form' class="row g-3 needs-validation"
                                         novalidate>
                                         @csrf
+
+                                        <input name='role' value='normal' type="text" style="display: none">
+
+                                        <div class="col-12">
+                                            <label for="root" class="form-label">Email Pemilik Toko</label>
+                                            <div class="input-group has-validation">
+                                                <input type="email" name="root" class="form-control" id="root"
+                                                    placeholder="Masukkan email..." value="{{ Session::get('root') }}"
+                                                    required>
+                                                <div class="invalid-feedback">Masukkan Email</div>
+                                            </div>
+                                        </div>
+
                                         <div class="col-12">
                                             <label for="email" class="form-label">Email</label>
                                             <div class="input-group has-validation">
@@ -132,8 +139,8 @@
                                         <div class="col-12">
                                             <button type='button' class="btn btn-primary w-100"
                                                 onclick="submitForm(event)" type="button">Login</button>
-                                            <button style="display: none" type='submit' class="btn btn-primary w-100"
-                                                type="button">Login</button>
+                                            <button style="display: none" type='submit'
+                                                class="btn btn-primary w-100" type="button">Login</button>
                                         </div>
                                         <div class="col-12">
                                             <p class="small mb-0">Belum punya akun? <a
@@ -158,6 +165,10 @@
             class="bi bi-arrow-up-short"></i></a>
 
     <script>
+        console.log("the status: {{ Auth::guard('member')->check() }}")
+        console.log(@json(Auth::guard('member')->user()))
+
+
         document.querySelector('#email').value = localStorage.getItem('remember');
         document.querySelector('#rememberMe').checked = localStorage.getItem('remember-state');
 
@@ -219,18 +230,19 @@
     </script>
 
     <!-- Vendor JS Files -->
-    <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/vendor/chart.js/chart.umd.js"></script>
-    <script src="assets/vendor/echarts/echarts.min.js"></script>
-    <script src="assets/vendor/quill/quill.min.js"></script>
-    <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-    <script src="assets/vendor/tinymce/tinymce.min.js"></script>
-    <script src="assets/vendor/php-email-form/validate.js"></script>
+    <script src="{{ asset('assets/vendor/apexcharts/apexcharts.min.js') }}"></script>
+    <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('assets/vendor/chart.js/chart.umd.js') }}"></script>
+    <script src="{{ asset('assets/vendor/echarts/echarts.min.js') }}"></script>
+    <script src="{{ asset('assets/vendor/quill/quill.min.js') }}"></script>
+    <script src="{{ asset('assets/vendor/simple-datatables/simple-datatables.js') }}"></script>
+    <script src="{{ asset('assets/vendor/tinymce/tinymce.min.js') }}"></script>
+    <script src="{{ asset('assets/vendor/php-email-form/validate.js') }}"></script>
 
     <!-- Template Main JS File -->
-    <script src="assets/js/main.js"></script>
+    <script src="{{ asset('assets/js/main.js') }}"></script>
 
 </body>
 
 </html>
+///

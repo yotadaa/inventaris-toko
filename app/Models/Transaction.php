@@ -10,6 +10,6 @@ class Transaction extends Model
     use HasFactory;
 
     protected $fillable = [
-        'id_brg', 'qty', 'email', 'created_at'
+        'id_brg', 'qty', 'email', 'created_at', 'host'
     ];
 }

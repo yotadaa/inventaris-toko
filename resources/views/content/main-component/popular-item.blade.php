@@ -25,25 +25,29 @@
                     </tr>
                 </thead>
                 <tbody style="width: 100%">
-                    @foreach ($popularItems as $item)
-                        <tr style="width: 100" id='row{{ $item->kode }}'>
+                    {{-- @php
+                        $pp = $popularItems->groupBy('kode');
+                    @endphp
+                    <script>
+                        console.log('popular')
+                        console.log(@json($pp))
+                    </script> --}}
+                    @foreach ($popularItems->groupBy('kode') as $item)
+                        <tr style="width: 100">
                             <td>
-                                <img src="{{ $item->foto }}" width='50' class=""
+                                <img src="{{ $item->first()->foto }}" width='50' class=""
                                     style="border-radius: 5px; border: 1px solid darkgray">
                             </td>
-
-                            {{-- <td>
-                                <img src="{{ $item->foto }}" width="30"
-                                    alt='preview-{{ $item->kode }}' />
-                            </td> --}}
-                            <td>{{ $item->nama }}</td>
-                            <td>{{ $cat[$item->kategori] }}</td>
+                            <td>{{ $item->first()->nama }}</td>
+                            <td>{{ $cat[$item->first()->kategori] }}</td>
                             <td class="data-numeric
-                                    text-center">{{ $item->qty }}
+                                    text-center">
+                                {{ $item->sum('qty') }}
                             </td>
                             <td class="data-numeric text-center text-success">
                                 <span class="fw-bold" style="display: flex; justify-content: center; "><span>
-                                    </span><span>Rp {{ number_format($item->qty * $item->harga_jual) }}</span></span>
+                                    </span><span>Rp
+                                        {{ number_format($item->sum('qty') * $item->sum('harga_jual')) }}</span></span>
                             </td>
                         </tr>
                     @endforeach

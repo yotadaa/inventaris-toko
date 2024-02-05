@@ -12,12 +12,18 @@
 
 @extends('layout.index')
 @section('title')
-    About | PlinPlan
+    Member - PlinPlan
+@endsection
+
+@section('misc')
+    @include('no-reload.head')
 @endsection
 @section('body')
+
+    @include('no-reload.body-up')
     <script>
-        document.querySelector('#components-nav').classList.remove('collapse');
-        document.querySelector('#components-nav').classList.add('show');
+        // document.querySelector('#components-nav').classList.remove('collapse');
+        // document.querySelector('#components-nav').classList.add('show');
         document.querySelector('#member').classList.remove('collapsed');
         var cats = ['Makanan', 'Minuman', 'Rokok', 'Lainnya'];
     </script>
@@ -39,17 +45,17 @@
                 <section class="section">
                     <div class="d-block d-md-flex" style='gap: 10px'>
                         <div class='d-flex' style="gap: 10px; margin-bottom: 10px;">
-                            <button style="display: flex; align-items: center; gap: 5px;" class="btn btn-primary"
-                                data-bs-toggle="modal" data-bs-target="#tambah-rencana" onclick="testFunc(event)">
+                            <a href='{{ route('tambah-member') }}'
+                                style="display: flex; align-items: center; gap: 5px;"class="btn btn-primary">
                                 <strong><i class="bi bi-box-arrow-in-down"></i></strong>
-                                Tambah Member</button>
+                                Tambah Member
+                            </a>
                         </div>
                 </section>
                 <div class="border-bottom"></div>
                 <section class="section overflow-auto" style='overflow-x: scroll'>
 
-                    <div class="small text-danger">**Klik Selesai tombol dua kali</div>
-                    {{-- @if ($rencana->count() == 0)
+                    @if ($members->count() == 0)
                         <div class="text-center mt-3">
                             Belum ada daftar member di tokomu
                         </div>
@@ -58,17 +64,57 @@
                             style="width: 100%">
                             <thead>
                                 <tr>
-                                    <th>Grup</th>
-                                    <th>Waktu</th>
-                                    <th class="text-center">Jumlah Item</th>
-                                    <th class="text-center">Total</th>
+                                    <th>Nama</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
                                     <th>&nbsp;</th>
                                 </tr>
                             </thead>
+                            <tbody>
+                                @foreach ($members as $member)
+                                    <tr>
+                                        <td>{{ $member->name }}</td>
+                                        <td>{{ $member->email }}</td>
+                                        <td>{{ $member->role }}</td>
+                                        <td>
+                                            <div class="d-block d-md-flex " style="gap: 5px; justify-content: center;">
+                                                <button class="btn shadow btn-secondary" style="scale: 0.9"><i
+                                                        class="bi bi-info-circle"></i></button>
+                                                <button class="btn shadow btn-warning" style="scale: 0.9"><i
+                                                        class="bi bi-pencil-square"></i></button>
+                                                <button class="btn shadow btn-danger"
+                                                    ondblclick="deleteMember('{{ $member->email }}', '{{ $member->root }}')"
+                                                    style="scale: 0.9"><i class="bi bi-trash"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
                         </table>
-                    @endif --}}
+                    @endif
                 </section>
             </div>
         </div>
     </section>
+    <script>
+        function deleteMember(email, root) {
+            $.ajax({
+                url: '/member/delete',
+                method: 'POST',
+                data: {
+                    email: email,
+                    root: root
+                },
+                success: (res) => {
+                    if (res.success) {
+                        window.location.reload();
+                    }
+                },
+                error: (err) => {
+
+                    console.error(err)
+                }
+            })
+        }
+    </script>
 @endsection

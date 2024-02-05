@@ -27,7 +27,10 @@ Route::get('/dashboard', [ItemsController::class, 'index'])->name('dashboard');
 Route::post('/user/update', [SessionController::class, 'updateUser'])->name('update-user');
 
 Route::get('/user', function () {
-    $user = auth()->user();
+    if (auth()->guard('web')->check() && auth()->guard('member')->check()) {
+        return redirect()->route('login');
+    }
+    $user = auth()->guard('web')->check() ? auth()->guard('web')->user() : auth()->guard('member')->user();
     return view('content.users-profile', ['user' => $user]);
 })->name('user');
 
@@ -99,3 +102,7 @@ Route::post('/belanja/rencana/hapus', [BelanjaController::class, 'hapusRencana']
 
 Route::get('/about', [ItemsController::class, 'about'])->name('about');
 Route::get('/member', [MemberController::class, 'index'])->name('member');
+Route::get('/member/tambah', [MemberController::class, 'tambah'])->name('tambah-member');
+Route::get('/member/create', [MemberController::class, 'create'])->name('create-member');
+Route::post('/member/delete', [MemberController::class, 'delete'])->name('delete-member');
+Route::get('/session/member', [MemberController::class, 'login'])->name('member-login');

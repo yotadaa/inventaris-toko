@@ -50,7 +50,9 @@
 
 <body>
 
-    @if (!Auth::check())
+    @if (
+        !auth()->guard('member')->check() &&
+            !auth()->guard('web')->check())
         <script>
             window.location.href = '/session'
         </script>

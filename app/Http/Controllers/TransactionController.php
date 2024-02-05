@@ -12,12 +12,12 @@ class TransactionController extends Controller
 {
     //
     public function riwayat(Request $request) {
-        if (!auth()->check()) {
+        if (!auth()->guard('web')->check() && !auth()->guard('member')->check()) {
             return redirect()->route('login');
         }
+        $user = auth()->guard('web')->check() ? auth()->guard('web')->user() : auth()->guard('member')->user();
         $period = $request->query('period', 'default_value_if_not_provided');
-        $user = auth()->user();
-        $items = Items::where('email', $user->email)->get();
+        $items = Items::where('email', $user->root)->get();
         $result = DB::table('transactions')
             ->join('items', 'transactions.id_brg', '=', 'items.kode')
             ->select('transactions.qty', 'transactions.created_at', 'items.foto', 'items.nama', 'items.desk', 'items.kategori','items.stok', 'items.harga_awal', 'items.harga_jual', 'transactions.email', 'items.kode')
@@ -49,14 +49,14 @@ class TransactionController extends Controller
                 $periode = '';
                 break;
         }
-        return view('content.transaksi.catat', ['user'=>$user, 'transactions' => $filteredResults->where('email', $user->email), 'periode' => $periode, 'items' => $items]);
+        return view('content.transaksi.catat', ['user'=>$user, 'transactions' => $filteredResults->where('email', $user->root), 'periode' => $periode, 'items' => $items]);
     }
 
     public function riwayatBy($period) {
-        if (!auth()->check()) {
+        if (!auth()->guard('web')->check() && !auth()->guard('member')->check()) {
             return redirect()->route('login');
         }
-        $user = auth()->user();
+        $user = auth()->guard('web')->check() ? auth()->guard('web')->user() : auth()->guard('member')->user();
         $result = DB::table('transactions')
             ->join('items', 'transactions.id_brg', '=', 'items.kode')
             ->select('transactions.qty', 'transactions.created_at', 'items.*')
@@ -89,27 +89,27 @@ class TransactionController extends Controller
                 break;
         }
         echo $period;
-        //return view('content.transaksi.catat', ['user'=>$user, 'transactions' => $filteredResults->where('email', $user->email), 'periode' => $periode]);
+        //return view('content.transaksi.catat', ['user'=>$user, 'transactions' => $filteredResults->where('email', $user->root), 'periode' => $periode]);
     }
 
     public function add(Request $request) {
-        if (!auth()->check()) {
+        if (!auth()->guard('web')->check() && !auth()->guard('member')->check()) {
             return redirect()->route('login');
         }
-        $user = auth()->user();
+        $user = auth()->guard('web')->check() ? auth()->guard('web')->user() : auth()->guard('member')->user();
         $items = $request->input('transactionItems');
         foreach ($items as $item) {
-            $itemToUpdate = Items::whereRaw('kode = ? AND email = ?', [$item['kode'], $user->email])->first();
+            $itemToUpdate = Items::whereRaw('kode = ? AND email = ?', [$item['kode'], $user->root])->first();
             if ($item['count'] > $itemToUpdate->stok) {
                 return response()->json(['success' => false,
-                    'message' => 'Terdapat stok barang yang kurang: '.$item['kode'].' '.Items::whereRaw('kode = ? AND email = ?', [$item['kode'], $user->email])->first()->nama,
+                    'message' => 'Terdapat stok barang yang kurang: '.$item['kode'].' '.Items::whereRaw('kode = ? AND email = ?', [$item['kode'], $user->root])->first()->nama,
                 ]);
             } else {
                 if ($item['count'] > 0) {
                     Transaction::create([
                         'id_brg' => $item['kode'],
                         'qty' => $item['count'],
-                        'email' => $user->email,
+                        'email' => $user->root,
                         'created_at' => now()
                     ]);
                     $itemToUpdate->update([
