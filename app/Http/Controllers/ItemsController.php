@@ -14,12 +14,12 @@ class ItemsController extends Controller
     //
 
     public function index() {
-        
+
         if (!auth()->guard('web')->check() && !auth()->guard('member')->check()) {
             return redirect()->route('login');
         }
         $user = auth()->guard('web')->check() ? auth()->guard('web')->user() : auth()->guard('member')->user();
-        
+
         $items = Items::where('email', $user->root)->get();
         $result = Transaction::join('items', 'transactions.id_brg', '=', 'items.kode')
         ->select('transactions.qty', 'transactions.created_at', 'items.foto', 'items.nama', 'items.desk', 'items.kategori','items.stok', 'items.harga_awal', 'items.harga_jual', 'transactions.email', 'items.kode')
@@ -40,16 +40,18 @@ class ItemsController extends Controller
     }
 
     public function tambah() {
-        if (!auth()->check()) {
+        if (!auth()->guard('web')->check() && !auth()->guard('member')->check()) {
             return redirect()->route('login');
         }
-        $user = auth()->user();
+        $user = auth()->guard('web')->check() ? auth()->guard('web')->user() : auth()->guard('member')->user();
         return view('content/items/tambah', ['user' => $user]);
     }
 
     public function store(Request $request) {
-        if (!auth()->user()) return redirect()->route('index');
-        $user = auth()->user();
+        if (!auth()->guard('web')->check() && !auth()->guard('member')->check()) {
+            return redirect()->route('login');
+        }
+        $user = auth()->guard('web')->check() ? auth()->guard('web')->user() : auth()->guard('member')->user();
         $kode = Items::where('email','=',$user->root)->count();
 
         if (!$request->hasFile('file')) {
@@ -89,22 +91,21 @@ class ItemsController extends Controller
     }
 
     public function delete(Request $request) {
-        if (!auth()->check()) {
+        if (!auth()->guard('web')->check() && !auth()->guard('member')->check()) {
             return redirect()->route('login');
         }
-        $user = auth()->user();
+        $user = auth()->guard('web')->check() ? auth()->guard('web')->user() : auth()->guard('member')->user();
         $itemToDelete = Items::whereRaw('email = ? AND kode = ?', [$request->confirmedEmail, $request->confirmedKode])->first();
         $itemToDelete->delete();
         return redirect()->route('items');
     }
 
     public function editView(Request $request) {
-        if (!auth()->check()) {
+        if (!auth()->guard('web')->check() && !auth()->guard('member')->check()) {
             return redirect()->route('login');
         }
-
+        $user = auth()->guard('web')->check() ? auth()->guard('web')->user() : auth()->guard('member')->user();
         $item = Items::whereRaw('email = ? AND kode = ?', [$request->email, $request->kode])->first();
-        $user = auth()->user();
         return view('content.items.edit', ['user' => $user, 'item' => $item]);
     }
 
@@ -150,10 +151,10 @@ class ItemsController extends Controller
     }
 
     public function about() {
-        if (!auth()->check()) {
+        if (!auth()->guard('web')->check() && !auth()->guard('member')->check()) {
             return redirect()->route('login');
         }
-        $user = auth()->user();
+        $user = auth()->guard('web')->check() ? auth()->guard('web')->user() : auth()->guard('member')->user();
         return view('content.about',['user' => $user]);
     }
 

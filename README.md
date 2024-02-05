@@ -1,6 +1,6 @@
 ## Project Study Club
 
-www.plinplan.my.id
+https://www.plinplan.my.id
 
 Repository ini berisi file project Study Club Sistem Informasi Unja
 Batch 3
