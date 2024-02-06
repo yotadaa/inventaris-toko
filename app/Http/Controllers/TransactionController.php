@@ -20,7 +20,7 @@ class TransactionController extends Controller
         $items = Items::where('email', $user->root)->get();
         $result = DB::table('transactions')
             ->join('items', 'transactions.id_brg', '=', 'items.kode')
-            ->select('transactions.qty', 'transactions.created_at', 'items.foto', 'items.nama', 'items.desk', 'items.kategori','items.stok', 'items.harga_awal', 'items.harga_jual', 'transactions.email', 'items.kode')
+            ->select('transactions.qty','transactions.host', 'transactions.created_at', 'items.foto', 'items.nama', 'items.desk', 'items.kategori','items.stok', 'items.harga_awal', 'items.harga_jual', 'transactions.email', 'items.kode')
             ->get();
         switch ($period) {
             case 'day':
@@ -110,7 +110,8 @@ class TransactionController extends Controller
                         'id_brg' => $item['kode'],
                         'qty' => $item['count'],
                         'email' => $user->root,
-                        'created_at' => now()
+                        'created_at' => now(),
+                        'host' => $user->email,
                     ]);
                     $itemToUpdate->update([
                         'stok' => $itemToUpdate->stok - $item['count'],

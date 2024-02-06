@@ -85,6 +85,8 @@
                 if (res.success) {
                     isSubmitting = false;
                     window.location.reload();
+                } else {
+                    console.log(res)
                 }
             },
             error: (err) => {

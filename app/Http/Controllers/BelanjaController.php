@@ -88,7 +88,7 @@ class BelanjaController extends Controller
         ->join('items', 'table_rencana_belanja.kode', '=', 'items.kode')
         ->select('table_rencana_belanja.qty','table_rencana_belanja.checked','table_rencana_belanja.status', 'table_rencana_belanja.group','table_rencana_belanja.id','table_rencana_belanja.created_at', 'items.foto', 'items.nama', 'items.desk', 'items.kategori','items.stok', 'items.harga_awal', 'items.harga_jual', 'table_rencana_belanja.email', 'items.kode')
         ->get();
-        return view('content.belanja.rencana', ['user' => $user, 'rencana' => $rencana, 'items'=>$items]);
+        return view('content.belanja.rencana', ['user' => $user, 'rencana' => $rencana->where('email', $user->root), 'items'=>$items]);
     }
 
     public function addRencana(Request $request) {
@@ -97,7 +97,10 @@ class BelanjaController extends Controller
         }
         $user = auth()->guard('web')->check() ? auth()->guard('web')->user() : auth()->guard('member')->user();
         $rencanaItem = $request->input('rencanaItem');
-        $group = DB::table('table_rencana_belanja')->where('email', $user->root)->count()+1;
+        $group = 0;
+        while (DB::table('table_rencana_belanja')->where('group', $group)->exists()) {
+            $group++;
+        }
         foreach($rencanaItem as $item) {
             if ($item['qty'] > 0) {
                 DB::table('table_rencana_belanja')->insert([
@@ -182,7 +185,7 @@ class BelanjaController extends Controller
         $item = DB::table('table_rencana_belanja')->where([
             ['email', '=', 'tes@gmail.com'],
             ['group', '=', $request->input('group')],
-        ])->delete();        
+        ])->delete();
         if ($item) {
             return response()->json(['success' => true, 'message' => 'Berhasil menghapus']);
         } else {

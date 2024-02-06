@@ -138,6 +138,7 @@
                             <thead>
                                 <tr>
                                     <th>Waktu</th>
+                                    <th>Kasir</th>
                                     <th>Kode</th>
                                     <th>Nama</th>
                                     <th>Kategori</th>
@@ -152,6 +153,7 @@
                                     <tr style="width: 100" id='row{{ $item->kode }}'>
 
                                         <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d-m-Y H:i:s') }}</td>
+                                        <td>{{ $item->host }}</td>
                                         <td style='max-width: 100px;'>{{ $item->kode }}</td>
                                         {{-- <td>
                                             <img src="{{ $item->foto }}" width="30"
